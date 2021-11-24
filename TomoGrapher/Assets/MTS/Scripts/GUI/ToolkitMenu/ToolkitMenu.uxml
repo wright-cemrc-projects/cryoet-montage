@@ -1,0 +1,37 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="RightPanel" style="position: relative; left: 70%; width: 30%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; background-color: rgba(209, 209, 209, 0.57); height: auto; font-size: 28px;">
+        <ui:Label text="Image Shift Pattern Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
+        <ui:TextField picking-mode="Ignore" label="Pixel Spacing (A)" value="filler text" text="1.0" name="PixelSpacing" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Illuminated Area (um)" value="filler text" text="1.0" name="BeamDiameter" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Camera Pixels X" value="filler text" text="5760" name="CameraPixelsX" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Camera Pixels Y" value="filler text" text="4092" name="CameraPixelsY" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Tile X" value="filler text" text="3" name="ImageShiftsX" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Tile Y" value="filler text" text="3" name="ImageShiftsY" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Percent Overlap X" value="15" text="15" name="OverlapX" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Percent Overlap Y" value="10" text="10" name="OverlapY" style="margin-top: 10px;" />
+        <ui:Label text="Tilt Strategy Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
+        <ui:TextField picking-mode="Ignore" label="Tilt To (Degrees)" value="filler text" text="60" name="TiltTo" />
+        <ui:TextField picking-mode="Ignore" label="End at (Degrees)" value="filler text" text="-60" name="TiltEnd" />
+        <ui:TextField picking-mode="Ignore" label="Run Series in two directions from (Degrees)" value="filler text" text="0" name="TiltStart" style="flex-direction: column;" />
+        <ui:TextField picking-mode="Ignore" label="Tilt Step (Degrees)" value="filler text" text="3.0" name="TiltIncrement" />
+        <ui:TextField picking-mode="Ignore" label="e-/A2 per tilt" value="1.0" text="1.0" name="DosePerTilt" />
+        <ui:TextField picking-mode="Ignore" label="Amplitude Initial" value="0" name="AmpInitial" binding-path="AmpInitial" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:TextField picking-mode="Ignore" label="Amplitude Final" value="0" name="AmpFinal" binding-path="AmpFinal" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:TextField picking-mode="Ignore" label="Tilts Per Revolution" value="0" name="TiltsPerRevolution" tooltip="Tilts per Revolution defines over how many tilt steps to have a rotation of the spiral translation." usage-hints="DynamicTransform" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:TextField picking-mode="Ignore" label="Period" value="0" name="Period" binding-path="Period" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:TextField picking-mode="Ignore" label="Cycles" value="0" name="Cycles" binding-path="Cycles" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:Toggle label="Project on Perpendicular Axis " name="CorrectCos" value="true" style="margin-top: 10px;" />
+        <ui:Label text="Simulation Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
+        <ui:Button text="Top View" display-tooltip-when-elided="true" name="TopCamera" style="margin-top: 10px; height: auto; width: auto; flex-shrink: 0; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:Button text="Ortho View" display-tooltip-when-elided="true" name="OrthoCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:Button text="World View" display-tooltip-when-elided="true" name="WorldCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:Button text="Run Simulation" display-tooltip-when-elided="true" name="RunSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+        <ui:Button text="Pause Simulation" display-tooltip-when-elided="true" name="PauseSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+        <ui:Button text="Reset Simulation" display-tooltip-when-elided="true" name="ResetSimulation" style="position: relative; top: auto; left: auto; height: auto; width: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+        <ui:Button text="Export Voxel Values" display-tooltip-when-elided="true" name="Export" />
+    </ui:VisualElement>
+    <ui:VisualElement name="BottomPanel" style="max-width: 70%; max-height: 15%; width: 70%; height: 15%; min-width: 70%; min-height: 15%;">
+        <ui:Label text="Details Panel" display-tooltip-when-elided="true" style="font-size: 28px; -unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(94, 94, 94); padding-left: 50px; padding-right: 0;" />
+        <ui:TextField picking-mode="Ignore" name="DetailsPanel" style="width: 100%; height: 100%; font-size: 28px; -unity-text-align: upper-left; -unity-font-style: bold; -unity-background-image-tint-color: rgba(0, 0, 0, 0); background-color: rgba(0, 0, 0, 0); opacity: 1; visibility: visible; bottom: 0; top: 0; white-space: normal; align-items: stretch; position: relative; right: 100%; left: 0; justify-content: flex-start; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+    </ui:VisualElement>
+</ui:UXML>
