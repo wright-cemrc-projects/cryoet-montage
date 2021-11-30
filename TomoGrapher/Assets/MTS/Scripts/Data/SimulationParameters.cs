@@ -78,6 +78,12 @@ public class SimulationParameters : MonoBehaviour
     // Radius Growth R (B_growth) determines the distance of a point from origin, rate of expansion of the spiral.
     private float Bgrowth;  // Should be calculated as (A_final - A_initial) / Cycles
 
+    [SerializeField]
+    public bool ShowTarget = true;
+
+    [SerializeField]
+    public float MaxIntensity = 256f;
+
     public void Awake() {
         UpdateValues();
     }

@@ -21,4 +21,16 @@ public class VoxelHolder : MonoBehaviour
         }
     }
 
+    public void SetMaxValue(float max) {
+        foreach (Transform t in transform) {
+            if (t.gameObject.GetComponent<VoxelBehaviour>() != null)
+            {
+                // Reset the dose values and colors of voxels in the map.
+                VoxelBehaviour voxel = t.gameObject.GetComponent<VoxelBehaviour>();
+                voxel.SetMaxValue(max);
+                voxel.SetColorFromDose();
+            }
+        }
+    }
+
 }

@@ -32,7 +32,8 @@ public class DetailsPanelController : MonoBehaviour
 
     public void UpdateDetails() {
         if (ActiveVoxel) {
-            MessageLog.Enqueue( "Dose " + string.Format("{0}", ActiveVoxel.TotalDose) + " e- / angstrom^2");
+            MessageLog.Enqueue("X:" + string.Format("{0}", ActiveVoxel.X) + " Y:" + string.Format("{0}", ActiveVoxel.Y) + " Z:" + string.Format("{0}", ActiveVoxel.Z));
+            MessageLog.Enqueue(" Dose " + string.Format("{0}", ActiveVoxel.TotalDose) + " e- / angstrom^2");
         }
 
         while (MessageLog.Count > 3)

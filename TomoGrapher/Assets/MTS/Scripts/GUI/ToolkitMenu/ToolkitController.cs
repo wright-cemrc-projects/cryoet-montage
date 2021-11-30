@@ -14,6 +14,7 @@ public class ToolkitController : MonoBehaviour
     public CameraController cameras;
     public VoxelHolder VoxelMap;
     public SimulationParameters Parameters;
+    public GameObject Target;
 
     // Start is called before the first frame update
     void Start()
@@ -133,6 +134,14 @@ public class ToolkitController : MonoBehaviour
         Toggle ApplyCosAngle = document.rootVisualElement.Q<Toggle>("CorrectCos");
         ApplyCosAngle.SetValueWithoutNotify(Parameters.ProjectOnPerpendicularAxis);
         ApplyCosAngle.RegisterValueChangedCallback( e => OnApplyCosAngle(e));
+
+        Toggle ShowTargetObject = document.rootVisualElement.Q<Toggle>("ShowObjects");
+        ShowTargetObject.SetValueWithoutNotify(Parameters.ShowTarget);
+        ShowTargetObject.RegisterValueChangedCallback( e => OnShowTargetObject(e));
+
+        Slider AdjustIntensity = document.rootVisualElement.Q<Slider>("AdjustIntensity");
+        AdjustIntensity.SetValueWithoutNotify(Parameters.MaxIntensity);
+        AdjustIntensity.RegisterValueChangedCallback( e => OnMaxIntensitySliderChanged(e));
     }
 
     private void OnPixelSpacingChanged(ChangeEvent<string> evt) 
@@ -384,8 +393,34 @@ public class ToolkitController : MonoBehaviour
                 details.UpdateDetails();
             }
         }
+    }
 
+    private void UpdateTargetView() {
+        if (Target) {
+            Target.SetActive(Parameters.ShowTarget);
+        }
+    }
 
+    private void UpdateVoxelMaxIntensity() {
+        if (VoxelMap) {
+            VoxelMap.SetMaxValue(Parameters.MaxIntensity);
+        }
+    }
+
+    private void OnShowTargetObject(ChangeEvent<bool> evt)
+    {
+        if (Parameters) {
+            Parameters.ShowTarget = evt.newValue;
+            UpdateTargetView();
+        }
+    }
+
+    private void OnMaxIntensitySliderChanged(ChangeEvent<float> evt)
+    {
+        if (Parameters) {
+            Parameters.MaxIntensity = evt.newValue;
+            UpdateVoxelMaxIntensity();
+        }
     }
 
     public void UpdateAllVisible() {

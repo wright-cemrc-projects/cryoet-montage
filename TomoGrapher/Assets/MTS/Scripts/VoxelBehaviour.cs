@@ -24,6 +24,14 @@ public class VoxelBehaviour : MonoBehaviour
     public int Y;
     public int Z;
 
+    /// Max values
+    public float MaxValue = 255;
+
+    /// Change the dose max value for drawing.
+    public void SetMaxValue(float max) {
+        MaxValue = max;
+    }
+
     /// Add e-/A2 dose to this voxel
     public void AddDose(double dose) {
         TotalDose += dose;
@@ -39,7 +47,7 @@ public class VoxelBehaviour : MonoBehaviour
         //Color c = new Color((float) (TotalDose) / 256.0f, 0, (float) (255-TotalDose) / 255.0f, 255);
 
         // White to black
-        Color c = new Color((float) (255-TotalDose) / 255.0f, (float)(255 - TotalDose) / 255.0f, (float) (255-TotalDose) / 255.0f, 255);
+        Color c = new Color((float) (MaxValue-TotalDose) / MaxValue, (float)(MaxValue - TotalDose) / MaxValue, (float) (MaxValue-TotalDose) / MaxValue, MaxValue);
 
         SetColor(c);
     }
