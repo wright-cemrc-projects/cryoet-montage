@@ -36,6 +36,11 @@ import os
 import shutil
 import fnmatch
 import subprocess
+import re
+
+def getSubtiltFilename(basename, subtilt, tilt):
+    ''' helper function for consistent naming '''
+    return basename + '_subtilt_' + str(subtilt) + '_' + str(tilt) + '.0.mrc'
 
 def createTiltList(output_directory, basename, subtilt, startTilt, endTilt, stepTilt, tiltFile):
     ''' Create a userlist.txt file defining the files/tilts in the stack '''
@@ -45,7 +50,7 @@ def createTiltList(output_directory, basename, subtilt, startTilt, endTilt, step
     f = open(tiltFile, 'w')
     f.write(str(tiltCount) + '\n')
     for tilt in range(startTilt, endTilt+1, stepTilt):
-        output_name = os.path.join(output_directory, basename + '_subtilt_' + str(subtilt) + '_' + str(tilt) + '.0.mrc')
+        output_name = os.path.join(output_directory, getSubtiltFilename(basename, subtilt, tilt))
         f.write(output_name + '\n')
         f.write('0\n')
     f.close()
@@ -57,24 +62,27 @@ def createRawTilt(startTilt, endTilt, stepTilt, rawTiltFile):
         f.write(str(tilt) + '\n')
     f.close()
 
-def copySubtilt(basename, tilt, index, input_directory, output_name):
-    ''' Split out the files of an individual tilt '''
-    expected_name = basename + '_*' + str(index) + '_' + str(tilt) + '.0.*.mrc'
-    # copy any of the matching tilts where filenames include the basename and tilt angle.
+def splitTilt(basename, seqnum_start, period, tilt, input_directory, output_directory):
+    ''' find all movies match a tilt angle and copy each to the respective subtilt folder renamed '''
+    expected_name = '%s_*_%d.0.*.mrc' % (basename, tilt)
     patterns = [ expected_name ]
     if tilt == 0:
-        #  Provide an alternative name for the 0 tilt can be -0.0 or 0.0
-        patterns.append( basename + '_*' + str(index) + '_-' + str(tilt) + '.0.*.mrc' )
-    
-    count = 0
+        patterns.append('%s_*_-%d.0.*.mrc' % (basename, tilt))
+    # We can find all the files of a tilt angle, then put then in folders without index.
+    regex_pattern = re.compile(basename + '_(\d+)_.*.mrc')
     for filename in os.listdir(input_directory):
         for pattern in patterns:
             if (fnmatch.fnmatch(filename, pattern)):
-                # store original frame in the stitching directory with expected filename.
-                src = os.path.join(input_directory, filename)
-                shutil.copyfile(src, output_name)
-                count += 1
-    print("Copied " + str(count) + " files matching " + str(patterns) + " from " + input_directory + " to " + output_name)
+                ''' now need to get the index value '''
+                m = regex_pattern.search(filename)
+                if (m): 
+                    subtilt = (int(m.group(1)) - seqnum_start + 1) % period
+                    if (subtilt == 0):
+                        subtilt = period
+                    print(str(tilt) + ' found ' + filename + ' with index ' + m.group(1) + ' copying to ' + str(subtilt))
+                    output_name = os.path.join(output_directory, 'subTilt_' + str(subtilt), getSubtiltFilename(basename, subtilt, tilt) )
+                    src = os.path.join(input_directory, filename)
+                    shutil.copyfile(src, output_name)
 
 def main():
     # 1. Provide commandline options
@@ -86,7 +94,6 @@ def main():
     parser.add_argument('--basename', help='define a common basename for the images', required=True, default=None)
     parser.add_argument('--period', help='define number of subtilts', type=int, required=True, default=None)
     parser.add_argument('--seqnum_start', help='sequential starting number (000)', type=int, required=True, default=000)
-    parser.add_argument('--seqnum_end', help='sequential ending number (000)', type=int, required=True, default=000)
     parser.add_argument('--starting_angle', help='define the minimal bounds of the tilt range, ex. -60', type=int, required=True, default=None)
     parser.add_argument('--ending_angle', help='define the maximal bounds of the tilt range, ex. 60', type=int, required=True, default=None)
     parser.add_argument('--tilt_increment', help='define the increment of the tilt, ex 3', type=int, required=True, default=None)
@@ -95,17 +102,15 @@ def main():
     # Need to separate X subtilts at each tilt angle into separate folder. This represents an offset.
     window_start = args.seqnum_start
 
+    ## Make the subtilt directories
+    for subtilt in range(1, args.period + 1):
+        outputTiltDir = os.path.join(args.output, 'subTilt_' + str(subtilt))
+        if (not os.path.isdir(outputTiltDir)):
+            os.makedirs(outputTiltDir)
+    
     ## Split the tilt files for each subtilt into a separate directory, and stack.
     for tilt in range(args.starting_angle, args.ending_angle+1, args.tilt_increment):
-        ## For each tilt angle, there are multiple 'subtilts' to separate into directories
-        for subtilt in range(1, args.period + 1):
-            outputTiltDir = os.path.join(args.output, 'subTilt_' + str(subtilt))
-            if (not os.path.isdir(outputTiltDir)):
-                os.makedirs(outputTiltDir)
-            index = window_start + subtilt - 1
-            output_name = os.path.join(outputTiltDir, args.basename + '_subtilt_' + str(subtilt) + '_' + str(tilt) + '.0.mrc')
-            copySubtilt(args.basename, tilt, index, args.input, output_name)
-        window_start += args.period
+        splitTilt(args.basename, args.seqnum_start, args.period, tilt, args.input, args.output)
 
     ## Build a stack in each subtilt directory.
     for subtilt in range(1, args.period+1):   
@@ -118,6 +123,7 @@ def main():
 
         # After copying the subtilts, should be renamed $basename_subtilt_tilt.0.mrc
         finalStackFile = os.path.join(outputTiltDir, args.basename + '_subtilt_' + str(subtilt) + '_' + str(tilt) + '_AliSB.st')
+        print("Building stack for subtilt 1 ")
 
         # Generate usertilt.txt
         subprocess.run(['newstack', '-tilt', rawTiltTxt, '-fileinlist', tiltListTxt, '-ou', finalStackFile])
