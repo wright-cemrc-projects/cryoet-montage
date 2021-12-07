@@ -99,9 +99,6 @@ def main():
     parser.add_argument('--tilt_increment', help='define the increment of the tilt, ex 3', type=int, required=True, default=None)
     args = parser.parse_args()
 
-    # Need to separate X subtilts at each tilt angle into separate folder. This represents an offset.
-    window_start = args.seqnum_start
-
     ## Make the subtilt directories
     for subtilt in range(1, args.period + 1):
         outputTiltDir = os.path.join(args.output, 'subTilt_' + str(subtilt))
