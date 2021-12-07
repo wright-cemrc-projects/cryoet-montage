@@ -112,17 +112,20 @@ def main():
     ## Build a stack in each subtilt directory.
     for subtilt in range(1, args.period+1):   
         outputTiltDir = os.path.join(args.output, 'subTilt_' + str(subtilt))   
+
+        # Generate rawtlt.txt
         rawTiltTxt = os.path.join(outputTiltDir, 'rawtlt.txt')
         createRawTilt(args.starting_angle, args.ending_angle, args.tilt_increment, rawTiltTxt)
 
+        # Generate usertilt.txt
         tiltListTxt = os.path.join(outputTiltDir, 'tiltList.txt')
         createTiltList(outputTiltDir, args.basename, subtilt, args.starting_angle, args.ending_angle, args.tilt_increment, tiltListTxt)
 
-        # After copying the subtilts, should be renamed $basename_subtilt_tilt.0.mrc
+        # Resulting subtilts are named $basename_subtilt_tilt.0.mrc
         finalStackFile = os.path.join(outputTiltDir, args.basename + '_subtilt_' + str(subtilt) + '_' + str(tilt) + '_AliSB.st')
         print("Building stack for subtilt 1 ")
 
-        # Generate usertilt.txt
+        # Generate the stack 
         subprocess.run(['newstack', '-tilt', rawTiltTxt, '-fileinlist', tiltListTxt, '-ou', finalStackFile])
 
 
