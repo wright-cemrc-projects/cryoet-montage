@@ -39,13 +39,13 @@ public class SimulationParameters : MonoBehaviour
     [SerializeField]
     public float DosePerTilt = 1.0f;
 
+    // Referenced by cycles term.
+    [SerializeField]
+    public float Turns = 50f;
+
     // Referenced by the IS_Angle term.
     [SerializeField]
     public float Period = 3f;
-
-    // Referenced by the B_growth and IS_Angle terms.
-    [SerializeField]
-    public float Cycles = 2350f;
 
     // How far do the tilts extend.
     [SerializeField]
@@ -102,8 +102,17 @@ public class SimulationParameters : MonoBehaviour
         // Debug.Log("Period : " + Period);
     }
 
-    private void UpdateGrowth() {
-        Bgrowth = (AmpInitial - AmpFinal) / Cycles;
+    public float GetBGrowth() {
+        return UpdateGrowth();
+    }
+
+    private float UpdateGrowth() {
+        if (Turns != 0f) {
+            Bgrowth = (AmpInitial - AmpFinal) / (47 * Turns);
+        } else {
+            Bgrowth = 0f;
+        }
+        return Bgrowth;
     }
  
     /// Get the X dimension of the camera in microns, derived from pixel spacing.

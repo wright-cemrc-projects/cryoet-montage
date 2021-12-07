@@ -81,10 +81,7 @@ public class SpiralStrategyBuilder : MonoBehaviour
     /// Get a list of TiltQueueItem(s)
     private List<TiltQueueItem> BuildSpiralTranslations(int start, int end, float Sign, SimulationParameters parameters)
     {
-        float B_growth = 0;
-        if (parameters.Cycles != 0) {
-            B_growth = (parameters.AmpInitial - parameters.AmpFinal)/parameters.Cycles;
-        }
+        float B_growth = parameters.GetBGrowth();
 
         // Debug.Log("B_growth : " + B_growth);
         // Debug.Log("Number of tilts : " + end);
@@ -133,10 +130,7 @@ public class SpiralStrategyBuilder : MonoBehaviour
 
     public void BuildSpiral(int start, int end, double Sign, SimulationParameters parameters)
     {
-        float B_growth = 0;
-        if (parameters.Cycles != 0) {
-            B_growth = (parameters.AmpInitial - parameters.AmpFinal)/parameters.Cycles;
-        }
+        float B_growth = parameters.GetBGrowth();
 
         Debug.Log("B_growth : " + B_growth);
         Debug.Log("Number of tilts : " + end);

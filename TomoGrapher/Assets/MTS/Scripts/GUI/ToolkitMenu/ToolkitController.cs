@@ -119,17 +119,13 @@ public class ToolkitController : MonoBehaviour
         AmpFinal.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.AmpFinal));
         AmpFinal.RegisterValueChangedCallback( e => OnAmpFinalChanged(e));
 
-        TextField TiltsPerRevolution = document.rootVisualElement.Q<TextField>("TiltsPerRevolution");
-        TiltsPerRevolution.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.TiltsPerRevolution));
-        TiltsPerRevolution.RegisterValueChangedCallback( e => OnTiltsPerRevolutionChanged(e));
-
         TextField Period = document.rootVisualElement.Q<TextField>("Period");
         Period.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.Period));
         Period.RegisterValueChangedCallback( e => OnPeriodChanged(e));
 
-        TextField Cycles = document.rootVisualElement.Q<TextField>("Cycles");
-        Cycles.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.Cycles));
-        Cycles.RegisterValueChangedCallback( e => OnCyclesChanged(e));
+        TextField Turns = document.rootVisualElement.Q<TextField>("Turns");
+        Turns.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.Turns));
+        Turns.RegisterValueChangedCallback( e => OnTurnsChanged(e));
 
         Toggle ApplyCosAngle = document.rootVisualElement.Q<Toggle>("CorrectCos");
         ApplyCosAngle.SetValueWithoutNotify(Parameters.ProjectOnPerpendicularAxis);
@@ -297,15 +293,6 @@ public class ToolkitController : MonoBehaviour
         }
     }
 
-    private void OnTiltsPerRevolutionChanged(ChangeEvent<string> evt)
-    {
-        if (Parameters) {
-            if (float.TryParse(evt.newValue, out Parameters.TiltsPerRevolution)) {
-                UpdateSpiral();
-            }
-        }
-    }
-
     private void OnPeriodChanged(ChangeEvent<string> evt)
     {
         if (Parameters) {
@@ -315,10 +302,10 @@ public class ToolkitController : MonoBehaviour
         }
     }
 
-    private void OnCyclesChanged(ChangeEvent<string> evt)
+    private void OnTurnsChanged(ChangeEvent<string> evt)
     {
         if (Parameters) {
-            if (float.TryParse(evt.newValue, out Parameters.Cycles)) {
+            if (float.TryParse(evt.newValue, out Parameters.Turns)) {
                 UpdateSpiral();
             }
         }
