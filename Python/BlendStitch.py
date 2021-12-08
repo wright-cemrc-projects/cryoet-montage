@@ -163,6 +163,16 @@ def checkDependencies():
     blendmont_location = shutil.which('blendmont')
     return newstack_location and blendmont_location
 
+def restricted_float(x):
+    try:
+        x = float(x)
+    except ValueError:
+        raise argparse.ArgumentTypeError("%r not a floating-point literal" % (x,))
+
+    if x < 0.0 or x > 1.0:
+        raise argparse.ArgumentTypeError("%r not in range [0.0, 1.0]"%(x,))
+    return x
+
 def main():
     # 1. Provide commandline options
     parser = argparse.ArgumentParser(description=description_text)
@@ -174,6 +184,13 @@ def main():
     parser.add_argument('--starting_angle', help='define the minimal bounds of the tilt range, ex. -60', type=int, required=True, default=None)
     parser.add_argument('--ending_angle', help='define the maximal bounds of the tilt range, ex. 60', type=int, required=True, default=None)
     parser.add_argument('--tilt_increment', help='define the increment of the tilt, ex 3', type=int, required=True, default=None)
+    ## Parameters describing blend parameters
+    parser.add_argument('--camera_x', help='define camera width in pixel dimensions (default 5760)', type=int, required=False, default=5760)
+    parser.add_argument('--camera_y', help='define camera height in pixel dimensions (default 4092)', type=int, required=False, default=4092)
+    parser.add_argument('--overlap_x', help='define a percent overlap where 15 percent would be 0.15 (default 0.15)', type=restricted_float, required=False, default=0.15)
+    parser.add_argument('--overlap_y', help='define a percent overlap where 10 percent would be 0.10 (default 0.10)', type=restricted_float, required=False, default=0.10)
+    parser.add_argument('--tile_x', help='define the number of tiles in the x dimension (default 3)', type=int, required=False, default=3)
+    parser.add_argument('--tile_y', help='define the number of tiles in the y dimension (default 3)', type=int, required=False, default=3)
     args = parser.parse_args()
 
     # Check that expected software are in the PATH
@@ -183,8 +200,16 @@ def main():
         print ('Missing IMOD dependencies in PATH, please install IMOD 4.11.6 and make sure binaries are in your PATH.')
         exit(1)
 
+    # The pattern defines how the imaging areas overlap, important for blending.
+    pattern = StitchPattern() 
+    pattern.camera_x = args.camera_x
+    pattern.camera_y = args.camera_y
+    pattern.overlap_x = args.overlap_x
+    pattern.overlap_y = args.overlap_y
+    pattern.tile_x = args.tile_x
+    pattern.tile_y = args.tile_y
+
     # Run the main 'Stitching' function to create individual sticked images called *_blend.st and stack.
-    pattern = StitchPattern() # TODO: provide a way for user to specify the pattern dimensions.
     stitching(args.starting_angle, args.ending_angle, args.tilt_increment, args.input, args.output, args.basename, pattern)
 
     # Create the rawtlt and tiltlist.txt
