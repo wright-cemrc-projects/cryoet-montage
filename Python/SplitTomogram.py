@@ -84,6 +84,12 @@ def splitTilt(basename, seqnum_start, period, tilt, input_directory, output_dire
                     src = os.path.join(input_directory, filename)
                     shutil.copyfile(src, output_name)
 
+def checkDependencies():
+    ''' return true if finds the required IMOD programs '''
+    newstack_location = shutil.which('newstack')
+    blendmont_location = shutil.which('blendmont')
+    return newstack_location and blendmont_location
+
 def main():
     # 1. Provide commandline options
     parser = argparse.ArgumentParser(description=description_text)
@@ -98,6 +104,13 @@ def main():
     parser.add_argument('--ending_angle', help='define the maximal bounds of the tilt range, ex. 60', type=int, required=True, default=None)
     parser.add_argument('--tilt_increment', help='define the increment of the tilt, ex 3', type=int, required=True, default=None)
     args = parser.parse_args()
+
+    # Check that expected software are in the PATH
+    if checkDependencies():
+        ''' Dependencies found '''
+    else:
+        print ('Missing IMOD dependencies in PATH, please install IMOD 4.11.6 and make sure binaries are in your PATH.')
+        exit(1)
 
     ## Make the subtilt directories
     for subtilt in range(1, args.period + 1):
