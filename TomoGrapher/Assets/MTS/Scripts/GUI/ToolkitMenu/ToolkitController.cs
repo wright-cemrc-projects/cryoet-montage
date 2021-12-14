@@ -127,6 +127,14 @@ public class ToolkitController : MonoBehaviour
         Turns.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.Turns));
         Turns.RegisterValueChangedCallback( e => OnTurnsChanged(e));
 
+        TextField Revolutions = document.rootVisualElement.Q<TextField>("Revolutions");
+        Revolutions.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.Revolutions));
+        Revolutions.RegisterValueChangedCallback( e => OnRevolutionsChanged(e));
+
+        Toggle DoseWeighting = document.rootVisualElement.Q<Toggle>("DoseWeight");
+        DoseWeighting.SetValueWithoutNotify(Parameters.DoseWeighting);
+        DoseWeighting.RegisterValueChangedCallback( e => OnDoseWeighting(e));
+
         Toggle ApplyCosAngle = document.rootVisualElement.Q<Toggle>("CorrectCos");
         ApplyCosAngle.SetValueWithoutNotify(Parameters.ProjectOnPerpendicularAxis);
         ApplyCosAngle.RegisterValueChangedCallback( e => OnApplyCosAngle(e));
@@ -222,6 +230,14 @@ public class ToolkitController : MonoBehaviour
         }
     }
 
+    private void OnDoseWeighting(ChangeEvent<bool> evt)
+    {
+        if (Parameters) {
+            Parameters.DoseWeighting = evt.newValue;
+            UpdateSpiral();
+        }
+    }
+
     private void OnApplyCosAngle(ChangeEvent<bool> evt)
     {
         if (Parameters) {
@@ -306,6 +322,15 @@ public class ToolkitController : MonoBehaviour
     {
         if (Parameters) {
             if (float.TryParse(evt.newValue, out Parameters.Turns)) {
+                UpdateSpiral();
+            }
+        }
+    }
+
+    private void OnRevolutionsChanged(ChangeEvent<string> evt)
+    {
+        if (Parameters) {
+            if (float.TryParse(evt.newValue, out Parameters.Revolutions)) {
                 UpdateSpiral();
             }
         }

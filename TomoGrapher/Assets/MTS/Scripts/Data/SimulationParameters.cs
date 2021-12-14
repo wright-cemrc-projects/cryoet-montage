@@ -47,6 +47,10 @@ public class SimulationParameters : MonoBehaviour
     [SerializeField]
     public float Period = 3f;
 
+    // Referenced by the IS_Angle term.
+    [SerializeField]
+    public float Revolutions = 15f;
+
     // How far do the tilts extend.
     [SerializeField]
     public float TiltTo = 60f;
@@ -74,6 +78,10 @@ public class SimulationParameters : MonoBehaviour
     // distort in the axis perpendicular to the tilt axis.
     [SerializeField]
     public bool ProjectOnPerpendicularAxis = true;
+
+    // Dose weighting by tilt angle. Use cos(a) * dose to affect overall dose at higher tilts.
+    [SerializeField]
+    public bool DoseWeighting = false;
 
     // Radius Growth R (B_growth) determines the distance of a point from origin, rate of expansion of the spiral.
     private float Bgrowth;  // Should be calculated as (A_final - A_initial) / Cycles
@@ -108,7 +116,7 @@ public class SimulationParameters : MonoBehaviour
 
     private float UpdateGrowth() {
         if (Turns != 0f) {
-            Bgrowth = (AmpInitial - AmpFinal) / (47 * Turns);
+            Bgrowth = (AmpInitial - AmpFinal) / ((float) Math.PI * Revolutions * Turns);
         } else {
             Bgrowth = 0f;
         }

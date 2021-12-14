@@ -19,7 +19,9 @@
         <ui:TextField picking-mode="Ignore" label="Amplitude Final" value="0" name="AmpFinal" binding-path="AmpFinal" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
         <ui:TextField picking-mode="Ignore" label="Turns" value="50" name="Turns" tooltip="Tilts per Revolution defines over how many tilt steps to have a rotation of the spiral translation." usage-hints="DynamicTransform" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
         <ui:TextField picking-mode="Ignore" label="Period" value="0" name="Period" binding-path="Period" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
-        <ui:Toggle label="Project on Perpendicular Axis " name="CorrectCos" value="true" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Revolutions" value="15" name="Revolutions" binding-path="Revolutions" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
+        <ui:Toggle label="Weight Dose by Tilt Angle" name="DoseWeight" value="false" style="margin-top: 10px;" />
+        <ui:Toggle label="Adjust Shifts by Tilt Angle" name="CorrectCos" value="true" style="margin-top: 10px;" />
         <ui:Label text="Simulation Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
         <ui:Button text="Top View" display-tooltip-when-elided="true" name="TopCamera" style="margin-top: 10px; height: auto; width: auto; flex-shrink: 0; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
         <ui:Button text="Ortho View" display-tooltip-when-elided="true" name="OrthoCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
