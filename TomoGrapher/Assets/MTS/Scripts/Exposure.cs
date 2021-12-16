@@ -9,4 +9,6 @@ public class Exposure
     public double x;
     public double y;
     public double tiltDegrees;
+    public float dose = 1.0f;
+
 }

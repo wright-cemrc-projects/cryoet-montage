@@ -110,6 +110,11 @@ public class SimulationParameters : MonoBehaviour
         // Debug.Log("Period : " + Period);
     }
 
+    public int TotalTilts() {
+        if (TiltIncrement != 0) return (int) ((TiltTo - TiltEnd) / TiltIncrement) + 1;
+        else return 0;
+    }
+
     public float GetBGrowth() {
         return UpdateGrowth();
     }

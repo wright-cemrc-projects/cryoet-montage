@@ -198,8 +198,32 @@ public class SpiralStrategyBuilder : MonoBehaviour
         item.TiltAngle = tiltAngle;
         item.Label = text;
 
-        // TODO: only use the SimulationParameters to determine pattern spacing.
-        // parameters has the number of shifts, and the overall 
+        float dose = 1.0f;
+        if (parameters.DoseWeighting == false) {
+            dose = parameters.DosePerTilt;
+        } else {
+            if ((parameters.TiltIncrement > 0) && (parameters.TiltTo > parameters.TiltEnd)) {
+                int TotalTilts = parameters.TotalTilts();
+
+                // Calculate the total expected dose
+                float TotalDose = TotalTilts * parameters.DosePerTilt;
+
+                // Calculate the sum of (tilt angle * dose weighting (1/cos(tilt angle)))
+                float tiltDose = 0f;
+                for (float tilt = parameters.TiltEnd; tilt < parameters.TiltTo; tilt += parameters.TiltIncrement) {
+                    tiltDose += 1.0f / Mathf.Cos(Mathf.PI * tilt / 180.0f) * parameters.DosePerTilt;
+                }
+
+                // Calculate the constant needed to have Dose = C * (1/cos(tilt angle))), so that still adds to the total expected dose
+                // Then can calculate the individual adjusted dose at this tilt.
+                float doseConstant = TotalDose / tiltDose;
+
+                dose = doseConstant * 1.0f / Mathf.Cos(Mathf.PI * tiltAngle / 180.0f);
+
+            } else {
+                dose = parameters.DosePerTilt;
+            }
+        }
 
         // Apply the image shifting pattern
         List<Vector3> pattern = GetPattern(parameters);
@@ -215,6 +239,7 @@ public class SpiralStrategyBuilder : MonoBehaviour
             }
             e.y = center_y + point.y;
             e.tiltDegrees = tiltAngle;
+            e.dose = dose;
 
             // Add each of the imageshifts of the beam.
             item.ImageShifts.Add(e);

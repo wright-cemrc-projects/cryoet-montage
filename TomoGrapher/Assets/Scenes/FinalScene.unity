@@ -406,7 +406,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.04
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -1723,8 +1723,9 @@ MonoBehaviour:
   PercentOverlapX: 15
   PercentOverlapY: 10
   DosePerTilt: 1
+  Turns: 50
   Period: 3
-  Cycles: 2350
+  Revolutions: 15
   TiltTo: 60
   TiltEnd: -60
   TiltStart: 0
@@ -1733,6 +1734,7 @@ MonoBehaviour:
   AmpFinal: 0.8
   AmpInitial: 0
   ProjectOnPerpendicularAxis: 1
+  DoseWeighting: 0
   ShowTarget: 1
   MaxIntensity: 256
 --- !u!114 &1450797101
@@ -1926,7 +1928,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.02
+    widthMultiplier: 0.04
     widthCurve:
       serializedVersion: 2
       m_Curve:

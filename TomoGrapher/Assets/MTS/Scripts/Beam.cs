@@ -39,7 +39,13 @@ public class Beam : MonoBehaviour
         VisibleBeam.SetActive(false);
     }
 
+    /// Use a constant dose for the beam.
     public void RayIntersectVoxels() {
+        RayIntersectVoxels(Dose);
+    }
+
+    /// Allow using variable dose (or exposure times)
+    public void RayIntersectVoxels(float dose) {
         // Generate a grid of rays (BeamRadius divided by the SamplingSpacing to create a grid of rays)
         // For each ray, find all the voxes
 
@@ -92,10 +98,7 @@ public class Beam : MonoBehaviour
         foreach (GameObject g in voxels)
         {
             VoxelBehaviour voxel = g.GetComponent<VoxelBehaviour>();
-
-            // TODO: Dose* = Voxel Area * Dose Rate
-            // This should be computed using Angstrom^2 area.
-            voxel.AddDose(Dose);
+            voxel.AddDose(dose);
             voxel.SetColorFromDose();
         }
     }

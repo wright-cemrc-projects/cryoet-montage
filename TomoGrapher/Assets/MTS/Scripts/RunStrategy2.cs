@@ -31,7 +31,7 @@ public class RunStrategy2 : MonoBehaviour
             Exposure exp = ShiftTiltStrategy[CurrentPoint];
             MoveImaging(exp.x, exp.y);
             TiltStage(exp.tiltDegrees);
-            TakeImage();
+            TakeImage(exp.dose);
 
             CurrentPoint++;
         }
@@ -51,9 +51,9 @@ public class RunStrategy2 : MonoBehaviour
         stage.transform.rotation = rot;
     }
 
-    private void TakeImage() {
+    private void TakeImage(float dose) {
         // Move to the next tilt and fire.
-        beam.RayIntersectVoxels();
+        beam.RayIntersectVoxels(dose);
     }
 
     public void StartSimulation(SpiralStrategyBuilder a_strategy) {
