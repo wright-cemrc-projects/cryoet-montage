@@ -146,6 +146,10 @@ public class ToolkitController : MonoBehaviour
         Slider AdjustIntensity = document.rootVisualElement.Q<Slider>("AdjustIntensity");
         AdjustIntensity.SetValueWithoutNotify(Parameters.MaxIntensity);
         AdjustIntensity.RegisterValueChangedCallback( e => OnMaxIntensitySliderChanged(e));
+
+        TextField Power = document.rootVisualElement.Q<TextField>("Power");
+        Power.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.DoseWeightingPower));
+        Power.RegisterValueChangedCallback(e => OnPowerChanged(e));
     }
 
     private void OnPixelSpacingChanged(ChangeEvent<string> evt) 
@@ -331,6 +335,17 @@ public class ToolkitController : MonoBehaviour
     {
         if (Parameters) {
             if (float.TryParse(evt.newValue, out Parameters.Revolutions)) {
+                UpdateSpiral();
+            }
+        }
+    }
+
+    private void OnPowerChanged(ChangeEvent<string> evt)
+    {
+        if (Parameters)
+        {
+            if (float.TryParse(evt.newValue, out Parameters.DoseWeightingPower))
+            {
                 UpdateSpiral();
             }
         }

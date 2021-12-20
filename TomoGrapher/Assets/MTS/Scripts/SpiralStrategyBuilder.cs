@@ -211,14 +211,14 @@ public class SpiralStrategyBuilder : MonoBehaviour
                 // Calculate the sum of (tilt angle * dose weighting (1/cos(tilt angle)))
                 float tiltDose = 0f;
                 for (float tilt = parameters.TiltEnd; tilt < parameters.TiltTo; tilt += parameters.TiltIncrement) {
-                    tiltDose += 1.0f / Mathf.Cos(Mathf.PI * tilt / 180.0f) * parameters.DosePerTilt;
+                    tiltDose += Mathf.Pow(1.0f / Mathf.Cos(Mathf.PI * tilt / 180.0f), 1.0f / parameters.DoseWeightingPower) * parameters.DosePerTilt;
                 }
 
                 // Calculate the constant needed to have Dose = C * (1/cos(tilt angle))), so that still adds to the total expected dose
                 // Then can calculate the individual adjusted dose at this tilt.
                 float doseConstant = TotalDose / tiltDose;
 
-                dose = doseConstant * 1.0f / Mathf.Cos(Mathf.PI * tiltAngle / 180.0f);
+                dose = doseConstant * Mathf.Pow(1.0f / Mathf.Cos(Mathf.PI * tiltAngle / 180.0f), 1.0f / parameters.DoseWeightingPower) * parameters.DosePerTilt;
 
             } else {
                 dose = parameters.DosePerTilt;

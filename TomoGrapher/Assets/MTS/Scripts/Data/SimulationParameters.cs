@@ -83,6 +83,9 @@ public class SimulationParameters : MonoBehaviour
     [SerializeField]
     public bool DoseWeighting = false;
 
+    [SerializeField]
+    public float DoseWeightingPower = 1.0f;
+
     // Radius Growth R (B_growth) determines the distance of a point from origin, rate of expansion of the spiral.
     private float Bgrowth;  // Should be calculated as (A_final - A_initial) / Cycles
 
