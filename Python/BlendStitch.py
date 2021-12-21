@@ -127,7 +127,7 @@ def createTileList(tile_directory, tileFile):
     # Calculate number of files, should be the first line of this userlist.txt
     # Get list of *.mrc in the tile_directory
     files = []
-    for file in os.listdir(tile_directory):
+    for file in sorted(os.listdir(tile_directory)):
         if file.endswith(".mrc"):
             files.append(os.path.join(tile_directory, file))
     f = open(tileFile, 'w')
