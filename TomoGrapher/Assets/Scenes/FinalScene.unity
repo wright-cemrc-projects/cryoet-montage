@@ -182,7 +182,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63733867}
-  m_LocalRotation: {x: 0.15645857, y: -0.377156, z: 0.064807266, w: 0.9105351}
+  m_LocalRotation: {x: 0.15645853, y: -0.37715596, z: 0.0648073, w: 0.9105351}
   m_LocalPosition: {x: 100, y: 50, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -214,7 +214,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85058951}
-  m_LocalRotation: {x: 0.15622985, y: -0.37717226, z: 0.064712524, w: 0.9105744}
+  m_LocalRotation: {x: 0.15622987, y: -0.37717226, z: 0.064712524, w: 0.9105744}
   m_LocalPosition: {x: 100, y: 50, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -877,7 +877,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 571955425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalPosition: {x: 100, y: 50, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1272,7 +1272,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.15645857, y: -0.377156, z: 0.064807266, w: 0.9105351}
+  m_LocalRotation: {x: 0.15645853, y: -0.37715596, z: 0.0648073, w: 0.9105351}
   m_LocalPosition: {x: 100, y: 50, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1735,6 +1735,7 @@ MonoBehaviour:
   AmpInitial: 0
   ProjectOnPerpendicularAxis: 1
   DoseWeighting: 0
+  DoseWeightingPower: 1
   ShowTarget: 1
   MaxIntensity: 256
 --- !u!114 &1450797101
