@@ -2,21 +2,67 @@
 
 ### Getting the scripts
 
-Navigate to the Releases to get the latest package containing Python scripts. 
+Navigate to the Releases to get the latest package containing Python scripts, or clone the GitHub repository with `git clone https://github.com/wright-cemrc-projects/cryoet-montage.git`
 
 ### Requirements
 Your environment will need to have Python 3 installed and in the system PATH.
 
 You also need an installation of IMOD 4.11.6 or higher to provide the tools for assembling stacks and blending images.
 
-## *Using BlendStitch.py*
-After a collection of a montage with SerialEM, you will have a single directory containing frames with filenames like:
+Batch motion correction pre-processing can use `alignframes` provided by IMOD, or use the UCSF `motioncor2` for GPU accelerated motion correction.
+
+## *Using MotionCorrect.py*
+After a collection of a montage with SerialEM, you will have one or many directories containing frames for a tilt series with filenames like:
 
 `W1618_G3_Pt21_3x3_tilt_2_000_-0.0.mrc`
 
 This naming includes an serial index starting at 000 and increasing with each collected image. Immediately before the .mrc extension is a -0.0 which is the tilt angle of this particular movie.
 
-From the filenames you need to determine the basename of all the images such as `W1618_G3_Pt21_3x3_tilt_2`, a prefix that is shared by all the files.
+If these are movies, you can use the `MotionCorrect.py` to run the motion correction preprocessing for all movies in a single `--tiltDirectory` and output results into a new directory. You can also apply the processing to multiple tilt series by choosing the parent directory with `--batchDirectory` to process all the subdirectories and output as separate folders.
+
+```
+MotionCorrect.py --help
+usage: MotionCorrect.py [-h] [--batchDirectory BATCHDIRECTORY]
+                        [--tiltDirectory TILTDIRECTORY] --outputDirectory
+                        OUTPUTDIRECTORY [--motion MOTION] [--rotGain ROTGAIN]
+                        [--flipGain FLIPGAIN] [--throwFrames THROWFRAMES]
+
+Prepare tilt-series data for use
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --batchDirectory BATCHDIRECTORY
+                        parent directory containing multiple tilt stacks
+  --tiltDirectory TILTDIRECTORY
+                        directory containing tilt stack
+  --outputDirectory OUTPUTDIRECTORY
+                        directory to deposit results
+  --motion MOTION       options [alignframes|motioncor2], default=motioncor2
+  --rotGain ROTGAIN     optional value for MotionCor2, -RotGain 0,1,2,3 how to
+                        rotate gain
+  --flipGain FLIPGAIN   optional value for MotionCor2, -FlipGain 0,1,2 how to
+                        flip gain
+  --throwFrames THROWFRAMES
+                        optional value for MotionCor2, -Throw XX starting
+                        frames away
+```
+
+An example command for running a batch processing of a single directory of the movies:
+
+```
+cryoet-montage/MotionCorrect.py --tiltDirectory ~/input_folder_of_movies/ --outputDirectory ~/processed_frames/
+```
+
+## *Using BlendStitch.py*
+If you have the motion corrected files, you can now proceed the stitching of the tiles for each tilt using `BlendStitch.py`:
+
+You should have a set of files named as:
+
+`W1618_G3_Pt21_3x3_tilt_2_000_-12.0.mc.mrc`
+
+Where the filename includes an serial index starting at 000 and increasing with each collected image. Immediately before the .mrc extension is the angle such as -12.0.
+
+You need to determine the common prefix such as `W1618_G3_Pt21_3x3_tilt_2`, shared by all the files, which is the `basename`.
 
 Running the `BlendStitch.py --help` provides a listing of the possible command-line arguments to provide the Python wrapper for blending montage images:
 
