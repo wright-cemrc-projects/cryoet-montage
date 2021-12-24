@@ -18,40 +18,64 @@ Stable beam-image shift lens system. In general, the set up should be applicable
 
 1. The image shift and pixel size at the recording magnification should be well calibrated and up to date in SerialEM, follow the instructions [Calibrate Image Shift and Pixel Size](https://bio3d.colorado.edu/SerialEM/hlp/html/setting_up_serialem.htm#setup_pixelsize).
 
-2. Generate regular patterns with specified montage tile overlaps using image shift.
+2. Generate rectangle or square tile patterns with specified montage overlaps using image shift.
 
    - Go to an area with contents e.g. samples or region of interest, reset image shift using *Reset Image Shift* to collect an image-shift 2x2 montage at the recording magnification and camera binning that will be later used for tilt series acquisitions. 
 
 Specify the x and y piece numbers, and tile overlaps in pixels in [Montage Setup Dialog](https://bio3d.colorado.edu/SerialEM/hlp/html/hidd_montagesetup.htm).
 
-```
-e.g. We benchmarked 15% to 20% in fringe-affected axis (x-axis) and 10% in fringeless axis (y-axis). 
-For a full frame K3 camera (bin 1, 5760 x 4092), it is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs
+For example, to achieve 15 to 20% overlap in X and 10% in Y on a full frame K3 camera (bin 1, 5760 x 4092), the overlap pixel is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs. You will need to put the values in the dialogue.
 
 ```
+Magnification:                 Bining: 1
+Number of pieces in X: 2   Y: 2
+      Piece size in X: 5760      Y: 4092
+         Overlap in X: 1152      Y: 409
 
-   - Save the .mdoc file.
-   - Retrieve the image shift information in the .mdoc file to create a m x n tiling pattern with desired overlaps in x and y.
-
-Image shift in the x direction = ImageShift of section 2 - ImageShift of section 0   
-
-```
-e.g. Section 0 labeled as ZValue = 0 has the ImageShift entry of -2.51756 0.229891 while section 2 labeled as Value = 2 has the ImageShift entry of -0.498705 1.03549. To achieve the overlap, the image shift in the x direction should be 2.0189 0.8056
 
 ```
-Image shift in the y direction = ImageShift of section 1 - ImageShift of section 0
+
+   - After the montage is completed, you should see an associated metadata file. Open the .mdoc file.
+
+The autodoc .mdoc file consists of blocks called sections and begins with a bracketed key-value pair. each *ZValue* leads a tile of the montage
 
 ```
-      e.g. Section 1 labeled as ZValue = 1 has the ImageShift entry of -1.91004 -1.26029. The image shift in the y direction should be 0.6075 -1.4902
+[ZValue = 0]
+PieceCoordinates = 0 0 0
+MinMaxMean = 0 1014 79.9226
+TiltAngle = 0.00427435
+StagePosition = 265.414 118.065
+StageZ = 49.8675
+Magnification = 19500
+Intensity = 0.120144
+ExposureDose = 1.66243
+DoseRate = 2.86627
+PixelSpacing = 4.603
+SpotSize = 8
+Defocus = -1.09678
+ImageShift = -2.51756 0.229891
+RotationAngle = 175.28
+ExposureTime = 1.00134
+Binning = 1
 
 ```
-   - Plug in the required image shifts in *MultishotParams in the SerialEM setting files and save. 
+
+Image shift in the x direction = *ImageShift* of *ZValue = 2* (section 2) - *ImageShift* of *ZValue = 0* (section 0)   
+
+For example, *ZValue = 0* (Section 0) has the *ImageShift* entry of -2.51756 0.229891 while *ZValue = 2* (Section 2) has the *ImageShift* entry of -0.498705 1.03549. the image shift in the x direction should be 2.0189 0.8056
+
+
+Image shift in the y direction = I*ImageShift* of *ZValue = 1* (section 2) - *ImageShift* of *ZValue = 0* (section 0) 
+
+For example, *ZValue = 1* (Section 1) has the *ImageShift* entry of  -1.91004 -1.26029. The image shift in the y direction should be 0.6075 -1.4902
+
+   - Plug in the required image shifts in *MultishotParams* in the SerialEM setting files and save. 
      
 When you open the serialEM setting file, you may see a line like this 
 
        MultiShotParams 0.200000 0.500000 2 1 0 0 0 2.000000 1 1 2 0 1.500000 2.001000 0.768026 0.603000 -1.473200 3 3 24 19 0 0 3 0.250000 -0.020223 -999.000000 -999.000000
               
-The numbers correspond to 28 parameters associated with *MultishotParams. In order to apply the designated tile overlap, you need to update item 14 to 17. The updated result will be like this
+The numbers correspond to 28 parameters associated with *MultishotParams*. To apply the specified tile overlaps in x and y, you need to update parameters related to X and Y image shift vector, item 14 to 17. 
 
        MultiShotParams 0.200000 0.500000 2 1 0 0 0 2.000000 1 1 2 0 1.500000 2.0189 0.8056 0.6075 -1.4902 3 3 24 19 0 0 3 0.250000 -0.020223 -999.000000 -999.000000
 
