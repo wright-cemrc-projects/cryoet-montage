@@ -1,4 +1,4 @@
-## SerialEM set up for Montage Cryo-Electron Tomography
+## SerialEM Setup for Montage Cryo-Electron Tomography
 
 This workflow uses SerialEM to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information.
 
