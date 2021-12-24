@@ -25,7 +25,8 @@ Stable beam-image shift lens system. In general, the set up should be applicable
 Specify the x and y piece numbers, and tile overlaps in pixels in [Montage Setup Dialog](https://bio3d.colorado.edu/SerialEM/hlp/html/hidd_montagesetup.htm).
 
 ```
-e.g. We benchmarked 15% to 20% in fringe-affected axis (x-axis) and 10% in fringeless axis (y-axis). For a full frame K3 camera (bin 1, 5760 x 4092), it is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs
+e.g. We benchmarked 15% to 20% in fringe-affected axis (x-axis) and 10% in fringeless axis (y-axis). 
+For a full frame K3 camera (bin 1, 5760 x 4092), it is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs
 
 ```
 
@@ -60,8 +61,11 @@ You can also update item 18 and 19 to specify the size of the regular pattern (s
 
 Note: the serialEM setting file cannot be updated if the file is being open in SerialEM. If you would like to update the loaded file, save the current file, make a copy and update the copy and then reload the updated copy version.
 
-3. Set up a series of ROI by saving the *View or *Preview shots as anchor maps and turn on *Acquire in the Navigator.
+3. Set up a series of ROI by saving the *View* or *Trial* shots as anchor maps and turn on *Acquire* in the Navigator.
 4. Edit the parameters in the cryoMontage.txt macro.
 
-Note: We find the *View shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
+Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
+
+### SerialEM cryoMontage macro
+
 
