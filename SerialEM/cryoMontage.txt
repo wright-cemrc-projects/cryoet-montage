@@ -1,27 +1,35 @@
 MacroName cryoMontage
 
 Echo ============ cryoMontage ===============
-*
-* Author: Jae Yang <jyang525@wisc.edu>
-* Developed by Elizabeth Wright Group at University of Wisconsin-Madison
-* Last modified: Nov. 12, 2021
-*
 
-tilt_scheme = 0
-# 0 = dose-symmetric
-# 1 = bidirectional
-Debug = 0  # set to 1 for verbose output for debugging
-eucentricity_option = 2  # 1 = rough, 2 = fine, 3 = rough and fine
-file_setting = 0 # set to 1 for file directory and output setting
+# Author: Jae Yang <jyang525@wisc.edu>
+
+# Developed in Elizabeth Wright Group at University of Wisconsin-Madison, WI, US
+
+# Last modified: Dec. 20th 2021
+
+
+### Adjust the parameters below together with Tomographer to specify your montage tilt series schemes
+
+
+### basic settings ###
+tilt_scheme = 0               # 0 = dose-symmetric, 1 = bidirectional
+Debug = 0                     # set to 1 for verbose output for debugging
+eucentricity_option = 2       # 1 = rough, 2 = fine, 3 = rough and fine
+file_setting = 1              # recommend to set to 1 to define a local path below
+tolerance = 0.5               # redo tracking if larger than a fraction (tolerance) of an image 
+defocus = -5                  
 
 If $Debug == 0
  SuppressReports
 Endif
 
-### File setting ###
+### file setting ###
 If $file_setting == 1
- BaseDir = X:\RawData\wright\jyang525\2021_11_8\7\     # Edit for file saving location
- ReportCurrentFileName 4   # DO NOT CHANGE
+ BaseDir = X:\RawData\wright\jyang525\2021_12_13\EOS\W1505_G2    # define a local path to save log files
+ 
+ # DO NOT CHANGE BELOW
+ ReportCurrentFileName 4   
  SetDirectory $BaseDir
  baselogname = $reportedValue4
  SaveLogOpenNew $baselogname
@@ -29,42 +37,48 @@ If $file_setting == 1
 Endif
 ###
 
-### dose-symmetric settings ###
-startAngleDS = 0
-endAngleDS = 51
-stepSizeDS = 3
-groupSizeDS = 3     # number of tilts before switching sides                            
-trackingShot = T    # can also be set to V
-defocus = -5
-multiStepTilt_StepSize = 25
-doExtraTrackingShot = 0
-rightTrackingBuf = P
-leftTrackingBuf = Q
-###
-
-### bi-directional settings ###
-startAngleBi = 0
-firstSideEnd = 51
-secondSideStart = -3  
-secondSideEnd = -51
-stepSizeBi = 3
-###
-
 ### Spiral translation settings ###
 Ainitial = 0
-Afinal = 1.3
-turns = 50
-period = 3
+Afinal = 1.5         # default as 1.5 with a maximum offset of 0.8 micron 
+turns = 50           # larger number, bigger shift offsets
+period = 3           # generally change the spiral turning sharpness
+revolution = 15      # generally no need to change
+
+Echo Spiral parameters: Ainitial = $Ainitial  Afinal = $Afinal  turns = $turns  period = $period  revolution = $revolution
 ###
 
-### main script starts ###
+
+### Dose-symmetric settings ###
+startAngleDS = 0    # starting angle, set to nonzero for lamella
+endAngleDS = 60     # positive end angle, if set to 60 for a tilt range of -60 to 60
+stepSizeDS = 3      # tilt increment
+groupSizeDS = 3     # number of tilts per group                           
+trackingShot = T    # use Trial for tracking, can also be set to V to use View shot
+doExtraTrackingShot = 0  # 1 to do extra tracking with Trial in focus area
+###
+
+### Bi-directional settings ###
+startAngleBi = 0     # starting angle of the first half, set to nonzero for asymmetric collection
+firstSideEnd = 60    # end angle of the first half
+secondSideStart = -3 # starting angle of the second half
+secondSideEnd = -60  # end angle of the second half
+stepSizeBi = 3       # tilt increment
+###
+
+
+
+
+### We recommend not to change the Main Script section below for regular applications
+
+
+### Main script starts ###
 
 TiltTo 0
                  
 # Align to TOI and restore TOI image shift
 Eucentricity $eucentricity_option 
 UpdateItemZ
-RealignToNavItem 1 0 0.1 5 0
+RealignToNavItem 1 0 0.1 4 0
 Copy A S
 ResetImageShift
 View
@@ -72,6 +86,12 @@ AlignTo S
 ReportImageShift
 isux = $repVal1
 isuy = $repVal2
+
+# generate extra tracking shot
+If $doExtraTrackingShot == 1 
+Trial
+Copy A W
+Endif
 
 If $Debug == 1
 Echo image shift after realignTo item: $repVal1 $repVal2
@@ -94,7 +114,7 @@ Echo TS time: $ts_time
 ### main script end ###
 
 
-
+### We recommend not to change the Function section below for regular applications
 
 
 ##############################
@@ -108,6 +128,17 @@ stepSize = $argVal3
 groupSize = $argVal4
 direction = -1 # DO NOT CHANGE
 
+# buffers to store tracking images
+
+rightTrackingBuf = P # DO NOT CHANGE
+leftTrackingBuf = Q # DO NOT CHANGE
+rightTrackingTrial = U # DO NOT CHANGE
+leftTrackingTrial = V  # DO NOT CHANGE
+
+# check tilt group switch and prevent over tilting
+
+multiStepTilt_StepSize = 25 # DO NOT CHANGE
+
 # generate list of angles and translation
   
 transX = { $startAngle }
@@ -117,12 +148,17 @@ numberTilts = ( $endAngle - $startAngle ) / $stepSize
 Echo numberTilts $numberTilts
 numberTilts = $numberTilts + 1
 Echo numberTilts $numberTilts
-cycles = 47 * $turns
+revolution_2 = $revolution * 3.14
+cycles = $revolution_2 * $turns
 bgrowth = ( $Ainitial - $Afinal ) / $cycles 
 bgrowth = $bgrowth * $direction
 
 If $Debug == 1     
  Echo translation revolution = $bgrowth  cycles = $cycles
+Endif
+
+If $doExtraTrackingShot == 1 
+ Echo extra tracking with Trial is on
 Endif
 
 Loop 99 i
@@ -190,8 +226,8 @@ Loop 99 i
        transY = { $transY $PosiYs }
      Endif
      If $Debug == 1
-       Echo Dose symmetric translation X  $transX  
-       Echo Dose symmetric translation Y  $transY    
+       Echo translation X  $transX per tilt 
+       Echo translation Y  $transY per tilt  
      Endif
 
   #generate a list of angle
@@ -253,10 +289,15 @@ EndLoop
 
 firstRightGroupDone = 0
 firstLeftGroupDone = 0
-  
+
+# tilt collection starts  
 Loop $#angles i
   angle = $angles[$i]
-  Echo angle = $angle  transX = $transX[$i]  transY = $transY[$i]
+  Echo angle = $angle  
+
+  If $Debug == 0
+    Echo transX = $transX[$i]  transY = $transY[$i]
+  Endif
 
   TiltTo $angle
   Echo Tilt angle = $angle
@@ -272,6 +313,14 @@ Loop $#angles i
      ReportImageShift
      isux = $repVal1
      isuy = $repVal2
+
+     If $doExtraTrackingShot == 1 
+        Trial
+        AlignTo W
+        Copy A $rightTrackingTrial
+        Copy A $leftTrackingTrial
+     Endif
+
      If $Debug == 1
       Echo isux = $isux  isuy = $isuy
      Endif                  
@@ -282,7 +331,50 @@ Loop $#angles i
     If $angles[$i] > $startAngle AND $angles[$i-1] < $startAngle AND $firstRightGroupDone == 1
        Echo Aligning to positive side tracking shot
        $trackingShot
+
+       ImageProperties
+       imgWidth = $repVal1
+       imgHeight = $repVal2
+       minSide = MIN $imgWidth $imgHeight
+       imgBinning = $repVal3
+
        AlignTo $rightTrackingBuf
+       ReportAlignShift
+       errX = $repVal1 / $imgBinning
+       errY = $repVal2 / $imgBinning
+       errorAlignV = $errX * $errX + $errY * $errY
+       errorAlignV = SQRT $errorAlignV
+       errorTol = $minSide * $tolerance
+       Echo error in align in pixel = $errorAlignV   racking error tolerance in pixel = $errorTol 
+       
+      # reiterate tracking 
+       If $errorAlignV > $errorTol
+         Echo tracking error above tolerance errorTol = $errorTol    tracking error = $errorAlignV
+         Echo redo tracking
+         Loop 5
+             $trackingShot
+             AlignTo $rightTrackingBuf
+             ReportAlignShift
+             errX = $repVal1 / $imgBinning
+             errY = $repVal2 / $imgBinning
+             errorAlignV = $errX * $errX + $errY * $errY
+             errorAlignV = SQRT $errorAlignV
+
+             If $Debug == 1
+                Echo error in align = $errorAlignV
+             Endif
+
+             If $errorAlignV < $errorTol
+                 Echo error in tracking is $errorAlignV within tolerance $errorTol
+                 break
+             Endif
+          EndLoop
+          If $errorAlignV > $errorTol
+              Echo error in tracking is $errorAlignV out of tolerance $errorTol after 5 iterations
+              StopContinuous
+          Endif
+        Endif
+          
        ReportImageShift
        isux = $repVal1
        isuy = $repVal2
@@ -292,7 +384,51 @@ Loop $#angles i
      ElseIf $angles[$i] < $startAngle AND $angles[$i-1] > $startAngle AND $firstLeftGroupDone == 1
        Echo Aligning to negative side tracking shot
        $trackingShot
+
+       ImageProperties
+       imgWidth = $repVal1
+       imgHeight = $repVal2
+       minSide = MIN $imgWidth $imgHeight
+       imgBinning = $repVal3
+
        AlignTo $leftTrackingBuf
+       ReportAlignShift
+       errX = $repVal1 / $imgBinning
+       errY = $repVal2 / $imgBinning
+       errorAlignV = $errX * $errX + $errY * $errY
+       errorAlignV = SQRT $errorAlignV
+       errorTol = $minSide * $tolerance
+       Echo error in align in pixel = $errorAlignV   racking error tolerance in pixel = $errorTol 
+ 
+    # reiterate tracking 
+       If $errorAlignV > $errorTol
+         Echo tracking error above tolerance errorTol = $errorTol   tracking error = $errorAlignV
+         Echo redo tracking
+         Loop 5
+             $trackingShot
+             AlignTo $leftTrackingBuf
+             ReportAlignShift
+             errX = $repVal1 / $imgBinning
+             errY = $repVal2 / $imgBinning
+             errorAlignV = $errX * $errX + $errY * $errY
+             errorAlignV = SQRT $errorAlignV
+
+             If $Debug == 1
+                Echo error in align = $errorAlignV
+             Endif
+
+             If $errorAlignV < $errorTol
+                   Echo error in tracking is $errorAlignV within tolerance $errorTol
+                   break
+              Endif
+          EndLoop
+          
+          If $errorAlignV > $errorTol
+              Echo error in tracking is $errorAlignV out of tolerance $errorTol after 5 iterations
+              StopContinuous
+          Endif
+        Endif
+       
        ReportImageShift
        isux = $repVal1
        isuy = $repVal2
@@ -301,11 +437,11 @@ Loop $#angles i
        Endif
      Endif
 
-### extra tracking when on ##########
+ # extra tracking when on 
   If $startAngle == 0 AND $doExtraTrackingShot == 1
     $trackingShot
      If $angles[$i] < $startAngle
-       AlignTo $leftTrackingBuf
+       AlignTo $leftTrackingTrial
        ReportImageShift
        isux = $repVal1
        isuy = $repVal2
@@ -313,7 +449,7 @@ Loop $#angles i
         Echo isux = $isux  isuy = $isuy
        Endif
      ElseIf $angles[$i] > $startAngle
-       AlignTo $rightTrackingBuf
+       AlignTo $rightTrackingTrial
        ReportImageShift
        isux = $repVal1
        isuy = $repVal2
@@ -331,9 +467,10 @@ Loop $#angles i
  shiftX = $transX[$i] + $isux
  shiftY = $transY[$i] + $isuy
  ImageShiftByMicrons $shiftX $shiftY
- Echo Image shift by microns: shiftX = $shiftX  shiftY = $shiftY  
+ Echo Image shift by microns: shiftX = $shiftX  shiftY = $shiftY 
+ 
  If $Debug == 1
-  transX = $transX[$i]  transY = $transY[$i]
+  Echo transX = $transX[$i]  transY = $transY[$i]
  Endif
 
  CallFunction WaitingToFill
@@ -511,23 +648,23 @@ Loop $#angles i
    ElseIf $direction == -1
      IS_Angle = $i * 360 * $period / $numberTilts
    Endif
-
-   cycles = 47 * $turns
-   bgrowth = ($Afinal - $Ainitial ) / $cycles
-   IS_Rad = ( $bgrowth * $IS_Angle )
-   IS_Rad = $Ainitial + $IS_Rad
-   IS_sin = SIN ( $IS_Angle) 
-   IS_cos = COS ( $IS_Angle)
-   IS_x = $IS_cos * $IS_Rad
-   IS_y = $IS_Rad * $IS_sin
-   TransR_X = $direction * $IS_x
-   TransR_Y = $direction * $IS_y
-   shiftX = $isux +$TransR_X
-   shiftY = $isuy + $TransR_Y
-   ImageShiftByMicrons $shiftX $shiftY
+  revolution_2 = $revolution * 3.14
+  cycles = $revolution_2 * $turns
+  bgrowth = ($Afinal - $Ainitial ) / $cycles
+  IS_Rad = ( $bgrowth * $IS_Angle )
+  IS_Rad = $Ainitial + $IS_Rad
+  IS_sin = SIN ( $IS_Angle ) 
+  IS_cos = COS ( $IS_Angle )
+  IS_x = $IS_cos * $IS_Rad
+  IS_y = $IS_Rad * $IS_sin
+  TransR_X = $direction * $IS_x
+  TransR_Y = $direction * $IS_y
+  shiftX = $isux +$TransR_X
+  shiftY = $isuy + $TransR_Y
+  ImageShiftByMicrons $shiftX $shiftY
 
    If $Debug == 1
-    Echo cycles = $cycles    Pi * 15
+    Echo revolution = $revolution   cycles = $cycles    
     Echo IS_Angle = $IS_Angle  bgrowth = $bgrowth  
     Echo IS_Rad = $IS_Rad
     Echo IS_Rad = $IS_Rad        
