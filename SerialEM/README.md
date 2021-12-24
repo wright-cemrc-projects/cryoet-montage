@@ -31,7 +31,7 @@ Specify the x and y piece numbers, and tile overlaps in pixels in [Montage Setup
 
 Image shift in the x direction = ImageShift of section 2 - ImageShift of section 0   
 
-     e.g. Section 0 labeled as ZValue = 0 has the ImageShift entry of -2.51756 0.229891 while section 2 labeled as Value = 2 has the ImageShift entry of -0.498705 1.03549. To achieve the overlap, the image shift in the x direction should be 2.0189 0.8056'
+     e.g. Section 0 labeled as ZValue = 0 has the ImageShift entry of -2.51756 0.229891 while section 2 labeled as Value = 2 has the ImageShift entry of -0.498705 1.03549. To achieve the overlap, the image shift in the x direction should be 2.0189 0.8056
 
 Image shift in the y direction = ImageShift of section 1 - ImageShift of section 0
          
