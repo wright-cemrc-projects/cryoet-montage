@@ -11,7 +11,7 @@ Batch motion correction pre-processing can use `alignframes` provided by IMOD, o
 
 ### Run Python scripts to get started
 
-Navigate to the latest package containing Python scripts and follow the steps to generate stitched montage tilt series and individual tile tilt series
+Navigate to the latest package containing Python scripts and follow the steps to generate stitched montage tilt series and individual tile tilt series.
 
 ### Stitching adjustment when needed
 
@@ -33,7 +33,22 @@ After idenfity tilt sections that require manually stitching, go to that tilt fo
 cd Tilt_-42 \
 etomo \
 ```
-Select *Align Serial Sections / Blend Montages* in the Etomo Front Page window
+Select *Align Serial Sections / Blend Montages* in the Etomo Front Page window.
+
+<!--- Insert MIDAS GUI1 -->
+
+Initiate `midas` by clicking *Fix Edges With Midas*.
+
+<!--- Insert MIDAS GUI2 -->
+
+Note: Parameters in the MIDAS GUI window to help the mauanl alignment include 
+- Bining - set to 4 to increase the contrast and also reduce the size
+- Box size under *Cross-Correlate* to include larger field of view
+- Save the transformation before exitting out the program under *File* and if *Save Transformation*
+- Robust fitting with criterion 1.0 - set to increase the robustness 
+
+<!--- Insert MIDAS GUI3 and GUI5, no need for GUI4 if too many-->
+
 Select W1618_G3_Pt21_3x3_tilt_2_-42.st as input stack, Frame Type *Montage* and click *OK* to move on
 Once you are happy with the stitching by check the re-stitched tilt frame (_preblend.mrc_), rename and copy the frame to the upper folder by running the commands 
 
