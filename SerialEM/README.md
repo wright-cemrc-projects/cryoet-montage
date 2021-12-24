@@ -92,7 +92,7 @@ Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixe
 
 ### SerialEM cryoMontage macro
 
-#### Parameters
+You could adjust the parameters below to implement specific montage tilt series collections.
 
 #### *basic settings*
 
@@ -123,3 +123,23 @@ We highly recommmend tp run ***Tomographer*** to visualize the translational off
 
 #### *Dose-symmetric settings*
 
+The dose-symmetric scheme follows the Hagen scheme and stays on the same side for the next group
+
+- startAngleDS - if lamella, set to nonzero to compensate for pre-tilted angle
+- endAngleDS - max tilt (positive number), if set to 60, the full tilt range will be -60 to 60
+- stepSizeDS - tilt increment, 2 or 3 or 5 usually
+- groupSizeDS - number of tilts per group 
+- trackingShot - if set to V or T, use *View* or *Trial* shot to do the tracking of ROI at the begining of each group
+- doExtraTrackingShot - if set to 1, use *Trial* shot tp do an extra round or iteration of ROI tracking at the begining of each group at the *Focus* position.
+
+#### *Dose-symmetric settings*
+
+- startAngleBi - starting angle on the first half, set to nonzero for asymmetric bidirectional schemes, e.g. lamella 
+- firstSideEnd - end angle on the first half
+- secondSideStart - starting angle on the second half
+- secondSideEnd - end angle on the second half
+- stepSizeBi - tilt increment, 2 or 3 or 5 usually
+
+#### *Main script starts* and *Functions*
+
+Note: We recommend not to change the *Main script* and *Function* sections in the macro for regular applications. 
