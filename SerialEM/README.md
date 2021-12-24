@@ -65,7 +65,7 @@ Image shift in the x direction = *ImageShift* of *ZValue = 2* (section 2) - *Ima
 For example, *ZValue = 0* (Section 0) has the *ImageShift* entry of -2.51756 0.229891 while *ZValue = 2* (Section 2) has the *ImageShift* entry of -0.498705 1.03549. the image shift in the x direction should be 2.0189 0.8056
 
 
-Image shift in the y direction = I*ImageShift* of *ZValue = 1* (section 2) - *ImageShift* of *ZValue = 0* (section 0) 
+Image shift in the y direction = *ImageShift* of *ZValue = 1* (section 1) - *ImageShift* of *ZValue = 0* (section 0) 
 
 For example, *ZValue = 1* (Section 1) has the *ImageShift* entry of  -1.91004 -1.26029. The image shift in the y direction should be 0.6075 -1.4902
 
@@ -83,12 +83,25 @@ You can also update item 18 and 19 to specify the size of the regular pattern (s
 
        MultiShotParams 0.200000 0.500000 2 1 0 0 0 2.000000 1 1 2 0 1.500000 2.0189 0.8056 0.6075 -1.4902 3 4 24 19 0 0 3 0.250000 -0.020223 -999.000000 -999.000000
 
-Note: the serialEM setting file cannot be updated if the file is being open in SerialEM. If you would like to update the loaded file, save the current file, make a copy and update the copy and then reload the updated copy version.
+Note: the serialEM setting file cannot be updated if the file is being open in SerialEM. If you would like to update the loaded file, save the current file, make a copy, update the copy and then reload the updated copy version.
 
-3. Set up a series of ROI by saving the *View* or *Trial* shots as anchor maps and turn on *Acquire* in the Navigator.
+3. Set up a series of ROI by saving the *View* or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 4. Edit the parameters in the cryoMontage.txt macro.
+5. Set cryoMontage macro as *Primary Action*
 
 Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
+
+Note: We scripted in several basic functions that are now accessible as *Related options in Primay Action* in the *Navigator Acquire Dialog* in SerialEM 4.0. To have a smooth first run, we recommend to use the functions in the macro and skip *Related options in Primay Action*. Only *Primary Action* and *General options* are needed. Once you have a successful run and are comfortable with macro editing, feel free to adjust and integrate it with your current collection routines. 
+
+A typical *Navigator Acquire Dialog* looks like below
+
+```
+Primary Action
+Run script    cryoMontage
+Skip Z moves in initial move and Realign
+Close column/gun valves at end
+
+```
 
 ### SerialEM cryoMontage macro
 
