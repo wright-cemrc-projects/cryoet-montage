@@ -24,19 +24,26 @@ Stable beam-image shift lens system. In general, the set up should be applicable
 
 Specify the x and y piece numbers, and tile overlaps in pixels in [Montage Setup Dialog](https://bio3d.colorado.edu/SerialEM/hlp/html/hidd_montagesetup.htm).
 
-    e.g. We benchmarked 15% to 20% in fringe-affected axis (x-axis) and 10% in fringeless axis (y-axis). For a full frame K3 camera (bin 1, 5760 x 4092), it is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs
+```
+e.g. We benchmarked 15% to 20% in fringe-affected axis (x-axis) and 10% in fringeless axis (y-axis). For a full frame K3 camera (bin 1, 5760 x 4092), it is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs
+
+```
 
    - Save the .mdoc file.
    - Retrieve the image shift information in the .mdoc file to create a m x n tiling pattern with desired overlaps in x and y.
 
 Image shift in the x direction = ImageShift of section 2 - ImageShift of section 0   
 
-     e.g. Section 0 labeled as ZValue = 0 has the ImageShift entry of -2.51756 0.229891 while section 2 labeled as Value = 2 has the ImageShift entry of -0.498705 1.03549. To achieve the overlap, the image shift in the x direction should be 2.0189 0.8056
+```
+e.g. Section 0 labeled as ZValue = 0 has the ImageShift entry of -2.51756 0.229891 while section 2 labeled as Value = 2 has the ImageShift entry of -0.498705 1.03549. To achieve the overlap, the image shift in the x direction should be 2.0189 0.8056
 
+```
 Image shift in the y direction = ImageShift of section 1 - ImageShift of section 0
-         
+
+```
       e.g. Section 1 labeled as ZValue = 1 has the ImageShift entry of -1.91004 -1.26029. The image shift in the y direction should be 0.6075 -1.4902
-       
+
+```
    - Plug in the required image shifts in *MultishotParams in the SerialEM setting files and save. 
      
 When you open the serialEM setting file, you may see a line like this 
@@ -57,5 +64,4 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
 4. Edit the parameters in the cryoMontage.txt macro.
 
 Note: We find the *View shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
-
 
