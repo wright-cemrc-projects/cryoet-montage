@@ -37,11 +37,11 @@ Note: When the beam size cuts into the camera frame, the montage may not be well
 
        'MultiShotParams 0.200000 0.500000 2 1 0 0 0 2.000000 1 1 2 0 1.500000 2.001000 0.768026 0.603000 -1.473200 3 3 24 19 0 0 3 0.250000 -0.020223 -999.000000 -999.000000'
        
-    The numbers correspond to 28 parameters associated with *MultishotParams. You will update item 14 to 17 by manually updating the image shift entries. The updated result will be like this
+The numbers correspond to 28 parameters associated with *MultishotParams. You will update item 14 to 17 by manually updating the image shift entries. The updated result will be like this
 
        'MultiShotParams 0.200000 0.500000 2 1 0 0 0 2.000000 1 1 2 0 1.500000 2.0189 0.8056 0.6075 -1.4902 3 3 24 19 0 0 3 0.250000 -0.020223 -999.000000 -999.000000'
 
-    You will also update item 18 and 19 to specify the size of the regular pattern (square or rectangle) you would like to have, e.g. 3 x4, then it should like this in the end
+You will also update item 18 and 19 to specify the size of the regular pattern (square or rectangle) you would like to have, e.g. 3 x4, then it should like this in the end
 
        'MultiShotParams 0.200000 0.500000 2 1 0 0 0 2.000000 1 1 2 0 1.500000 2.0189 0.8056 0.6075 -1.4902 3 4 24 19 0 0 3 0.250000 -0.020223 -999.000000 -999.000000'
 
