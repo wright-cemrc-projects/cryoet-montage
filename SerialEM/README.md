@@ -92,4 +92,34 @@ Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixe
 
 ### SerialEM cryoMontage macro
 
+#### Parameters
+
+#### *basic settings*
+
+parameters applicable to all tilt series
+
+- tilt_scheme - tilt collection scheme to use
+  - 0 = dose symmetric
+  - 1 = bidirectional 
+- eucentricity_option - eucentricity identification for each tilt, make sure [Center Image Shift on Tilt Axis](https://bio3d.colorado.edu/SerialEM/hlp/html/menu_tasks.htm#hid_tasks_settiltaxisoffset) is checked
+- tolerance - redo tracking and or extra tracking shot if the current frame is off ROI by a fraction of the image frame
+  - 0.5 means tracking step will reiterate when the current frame is off at least 50% of the shorter image frame dimension. Lower tolerance implements more rigorous tracking and centering of ROI during the tilt series collection
+- defocus - target defocus value during *AutoFocus* at the begining of each tilt
+- file_setting 
+  - 1 - if set to 1 , set up a local path to save a log file and report for each tilt series
+  - BaseDir - if file_setting = 1, define a local path to save log files and reports
+- Debug - if set to 1, SerialEM writes verbose outputs in log files and does not suppress reports
+
+#### *Spiral translation settings*
+
+parameters that define the translational offsets for dose distribution, match up with ***Tomographer***.
+We highly recommmend tp run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection.
+
+- Ainitial - if set to nonzero, move the centerpoint point of the spiral to a nonzero origin to start
+- Afinal - spiral final radius, the bigger Afinal, the bigger translatonal offsets are
+- turns - how many complete cycles within a certain distance between Ainitial to Afinal, defines the growth of the spiral per cycle
+- period - define the number of points to complete one full cycle that controls the sharpness and shape of the spiral, use ***Tomographer*** to see the difference between different input numbers
+- revolution - together with turns to define the growth of the spiral per cycle, smaller numbers leads to bigger translational offsets
+
+#### *Dose-symmetric settings*
 
