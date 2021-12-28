@@ -12,6 +12,8 @@
 % 2.
 %
 % INPUT max(optional) defines the maximum number on the legend z-axis.
+% This is a MatLab function. To run it, place the function file Plotting3D.m in
+% the same directory where MatLab is initiated. 
 
 function csvF = Plotting3D(T,tiltsD,size,max)
 if nargin < 1
