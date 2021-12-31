@@ -28,5 +28,5 @@ After exporting the csv file (default: simulation.csv) from TomoGrapher placed i
 ```
 Plotting3D('simmulation.csv',41,5,4)
 ```
-An example output is: 
+An example output (3x3 tile montage, no translational offset, 41 tilts with 1 e/A^2/tilt) is: 
 ![This is an example plotting result](../Midas/images/Notranslation.jpg)
