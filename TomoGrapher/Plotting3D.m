@@ -22,9 +22,9 @@ end
 
 if nargin == 1
     size = 2;
-    tiltsD = 41;
+    tiltsD = 41; % 2 degree increment, 60 to - 60, 1 e/A^2/tilt
 end
-
+clf;
 csvF = readtable(T);
 csvF = table2array(csvF);
 x = csvF(:,1);
