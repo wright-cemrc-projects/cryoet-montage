@@ -29,4 +29,4 @@ After exporting the csv file (default: simulation.csv) from TomoGrapher placed i
 Plotting3D('simmulation.csv',41,5,4)
 ```
 An example output is: 
-![This is an example plotting result](../)
+![This is an example plotting result](../Midas/images/Notranslation.jpg)
