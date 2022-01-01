@@ -1,6 +1,9 @@
 ## Montage-Tomography-Simulation
 Simulation of tilt series collection and dose accumulation over the region on interest interacting with e-beam. 
 
+### Run simulation in TomoGrapher
+
+
 ### Plotting dose accumulation in 3D
 
 Download the function file `Plotting3D.m` and place in the same directory where MATLAB desktop or online is launched.
