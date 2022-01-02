@@ -22,9 +22,9 @@ This repository provides resources for the montage tomography with SerialEM.
 
 4. After assembling initial stitching, the individual tilts may need to have further manual stitching.  This walkthrough describes how to make these adjustments with Etomo and Midas.
 
-	[Improving stiching in Etomo with Midas](MidasGuide/README.md)
+	*Coming soon: Improving stitching in Etomo with Midas*
 
-## Updates
 
 ## References
 
+**Correlative cryogenic montage electron tomography for comprehensive in-situ whole-cell structural studies**. Jie E Yang, Matthew R Larson, Bryan S Sibert, Joseph Y Kim, Daniel Parrell, Juan C Sanchez, Victoria Pappas, Anil Kumar, Kai Cai, Keith J Thompson,  View ORCID ProfileElizabeth R Wright
