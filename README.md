@@ -27,4 +27,6 @@ This repository provides resources for the montage tomography with SerialEM.
 
 ## References
 
-**Correlative cryogenic montage electron tomography for comprehensive in-situ whole-cell structural studies**. Jie E Yang, Matthew R Larson, Bryan S Sibert, Joseph Y Kim, Daniel Parrell, Juan C Sanchez, Victoria Pappas, Anil Kumar, Kai Cai, Keith J Thompson,  View ORCID ProfileElizabeth R Wright
+**Correlative cryogenic montage electron tomography for comprehensive in-situ whole-cell structural studies.** Jie E Yang, Matthew R Larson, Bryan S Sibert, Joseph Y Kim, Daniel Parrell, Juan C Sanchez, Victoria Pappas, Anil Kumar, Kai Cai, Keith J Thompson, Elizabeth R Wright.
+
+bioRxiv 2021.12.31.474669; doi: [https://doi.org/10.1101/2021.12.31.474669](https://doi.org/10.1101/2021.12.31.474669)
