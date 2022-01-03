@@ -27,29 +27,36 @@ extracttilts W1618_G3_Pt21_3x3_tilt_2_AliSB_bin4.st W1618_G3_Pt21_3x3_tilt_2_Ali
 cat -n W1618_G3_Pt21_3x3_tilt_2_AliSB_bin4.tlt \
 
 ```
-After idenfity tilt sections that require manually stitching, go to that tilt folder and intiate `midas` by running the commands
+After identifying tilt sections that require manually stitching, go to that tilt folder and start the **Etomo** interface:
 
 ```
 cd Tilt_-42 \
 etomo \
 ```
+
 Select *Align Serial Sections / Blend Montages* in the Etomo Front Page window.
 
-<!--- Insert MIDAS GUI1 -->
+![Etomo - Serial Sections ](images/GUI_1.png)
 
-Initiate `midas` by clicking *Fix Edges With Midas*.
+Click *Fix Edges With Midas*.
 
 <!--- Insert MIDAS GUI2 -->
+![Etomo - ](images/GUI_2.png)
 
-Note: Parameters in the MIDAS GUI window to help the mauanl alignment include 
-- Bining - set to 4 to increase the contrast and also reduce the size
+Note: Parameters in the MIDAS GUI window to help the manual alignment include 
+- Binning - set to 4 to increase the contrast and also reduce the size
 - Box size under *Cross-Correlate* to include larger field of view
 - Save the transformation before exitting out the program under *File* and if *Save Transformation*
 - Robust fitting with criterion 1.0 - set to increase the robustness 
 
 <!--- Insert MIDAS GUI3 and GUI5, no need for GUI4 if too many-->
 
-Select W1618_G3_Pt21_3x3_tilt_2_-42.st as input stack, Frame Type *Montage* and click *OK* to move on
+![Etomo - ](images/GUI_3.png)
+
+![Etomo - ](images/GUI_5.png)
+
+Select `W1618_G3_Pt21_3x3_tilt_2_-42.st` as an input stack, and set the `Frame Type` as *Montage* and click *OK* to move on.
+
 Once you are happy with the stitching by check the re-stitched tilt frame (_preblend.mrc_), rename and copy the frame to the upper folder by running the commands 
 
 ```

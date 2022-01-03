@@ -22,7 +22,7 @@ This repository provides resources for the montage tomography with SerialEM.
 
 4. After assembling initial stitching, the individual tilts may need to have further manual stitching.  This walkthrough describes how to make these adjustments with Etomo and Midas.
 
-	*Coming soon: Improving stitching in Etomo with Midas*
+	[Improving stitching in Etomo with Midas](Midas/AligningMontageTiles.md)
 
 
 ## References
