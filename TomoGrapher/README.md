@@ -13,6 +13,10 @@ The **Tilt Strategy Panel** provides parameters describing the tilt series. This
 
 The **Simulation Panel** contains controls to change the camera views, run a simulation, pause/restart, and to export data values. The exported data values can be used externally with a Matlab function described below to generate figures and plots of dose.
 
+Run the simulation to see an animated series:
+
+![3x3 montage](docs/TomoGrapher-Tilts_3x3_hd.gif)
+
 ### Plotting dose accumulation in 3D
 
 Download the function file [`Plotting3D.m`](docs/Plotting3D.m) and place in the same directory where MATLAB desktop or online is launched.
