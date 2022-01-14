@@ -3,14 +3,42 @@
 ### Introduction
 The starting point for montage tomography is a data collection in SerialEM. The Github provides instructions for setting up your own SerialEM montage collections with a macro ([see instructions here for SerialEM](../SerialEM/README.md)). 
 
-Instead, this tutorial provides a tutorial dataset for a 3x3 tiled montage collected on a 300-kV Titan Krios cryo-TEM on a Gatan K3 direct electron detector in CDS mode as unbinned movies of 5760 x 4092 resolution. 
+This tutorial provides a starting dataset from a 3x3 tiled montage collected on a 300-kV Titan Krios cryo-TEM on a Gatan K3 direct electron detector. Overall the data collection parameters for the collection are below:
 
-> Last updated 2022-01-14
+```
+Imaging mode = EFTEM
+Imaging probe = NanoProbe
+Spot size = 8
+C2 Aperture = 100
+C2 Lens Power = 42.42
+Illuminated area = 3.15
+Objective aperture = 0
+Energy filter slit width (eV) = 20
+Acceleration voltage = 300
+Using Phase Plate? = No
+
+Type of camera = Gatan K3
+Camera mode = Counting
+Using CDS = Yes
+Pixel size (Å) (unbinned) = 4.603
+Dose per tilt (e-/ Å2) = 1.86
+Total dose (e-/ Å2) = 70
+Exposure time per tilt (sec) = 1.1
+Dose rate (e-/pixel/sec) = 12
+
+Motion-correction processing = MotionCor2
+Tilt Scheme: Dose-symmetric
+Tilt Angle (degrees): 3
+Tilt Range (degrees): -51 to 51
+Tilt Group (degrees): 3
+```
+
+The starting dataset includes a full tilt-series that can now be processed to build a montage for each tilt and an overall tomogram.
 
 ### Requirements
-1. These instructions are for a Linux environment with Python3, and IMOD installed.
+1. These instructions require a Linux environment with Python3, and IMOD installed.
 2. IMOD programs should be in the PATH including `blendmont`, `newstack`, and `etomo`.
-3. 150 GiB free disk space for the download material, and additional processing output.
+3. 100 GiB free disk space (data for the tilt series is 28 GiB, additional storage is required for results from the processing workflow).
 
 
 ### Get the starting material
@@ -27,7 +55,7 @@ MotionCorrect.py	SplitTomogram.py
 README.pdf	cryoMontage.txt
 ```
 
-The scripts.zip contains both a SerialEM macro `cryoMontage.txt` that can be used in the data collection for the montage tomography. This tutorial skips the SerialEM collection ([see instructions here for SerialEM]())
+The scripts.zip contains both a SerialEM macro `cryoMontage.txt` that can be used in the data collection for the montage tomography. This tutorial skips the SerialEM collection ([see instructions here for SerialEM]()).
 
 Begin by downloading the `W1106_G3_target86_tilt4_dataset.tar` from the cloud-hosted storage : [Download Link](https://cemrcstatic.blob.core.windows.net/cryoet-montage/W1106_G3_target86_tilt_4_dataset.tar)
 
@@ -42,7 +70,7 @@ W1106_G3_target86_tilt_4_dataset.tar
 
 ### Creating montage tilt stacks
 
-The sample data is a 3x3 tiled montage images of a tilt-series taken on a Titan Krios with a Gatan K3 direct electron detector recorded in CDS mode as unbinned movies of 5760 x 4092 resolution. Each of the tiles overlaps with the neighbor tiles covering 15% on the X-axis (864 pixels) and 10% on the Y-axis (408 pixels).
+The sample data is a 3x3 tiled montage images of a tilt-series taken on a Titan Krios with a Gatan K3 direct electron detector recorded in CDS mode as unbinned movies of 5760 x 4092 resolution. Each of the tiles overlaps with the neighbor tiles covering 20% on the X-axis (1152 pixels) and 15% on the Y-axis (576 pixels).
 
 > A helper motion correction script has also been provided for bulk motion correction steps starting from a SerialEM data collection [Using MotionCorrect.py](https://github.com/wright-cemrc-projects/cryoet-montage/blob/main/Python/README.md)).
 
@@ -53,8 +81,10 @@ The next step organizes all images collected at a particular tilt into a separat
 Change to the directory containing the expanded `W1106_G3_target86_tilt_4_dataset` and now you can run the script `BlendStitch.py` from its location:
 
 ```
-~/BlendStitch.py --input W1106_G3_target86_tilt_4_dataset --output W1106_G3_target86_tilt_4_dataset_out --starting_angle -51 --tilt_increment 3 --ending_angle 51 --overlap_x 864 --overlap_y 408 --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
+~/BlendStitch.py --input W1106_G3_target86_tilt_4_dataset --output W1106_G3_target86_tilt_4_dataset_out --starting_angle -51 --tilt_increment 3 --ending_angle 51 --overlap_x 1152 --overlap_y 576 --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
 ```
+
+This run takes approximately 15 minutes on a 3.0 Ghz Xeon processor.
 
 Let's take a look at the output:
 
@@ -80,7 +110,7 @@ Open the generated 0 degree tilt montage image with IMOD:
 imod W1106_G3_target86_tilt_4_dataset_out/W1106_G3_target86_tilt_4_Processing/Tilt_0/W1106_G3_target86_tilt_4_0_blend.st
 ```
 
-The image is the montaged result of 9 tiles seamlessly joined to create an overall 15552 x 11466 resolution image:
+The image is the montaged result of 9 tiles seamlessly joined to create an overall 14976 x 11154 dimension image:
 
 ![W1106_G3_target86_tilt_4_0_blend.png](images/W1106_G3_target86_tilt_4_0_blend.png)
 
@@ -96,11 +126,11 @@ imod W1106_G3_target86_tilt_4AliSB_bin4.st
 
 This tilt stack has 35 sections.
 
-In this particular example, when you iterate through the sections, you can see that the 10-25 (+/- 24 degree range) all appear quite well stitched. And as you increment the fractions in the **3dmod ZaP Window** you can see a small translational shift between each fraction. This shift is described in the ([see instructions for SerialEM](../SerialEM/README.md)) from the collection spiral collection scheme used to reduce the acculation of electron dose at overlaps between the image tiles over the tilt-series.
+In this particular example, when you iterate through the sections, you can see that the 6-30 (+/- 36 degree range) appear quite well stitched. And as you increment the fractions in the **3dmod ZaP Window** you can see a small translational shift between each fraction. This shift is described in the ([see instructions for SerialEM](../SerialEM/README.md)) from the collection spiral collection scheme used to reduce the acculation of electron dose at overlaps between the image tiles over the tilt-series.
 
 ![bin4.st.png](images/bin4.st.png)
 
-The next section describes how you can now improve the stitching on individual tilts in Etomo using Midas, and proceed to generate a tomogram.
+The last image panel, for the section 32 of the stack begins to show issues with the stitching. The next section describes how you can now improve the stitching on individual tilts manually in Etomo with Midas, and proceed to generate a tomogram.
 
 ### Post-processing the montage tilt stacks with Etomo/Midas
 
