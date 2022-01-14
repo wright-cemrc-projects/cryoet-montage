@@ -50,7 +50,7 @@ optional arguments:
 An example command for running a batch processing of a single directory of the movies:
 
 ```
-cryoet-montage/MotionCorrect.py --tiltDirectory ~/input_folder_of_movies/ --outputDirectory ~/processed_frames/
+./MotionCorrect.py --tiltDirectory ~/input_folder_of_movies/ --outputDirectory ~/processed_frames/
 ```
 
 ## *Using BlendStitch.py*
@@ -71,9 +71,9 @@ Running the `BlendStitch.py --help` provides a listing of the possible command-l
 usage: BlendStitch.py [-h] --input INPUT --output OUTPUT --basename BASENAME
                       --starting_angle STARTING_ANGLE --ending_angle
                       ENDING_ANGLE --tilt_increment TILT_INCREMENT
-                      [--camera_x CAMERA_X] [--camera_y CAMERA_Y]
-                      [--overlap_x OVERLAP_X] [--overlap_y OVERLAP_Y]
-                      [--tile_x TILE_X] [--tile_y TILE_Y]
+                      [--camera_x CAMERA_X] [--camera_y CAMERA_Y] --overlap_x
+                      OVERLAP_X --overlap_y OVERLAP_Y [--tile_x TILE_X]
+                      [--tile_y TILE_Y]
 
 BlendStitch: blend and stitch tiled images from tilt-series into a larger
 image and stack.
@@ -93,15 +93,15 @@ optional arguments:
   --camera_y CAMERA_Y   define camera height in pixel dimensions (default
                         4092)
   --overlap_x OVERLAP_X
-                        define a percent overlap where 15 percent would be
-                        0.15 (default 0.15)
+                        define an overlap in pixels for x
   --overlap_y OVERLAP_Y
-                        define a percent overlap where 10 percent would be
-                        0.10 (default 0.10)
+                        define an overlap in pixels for y
   --tile_x TILE_X       define the number of tiles in the x dimension (default
                         3)
   --tile_y TILE_Y       define the number of tiles in the y dimension (default
                         3)
+
+
 ```
 
 ### Example run
@@ -113,11 +113,11 @@ Assuming you have an input directory containing a 3x3 montage, and you want to p
 --output W1618_G3_Pt21_3x3_tilt_2_init_out --basename W1618_G3_Pt21_3x3_tilt_2 \
 --starting_angle -51 --ending_angle 51 \
 --tilt_increment 3 \
---overlap_x 0.2 --overlap_y 0.15 \
+--overlap_x 1152 --overlap_y 614 \
 --tile_x 3 --tile_y 3
 ```
 
-This example would process a tilt series from -51 to 51 degrees tilt angles. This is assuming a K3 camera with a 5760x4092 pixel dimension and asking for overlaps of 20% on the X-axis between neighboring images and 15% on the y-axis for neighboring images.
+This example would process a tilt series from -51 to 51 degrees tilt angles. This is assuming a K3 camera with a 5760x4092 pixel dimension and asking for overlaps of 1152 pixels (20%) on the X-axis between neighboring images and 614 pixels (15%) on the y-axis for neighboring images.
 
 The end output is a series of *.st files with no-binning, bin of 2, and bin of 4 which can be further processed to generate a tomogram.
 
