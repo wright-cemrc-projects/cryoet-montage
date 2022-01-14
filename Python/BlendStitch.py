@@ -48,7 +48,7 @@ class StitchPattern():
     def writePieceFile(self, filename):
         ''' write out a formatted .pl pattern for IMOD '''
         offset_x = self.camera_x - self.overlap_x
-        offset_y = self.camera_y * self.overlap_y
+        offset_y = self.camera_y - self.overlap_y
         f = open(filename, 'w')
         for c_tile_y in range(0, self.tile_y) :
             ''' zig zag, when y is odd run in opposite direction on x '''
