@@ -40,15 +40,15 @@ class StitchPattern():
     ''' defines a stiching pattern from image shifts '''
     camera_x = 5760
     camera_y = 4092
-    overlap_x = 0.20
-    overlap_y = 0.15
+    overlap_x = 0
+    overlap_y = 0
     tile_x = 3
     tile_y = 3
 
     def writePieceFile(self, filename):
         ''' write out a formatted .pl pattern for IMOD '''
-        offset_x = self.camera_x * (1.0 - self.overlap_x)
-        offset_y = self.camera_y * (1.0 - self.overlap_y)
+        offset_x = self.camera_x - self.overlap_x
+        offset_y = self.camera_y * self.overlap_y
         f = open(filename, 'w')
         for c_tile_y in range(0, self.tile_y) :
             ''' zig zag, when y is odd run in opposite direction on x '''
@@ -187,8 +187,10 @@ def main():
     ## Parameters describing blend parameters
     parser.add_argument('--camera_x', help='define camera width in pixel dimensions (default 5760)', type=int, required=False, default=5760)
     parser.add_argument('--camera_y', help='define camera height in pixel dimensions (default 4092)', type=int, required=False, default=4092)
-    parser.add_argument('--overlap_x', help='define a percent overlap where 15 percent would be 0.15 (default 0.15)', type=restricted_float, required=False, default=0.15)
-    parser.add_argument('--overlap_y', help='define a percent overlap where 10 percent would be 0.10 (default 0.10)', type=restricted_float, required=False, default=0.10)
+
+    parser.add_argument('--overlap_x', help='define an overlap in pixels for x', type=int, required=True)
+    parser.add_argument('--overlap_y', help='define an overlap in pixels for y', type=int, required=True)
+    
     parser.add_argument('--tile_x', help='define the number of tiles in the x dimension (default 3)', type=int, required=False, default=3)
     parser.add_argument('--tile_y', help='define the number of tiles in the y dimension (default 3)', type=int, required=False, default=3)
     args = parser.parse_args()
