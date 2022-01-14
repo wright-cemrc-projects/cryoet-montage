@@ -24,7 +24,7 @@ Stable beam-image shift lens system. In general, the set up should be applicable
 
 Specify the x and y piece numbers, and tile overlaps in pixels in [Montage Setup Dialog](https://bio3d.colorado.edu/SerialEM/hlp/html/hidd_montagesetup.htm).
 
-For example, to achieve 15 to 20% overlap in X and 10% in Y on a full frame K3 camera (bin 1, 5760 x 4092), the overlap pixel is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092) in y as inputs. You will need to put the values in the dialogue.
+For example, to achieve 15 to 20% overlap in X and 10% in Y on a full frame K3 camera (bin 1, 5760 x 4092), the overlap pixel is 864 (15% of 5760) or 1152 (20% of 4092) in x and 409 (10% of 4092, 408 also works) in y as inputs. You will need to put the values in the Montage set-up dialogue.
 
 ```
 Magnification:                 Bining: 1
