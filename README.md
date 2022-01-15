@@ -5,25 +5,28 @@ This repository provides resources for the montage tomography with SerialEM.
 
 ![Overview of Cryo Montage](images/SupplementaryFigure_1_small.png)
 
-## Contents
+## Instructions for Software 
 
-1. The SerialEM macros and documentations for running montage tomography data collections are described here.
+1. SerialEM macro documentation to setup a montage tomography data collection.
 
 	[Documentation for SerialEM data collections](SerialEM/README.md)
 	
 
-2. TomoGrapher is a tomography simulation program for pre-planning the data collections.
+2. TomoGrapher, a tomography simulation program for pre-planning the data collections.
 
 	[TomoGrapher documentation](TomoGrapher/README.md)
 
-3. Python scripts for stitching images and building stacks are described here.
+3. Python scripts for stitching images and building stacks for tomograms.
 
 	[Python scripts for preprocessing of the tilt series](Python/README.md)
 
-4. After assembling initial stitching, the individual tilts may need to have further manual stitching.  This walkthrough describes how to make these adjustments with Etomo and Midas.
+4. Guide for making adjustments to stitching with Etomo and Midas.
 
 	[Improving stitching in Etomo with Midas](Midas/AligningMontageTiles.md)
 
+### Tutorial
+
+Walkthrough in a tutorial with a provided sample dataset collection of a 3x3 montage in the [Tutorial on Montage Creation](Tutorial/README.md)
 
 ## References
 
