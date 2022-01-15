@@ -214,11 +214,11 @@ Bad stitching (prior to fixing, left) and good stitching (post fixing through Mi
 
 Save the transformation by typing `S` key or `File\Save transforms`. A message box `Transforms saved to file` pops up. Go through all pieces and save the transforms along the way. When you are done saving, close the Midas window. Turn on `Robust fitting with criterion: 1.0`, `Use existing edge displacement file (.ecd)`, and click `Make Blended Stack`:
 
-![Etomo_8.png](images/Etomo_8.png)
+![Etomo_8.1.jpg](images/Etomo_8.1.jpg)
 
 When it is finished, click `Open Blended Stack` to inspect. Go through the same process again `Fix Edges with Midas` till a good tile stitching is achieved:
 
-![Etomo_9.png](images/Etomo_9.png)
+![Etomo_9.1.jpg](images/Etomo_9.1.jpg)
 
 Close the Etomo window. The new stitched image is saved as `xxx_preblend.mrc` by default. We will rename the newly stitched frame and copy it to the upper `W1106_G3_target86_tilt_4_Processing` folder. This will replace the previous poorly stitched image with the new one:
 
