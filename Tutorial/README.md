@@ -81,7 +81,7 @@ The next step organizes all images collected at a particular tilt into a separat
 Change to the directory containing the expanded `W1106_G3_target86_tilt_4_dataset` and now you can run the script `BlendStitch.py` from its location:
 
 ```
-~/BlendStitch.py --input W1106_G3_target86_tilt_4_dataset --output W1106_G3_target86_tilt_4_dataset_out --starting_angle -51 --tilt_increment 3 --ending_angle 51 --overlap_x 1152 --overlap_y 576 --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
+./BlendStitch.py --input W1106_G3_target86_tilt_4_dataset --output W1106_G3_target86_tilt_4_dataset_out --starting_angle -51 --tilt_increment 3 --ending_angle 51 --overlap_x 1152 --overlap_y 576 --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
 ```
 
 This run takes approximately 15 minutes on a 3.0 Ghz Xeon processor.
