@@ -194,7 +194,7 @@ etomo
 ```
 Choose `Align Serial Sections/Blend Montages` initiate the dialogue below, select `W1106_G3_target86_tilt_4_42.st` as the Stack input and `Montage` as Frame Type and OK to proceed:
 
-![Etomo_1.png](images/Etomo_1.png) 
+![Etomo_1.1.png](images/Etomo_1.1.png) 
 
 You could click `Open Blended Stack` to check the current stitching image prior to the fixing. To enhance the image contrast and processing efficiency, select 4 as Binning factor and click `Fix Edges With Midas` to start the process:
 
