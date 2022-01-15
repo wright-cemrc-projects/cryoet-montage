@@ -100,7 +100,7 @@ def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, 
             subprocess.run(['newstack', '-fileinlist', tileFileList, newstack_output])
 
         # pl file describes pixel distances to stitch tiles together
-        blendmont_pl_input = os.path.join(stitching_directory, basename + str(tilt) + '.pl')
+        blendmont_pl_input = os.path.join(stitching_directory, basename + '_' + str(tilt) + '.pl')
         stitchPattern.writePieceFile(blendmont_pl_input)
 
         # call blendmont with options for ...
