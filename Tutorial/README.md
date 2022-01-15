@@ -202,15 +202,15 @@ You could click `Open Blended Stack` to check the current stitching image prior 
 
 Once the Midas window is open, click `Auto Contrast` and adjust Black and White slide bar to view the tiles of the stack:
 
-![Etomo_3.jpg](images/Etomo_3.jpg) 
+![Etomo_3.1.jpg](images/Etomo_3.1.jpg) 
 
 Go through the tile sections through the top X and Y by toggling the `Edge` button from 1 to 6 in X and from 1 to 6 in Y. Use the mouse to move around (manual adjustment) till the top (active tile) and bottom (reference tile) are overlapped. Adjust the `Box` size (from default 288 to 800 or even larger) under `Cross-Correlate` to be bigger  for image feature correlation calculation. When the manual adjustment is close enough, click `Cross-Correlate` to fix minor mismatching:
 
-![Etomo_4.jpg](images/Etomo_4.jpg)
+![Etomo_4.1.jpg](images/Etomo_4.1.jpg)
 
 Bad stitching (prior to fixing, left) and good stitching (post fixing through Midas)
 
-![Etomo_7.png](images/Etomo_7.png)
+![Etomo_7.1.jpg](images/Etomo_7.1.jpg)
 
 Save the transformation by typing `S` key or `File\Save transforms`. A message box `Transforms saved to file` pops up. Go through all pieces and save the transforms along the way. When you are done saving, close the Midas window. Turn on `Robust fitting with criterion: 1.0`, `Use existing edge displacement file (.ecd)`, and click `Make Blended Stack`:
 
