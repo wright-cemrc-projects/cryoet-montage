@@ -198,7 +198,7 @@ Choose `Align Serial Sections/Blend Montages` initiate the dialogue below, selec
 
 You could click `Open Blended Stack` to check the current stitching image prior to the fixing. To enhance the image contrast and processing efficiency, select 4 as Binning factor and click `Fix Edges With Midas` to start the process:
 
-![Etomo_2.png](images/Etomo_2.png) 
+![Etomo_2.1.png](images/Etomo_2.1.png) 
 
 Once the Midas window is open, click `Auto Contrast` and adjust Black and White slide bar to view the tiles of the stack:
 
@@ -214,7 +214,7 @@ Bad stitching (prior to fixing, left) and good stitching (post fixing through Mi
 
 Save the transformation by typing `S` key or `File\Save transforms`. A message box `Transforms saved to file` pops up. Go through all pieces and save the transforms along the way. When you are done saving, close the Midas window. Turn on `Robust fitting with criterion: 1.0`, `Use existing edge displacement file (.ecd)`, and click `Make Blended Stack`:
 
-![Etomo_8.1.jpg](images/Etomo_8.1.jpg)
+![Etomo_8.2.png](images/Etomo_8.2.png)
 
 When it is finished, click `Open Blended Stack` to inspect. Go through the same process again `Fix Edges with Midas` till a good tile stitching is achieved:
 
