@@ -192,7 +192,7 @@ Start the manual stitching by activating the eTomo/Midas dialogue:
 ```
 etomo
 ```
-Choose `Align Serial Sections/Blend Montages` initiate the dialogue below, select `W1106_G3_target86_tilt_4_33.st` as the Stack input and `Montage` as Frame Type and OK to proceed:
+Choose `Align Serial Sections/Blend Montages` initiate the dialogue below, select `W1106_G3_target86_tilt_4_42.st` as the Stack input and `Montage` as Frame Type and OK to proceed:
 
 ![Etomo_1.png](images/Etomo_1.png) 
 
@@ -223,7 +223,7 @@ When it is finished, click `Open Blended Stack` to inspect. Go through the same 
 Close the Etomo window. The new stitched image is saved as `xxx_preblend.mrc` by default. We will rename the newly stitched frame and copy it to the upper `W1106_G3_target86_tilt_4_Processing` folder. This will replace the previous poorly stitched image with the new one:
 
 ```
-cp W1106_G3_target86_tilt_4_33_preblend.mrc ../W1106_G3_target86_tilt_4_33_blend.st
+cp W1106_G3_target86_tilt_4_42_preblend.mrc ../W1106_G3_target86_tilt_4_42_blend.st
 ```
 
 After fixing all tilt angles where the stitching requires manual fixing, generate the newly stitched tilt series stack under the main folder `W1106_G3_target86_tilt_4_dataset_out`.
