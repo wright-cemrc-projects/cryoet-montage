@@ -144,53 +144,47 @@ cat -n tilt.rawtlt
 You should see a list of tilt angles (2nd column) with the index on the 1st column, corresponding to the sections in W1106_G3_target86_tilt_4AliSB_bin4.st:
 
 ```
-     1	-60
-     2	-57
-     3	-54
-     4	-51
-     5	-48
-     6	-45
-     7	-42
-     8	-39
-     9	-36
-    10	-33
-    11	-30
-    12	-27
-    13	-24
-    14	-21
-    15	-18
-    16	-15
-    17	-12
-    18	-9
-    19	-6
-    20	-3
-    21	0
-    22	3
-    23	6
-    24	9
-    25	12
-    26	15
-    27	18
-    28	21
-    29	24
-    30	27
-    31	30
-    32	33
-    33	36
-    34	39
-    35	42
-    36	45
-    37	48
-    38	51
-    39	54
-    40	57
-    41	60
+     1	-51
+     2	-48
+     3	-45
+     4	-42
+     5	-39
+     6	-36
+     7	-33
+     8	-30
+     9	-27
+    10	-24
+    11	-21
+    12	-18
+    13	-15
+    14	-12
+    15	-9
+    16	-6
+    17	-3
+    18	0
+    19	3
+    20	6
+    21	9
+    22	12
+    23	15
+    24	18
+    25	21
+    26	24
+    27	27
+    28	30
+    29	33
+    30	36
+    31	39
+    32	42
+    33	45
+    34	48
+    35	51
 ```
 
-As we know from the step above, section 32 starts to have bad stitching. Section 32 corresponds to the montage tiles at the tilt angle of 33. Go to and check the folder where tiles of section 32/Tilt angle 33 are located:
+As we know from the step above, section 32 starts to have bad stitching. Section 32 corresponds to the montage tiles at the tilt angle of 42. Go to and check the folder where tiles of section 42/Tilt angle 42 are located:
 
 ```
-cd W1106_G3_target86_tilt_4_Processing/Tilt_33/
+cd W1106_G3_target86_tilt_4_Processing/Tilt_42/
 ```
 
 Start the manual stitching by activating the eTomo/Midas dialogue:
