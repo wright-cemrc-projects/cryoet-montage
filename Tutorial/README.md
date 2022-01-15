@@ -229,6 +229,7 @@ cp W1106_G3_target86_tilt_4_42_preblend.mrc ../W1106_G3_target86_tilt_4_42_blend
 After fixing all tilt angles where the stitching requires manual fixing, generate the newly stitched tilt series stack under the main folder `W1106_G3_target86_tilt_4_dataset_out`.
 
 ```
+cd ~/Downloads/W1106_G3_target86_tilt_4_dataset_out/  # change location to the main output folder
 newstack -fileinlist tiltList.txt -tilt tilt.rawtlt -output W1106_G3_target86_tilt_4AliSB
 ```
 
