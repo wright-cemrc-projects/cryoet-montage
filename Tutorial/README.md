@@ -207,11 +207,11 @@ You could click `Open Blended Stack` to check the current stitching image prior 
 
 Once the Midas window is open, click `Auto Contrast` and adjust Black and White slide bar to view the tiles of the stack:
 
-![Etomo_3.png](images/Etomo_3.png) 
+![Etomo_3.jpg](images/Etomo_3.png) 
 
 Go through the tile sections through the top X and Y by toggling the `Edge` button from 1 to 6 in X and from 1 to 6 in Y. Use the mouse to move around (manual adjustment) till the top (active tile) and bottom (reference tile) are overlapped. Adjust the `Box` size (from default 288 to 800 or even larger) under `Cross-Correlate` to be bigger  for image feature correlation calculation. When the manual adjustment is close enough, click `Cross-Correlate` to fix minor mismatching:
 
-![Etomo_4.png](images/Etomo_4.png)
+![Etomo_4.jpg](images/Etomo_4.png)
 
 Bad stitching (prior to fixing, left) and good stitching (post fixing through Midas)
 
