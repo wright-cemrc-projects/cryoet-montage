@@ -134,5 +134,121 @@ The last image panel, for the section 32 of the stack begins to show issues with
 
 ### Post-processing the montage tilt stacks with Etomo/Midas
 
+Know which sections has the bad stitch:
+
+```
+cat -n tilt.rawtlt
+```
+
+You should see a list of tilt angles (2nd column) with the index on the 1st column, corresponding to the sections in W1106_G3_target86_tilt_4AliSB_bin4.st:
+
+```
+     1	-60
+     2	-57
+     3	-54
+     4	-51
+     5	-48
+     6	-45
+     7	-42
+     8	-39
+     9	-36
+    10	-33
+    11	-30
+    12	-27
+    13	-24
+    14	-21
+    15	-18
+    16	-15
+    17	-12
+    18	-9
+    19	-6
+    20	-3
+    21	0
+    22	3
+    23	6
+    24	9
+    25	12
+    26	15
+    27	18
+    28	21
+    29	24
+    30	27
+    31	30
+    32	33
+    33	36
+    34	39
+    35	42
+    36	45
+    37	48
+    38	51
+    39	54
+    40	57
+    41	60
+```
+
+As we know from the step above, section 32 starts to have bad stitching. Section 32 corresponds to the montage tiles at the tilt angle of 33. Go to and check the folder where tiles of section 32/Tilt angle 33 are located:
+
+```
+cd W1106_G3_target86_tilt_4_Processing/Tilt_33/
+```
+
+Start the manual stitching by activating the eTomo/Midas dialogue:
+
+```
+etomo
+```
+Choose `Align Serial Sections/Blend Montages` initiate the dialogue below, select `W1106_G3_target86_tilt_4_33.st` as the Stack input and `Montage` as Frame Type and OK to proceed:
+
+![Etomo_1.png](images/Etomo_1.png) 
+
+You could click `Open Blended Stack` to check the current stitching image prior to the fixing. To enhance the image contrast and processing efficiency, select 4 as Binning factor and click `Fix Edges With Midas` to start the process:
+
+![Etomo_2.png](images/Etomo_2.png) 
+
+Once the Midas window is open, click `Auto Contrast` and adjust Black and White slide bar to view the tiles of the stack:
+
+![Etomo_3.png](images/Etomo_3.png) 
+
+Go through the tile sections through the top X and Y by toggling the `Edge` button from 1 to 6 in X and from 1 to 6 in Y. Use the mouse to move around (manual adjustment) till the top (active tile) and bottom (reference tile) are overlapped. Adjust the `Box` size (from default 288 to 800 or even larger) under `Cross-Correlate` to be bigger  for image feature correlation calculation. When the manual adjustment is close enough, click `Cross-Correlate` to fix minor mismatching:
+
+![Etomo_4.png](images/Etomo_4.png)
+
+Bad stitching (prior to fixing, left) and good stitching (post fixing through Midas)
+
+![Etomo_7.png](images/Etomo_7.png)
+
+Save the transformation by typing `S` key or `File\Save transforms`. A message box `Transforms saved to file` pops up. Go through all pieces and save the transforms along the way. When you are done saving, close the Midas window. Turn on `Robust fitting with criterion: 1.0`, `Use existing edge displacement file (.ecd)`, and click `Make Blended Stack`:
+
+![Etomo_8.png](images/Etomo_8.png)
+
+When it is finished, click `Open Blended Stack` to inspect. Go through the same process again `Fix Edges with Midas` till a good tile stitching is achieved:
+
+![Etomo_9.png](images/Etomo_9.png)
+
+Close the Etomo window. The new stitched image is saved as `xxx_preblend.mrc` by default. We will rename the newly stitched frame and copy it to the upper `W1106_G3_target86_tilt_4_Processing` folder. This will replace the previous poorly stitched image with the new one:
+
+```
+cp W1106_G3_target86_tilt_4_33_preblend.mrc ../W1106_G3_target86_tilt_4_33_blend.st
+```
+
+After fixing all tilt angles where the stitching requires manual fixing, generate the newly stitched tilt series stack under the main folder `W1106_G3_target86_tilt_4_dataset_out`.
+
+```
+newstack -fileinlist tiltList.txt -tilt tilt.rawtlt -output W1106_G3_target86_tilt_4AliSB
+```
+
+Generate bin 2 and bin 4 stack:
+
+```
+newstack -shrink 2.0 -in W1106_G3_target86_tilt_4AliSB.st -ou WW1106_G3_target86_tilt_4AliSB_bin2.st;
+newstack -shrink 4.0 -in W1106_G3_target86_tilt_4AliSB.st -ou WW1106_G3_target86_tilt_4AliSB_bin4.st;
+```
+Now we can inspect them in IMOD:
+
+```
+imod W1106_G3_target86_tilt_4AliSB_bin4.st
+```
+
+If the stitching is good, we can move forward with tomogram reconstructions in Etomo as a regular tilt series. Due to the size of the final tomogram, we recommend start with bin2 stack for reconstructions. Etomo reconstructions' tutorial and instructions can be found [online](https://bio3d.colorado.edu/imod/doc/tomoguide.html). 
 
 
