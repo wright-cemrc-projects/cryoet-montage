@@ -210,7 +210,7 @@ Go through the tile sections through the top X and Y by toggling the `Edge` butt
 
 Bad stitching (prior to fixing, left) and good stitching (post fixing through Midas)
 
-![Etomo_7.1.jpg](images/Etomo_7.1.jpg)
+![Picture_7.1.jpg](images/Picture_7.1.jpg)
 
 Save the transformation by typing `S` key or `File\Save transforms`. A message box `Transforms saved to file` pops up. Go through all pieces and save the transforms along the way. When you are done saving, close the Midas window. Turn on `Robust fitting with criterion: 1.0`, `Use existing edge displacement file (.ecd)`, and click `Make Blended Stack`:
 
