@@ -121,6 +121,7 @@ The overall product is a stack called `W1106_G3_target86_tilt_4AliSB.st` contain
 Let's take a look at bin4 stack generated for the initial checks of stitching in each tilt step `W1106_G3_target86_tilt_4AliSB_bin4.st`:
 
 ```
+cd W1106_G3_target86_tilt_4_dataset_out  # change location to the output folder
 imod W1106_G3_target86_tilt_4AliSB_bin4.st
 ```
 
