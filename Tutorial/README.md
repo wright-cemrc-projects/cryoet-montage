@@ -200,7 +200,7 @@ Choose `Align Serial Sections/Blend Montages` initiate the dialogue below, selec
 
 ![Etomo_1.1.png](images/Etomo_1.1.png) 
 
-You could click `Open Blended Stack` to check the current stitching image prior to the fixing. To enhance the image contrast and processing efficiency, select 4 as Binning factor and click `Fix Edges With Midas` to start the process:
+To enhance the image contrast and processing efficiency, select 4 as Binning factor and click `Fix Edges With Midas` to start the process:
 
 ![Etomo_2.1.png](images/Etomo_2.1.png) 
 
