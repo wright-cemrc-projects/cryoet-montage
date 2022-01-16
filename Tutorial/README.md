@@ -81,7 +81,11 @@ The next step organizes all images collected at a particular tilt into a separat
 Change to the directory containing the expanded `W1106_G3_target86_tilt_4_dataset` and now you can run the script `BlendStitch.py` from its location:
 
 ```
-./BlendStitch.py --input W1106_G3_target86_tilt_4_dataset --output W1106_G3_target86_tilt_4_dataset_out --starting_angle -51 --tilt_increment 3 --ending_angle 51 --overlap_x 1152 --overlap_y 576 --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
+./BlendStitch.py --input W1106_G3_target86_tilt_4_dataset \
+  --output W1106_G3_target86_tilt_4_dataset_out \
+  --starting_angle -51 --tilt_increment 3 --ending_angle 51 \
+  --overlap_x 1152 --overlap_y 576 \
+  --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
 ```
 
 This run takes approximately 15 minutes on a 3.0 Ghz Xeon processor.
@@ -230,19 +234,19 @@ After fixing all tilt angles where the stitching requires manual fixing, generat
 
 ```
 cd ~/Downloads/W1106_G3_target86_tilt_4_dataset_out/  # change location to the main output folder
-newstack -fileinlist tiltList.txt -tilt tilt.rawtlt -output W1106_G3_target86_tilt_4AliSB
+newstack -fileinlist tiltList.txt -tilt tilt.rawtlt -ou W1106_G3_target86_tilt_4AliSB_improved.st
 ```
 
 Generate bin 2 and bin 4 stack:
 
 ```
-newstack -shrink 2.0 -in W1106_G3_target86_tilt_4AliSB.st -ou WW1106_G3_target86_tilt_4AliSB_bin2.st;
-newstack -shrink 4.0 -in W1106_G3_target86_tilt_4AliSB.st -ou WW1106_G3_target86_tilt_4AliSB_bin4.st;
+newstack -shrink 2.0 -in W1106_G3_target86_tilt_4AliSB_improved.st -ou W1106_G3_target86_tilt_4AliSB_improved_bin2.st
+newstack -shrink 4.0 -in W1106_G3_target86_tilt_4AliSB_improved.st -ou W1106_G3_target86_tilt_4AliSB_improved_bin4.st
 ```
 Now we can inspect them in IMOD:
 
 ```
-imod W1106_G3_target86_tilt_4AliSB_bin4.st
+imod W1106_G3_target86_tilt_4AliSB_improved_bin4.st
 ```
 
 If the stitching is good, we can move forward with tomogram reconstructions in Etomo as a regular tilt series. Due to the size of the final tomogram, we recommend start with bin2 stack for reconstructions. Etomo reconstructions' tutorial and instructions can be found [online](https://bio3d.colorado.edu/imod/doc/tomoguide.html). 
