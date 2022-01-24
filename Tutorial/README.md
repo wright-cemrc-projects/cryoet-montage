@@ -43,11 +43,11 @@ The starting dataset includes a full tilt-series that can now be processed to bu
 
 ### Get the starting material
 
-Download the latest release `scripts.zip` from the [GitHub releases](https://github.com/wright-cemrc-projects/cryoet-montage/releases), unzip this to get a folder with several python scripts:
+Download the latest release `scripts.tar.gz` from the [GitHub releases](https://github.com/wright-cemrc-projects/cryoet-montage/releases), uncompress this with `tar -zxvf scripts.tar.gz` this to get a folder with several python scripts:
 
 ```
 % cd ~/Downloads
-% unzip scripts.zip
+% tar -zxvf scripts.tar.gz
 % ls scripts/Python 
 BlendStitch.py		README.pdf
 MotionCorrect.py	SplitTomogram.py
@@ -55,7 +55,7 @@ MotionCorrect.py	SplitTomogram.py
 README.pdf	cryoMontage.txt
 ```
 
-The scripts.zip contains both a SerialEM macro `cryoMontage.txt` that can be used in the data collection for the montage tomography. This tutorial skips the SerialEM collection ([see instructions here for SerialEM]()).
+The scripts.tar.gz contains both a SerialEM macro `cryoMontage.txt` that can be used in the data collection for the montage tomography. This tutorial skips the SerialEM collection ([see instructions here for SerialEM]()).
 
 Begin by downloading the `W1106_G3_target86_tilt4_dataset.tar` from the cloud-hosted storage : [Download Link](https://cemrcstatic.blob.core.windows.net/cryoet-montage/W1106_G3_target86_tilt_4_dataset.tar)
 

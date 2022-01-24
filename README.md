@@ -22,7 +22,7 @@ This repository provides resources for the montage tomography with SerialEM.
 
 4. Guide for making adjustments to stitching with Etomo and Midas.
 
-	[Improving stitching in Etomo with Midas](Midas/AligningMontageTiles.md)
+	[Improving stitching in Etomo with Midas](Midas/README.md)
 
 ### Tutorial
 

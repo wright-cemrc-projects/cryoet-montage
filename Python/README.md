@@ -2,7 +2,9 @@
 
 ### Getting the scripts
 
-Navigate to the Releases to get the latest package containing Python scripts, or clone the GitHub repository with `git clone https://github.com/wright-cemrc-projects/cryoet-montage.git`
+Navigate to the Releases to get the latest `scripts.tar.gz`, and uncompress this on your system with `tar -zxvf scripts.tar.gz`.
+
+Alternatively, clone the GitHub repository with `git clone https://github.com/wright-cemrc-projects/cryoet-montage.git`
 
 ### Requirements
 Your environment will need to have Python 3 installed and in the system PATH.
