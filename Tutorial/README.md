@@ -85,8 +85,11 @@ Change to the directory containing the expanded `W1106_G3_target86_tilt_4_datase
   --output W1106_G3_target86_tilt_4_dataset_out \
   --starting_angle -51 --tilt_increment 3 --ending_angle 51 \
   --overlap_x 1152 --overlap_y 576 \
-  --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4
+  --camera_x 5760 --camera_y 4092 --basename W1106_G3_target86_tilt_4 \
+  --tile_x 3 --tile_y 3
 ```
+
+Briefly, this command is being provided with the extents of the tilt range (`--starting_angle -51` to `--ending_angle 51`), it is being provided with pixel overlaps at the edges of tiles known from the SerialEM data collection, camera dimensions for the K3 (5760x4092), a prefix for each of the files in (`--basename W1106_G3_target86_tilt_4`), and what arrangement of tiling to expect, a 3x3 (`--tile_x 3` and `--tile_y 3`).
 
 This run takes approximately 15 minutes on a 3.0 Ghz Xeon processor.
 
