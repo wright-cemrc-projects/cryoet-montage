@@ -35,6 +35,10 @@ import shutil
 import fnmatch
 import os
 import subprocess
+import math
+
+def round_up_to_even(f):
+    return math.ceil(f / 2.) * 2
 
 class StitchPattern():
     ''' defines a stiching pattern from image shifts '''
@@ -45,11 +49,13 @@ class StitchPattern():
     tile_x = 3
     tile_y = 3
 
-    def writePieceFile(self, filename):
+    def writePieceFile(self, filename, tiltangle = 0):
         ''' write out a formatted .pl pattern for IMOD '''
         offset_x = self.camera_x - self.overlap_x
         offset_y = self.camera_y - self.overlap_y
         f = open(filename, 'w')
+        piece_y = 0
+        tiltangle_rad = abs ( math.radians(tiltangle) )
         for c_tile_y in range(0, self.tile_y) :
             ''' zig zag, when y is odd run in opposite direction on x '''
             x_items = range(1, self.tile_x+1)
@@ -59,7 +65,8 @@ class StitchPattern():
                 x = (c_tile_x-1) * offset_x
                 y = c_tile_y * offset_y
                 z = 0
-                f.write(' %8d %8d %6d\n' % (x, y, z))
+                f.write(' %8d %8d %6d\n' % (x, piece_y, z))
+            piece_y = piece_y + round( offset_y * math.cos(tiltangle_rad))
         f.close()
 
 def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, basename, stitchPattern):
@@ -101,7 +108,7 @@ def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, 
 
         # pl file describes pixel distances to stitch tiles together
         blendmont_pl_input = os.path.join(stitching_directory, basename + '_' + str(tilt) + '.pl')
-        stitchPattern.writePieceFile(blendmont_pl_input)
+        stitchPattern.writePieceFile(blendmont_pl_input, tilt)
 
         # call blendmont with options for ...
         # -plin is a file with piece coordinates
@@ -114,7 +121,7 @@ def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, 
         if os.path.exists(blendmont_output):
             print(blendmont_output + ' exists, skipping')
         else:
-            subprocess.run(['blendmont', '-imin', newstack_output, '-imout', blendmont_output, '-plin',  blendmont_pl_input, '-roo', blendmont_root_name, '-very'])
+            subprocess.run(['blendmont', '-imin', newstack_output, '-imout', blendmont_output, '-plin',  blendmont_pl_input, '-roo', blendmont_root_name, '-sloppy'])
         
         replica_name = os.path.join(processing_directory, filename)
         if os.path.exists(replica_name):  
@@ -144,8 +151,7 @@ def createTiltList(output_directory, basename, startTilt, endTilt, stepTilt, til
     f = open(tiltFile, 'w')
     f.write(str(tiltCount) + '\n')
     for tilt in range(startTilt, endTilt+1, stepTilt):
-        stitching_directory = os.path.join(processing_directory, 'Tilt_'+str(tilt))
-        blendmont_output = os.path.join(stitching_directory, basename + '_' + str(tilt) + '_blend.st')
+        blendmont_output = os.path.join(processing_directory, basename + '_' + str(tilt) + '_blend.st')
         f.write(blendmont_output + '\n')
         f.write('0\n')
     f.close()
@@ -218,6 +224,8 @@ def main():
     rawTiltTxt = os.path.join(args.output, 'tilt.rawtlt')
     createRawTilt(args.starting_angle, args.ending_angle, args.tilt_increment, rawTiltTxt)
     tiltListTxt = os.path.join(args.output, 'tiltList.txt')
+
+    # TODO: use 'cwd' in the newstack call below to remove absolute paths from `tiltList.txt`
     createTiltList(args.output, args.basename, args.starting_angle, args.ending_angle, args.tilt_increment, tiltListTxt)
 
     # Output different binned stacks.
