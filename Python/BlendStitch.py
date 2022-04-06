@@ -115,19 +115,21 @@ def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, 
         # -roo is root name for edge function and .ecd files
         # -very is to support large displacements (very sloppy!)
         blendmont_root_name = os.path.join(stitching_directory, basename + '_' + str(tilt))
-        filename = basename + '_' + str(tilt) + '_blend.st'
-        blendmont_output = os.path.join(stitching_directory, filename)
+        blendfile = basename + '_' + str(tilt) + '_blend.st'
+        preblendfile = basename + '_' + str(tilt) + '_preblend.st'
+        blendmont_output = os.path.join(stitching_directory, blendfile)
+        preblend_output = os.path.join(stitching_directory, preblendfile)
         
         if os.path.exists(blendmont_output):
             print(blendmont_output + ' exists, skipping')
         else:
             subprocess.run(['blendmont', '-imin', newstack_output, '-imout', blendmont_output, '-plin',  blendmont_pl_input, '-roo', blendmont_root_name, '-sloppy'])
-        
-        replica_name = os.path.join(processing_directory, filename)
-        if os.path.exists(replica_name):  
-            print(replica_name + ' exists, skipping')
-        else:
-            shutil.copyfile(blendmont_output, replica_name)
+
+        #replica_name = os.path.join(processing_directory, filename)
+        #if os.path.exists(replica_name):  
+        #    print(replica_name + ' exists, skipping')
+        #else:
+        #    shutil.copyfile(blendmont_output, replica_name)
 
 def createTileList(tile_directory, tileFile):
     ''' Create a userlist.txt file defining the files/tilts in the stack '''
@@ -146,12 +148,13 @@ def createTileList(tile_directory, tileFile):
 
 def createTiltList(output_directory, basename, startTilt, endTilt, stepTilt, tiltFile):
     ''' Create a userlist.txt file defining the files/tilts in the stack '''
-    processing_directory = os.path.join(output_directory, basename + '_Processing/')
+    processing_directory = os.path.join(basename + '_Processing/')
     tiltCount = (endTilt - startTilt) / stepTilt + 1
     f = open(tiltFile, 'w')
     f.write(str(tiltCount) + '\n')
     for tilt in range(startTilt, endTilt+1, stepTilt):
-        blendmont_output = os.path.join(processing_directory, basename + '_' + str(tilt) + '_blend.st')
+        tiltDir = 'Tilt_' + str(tilt)
+        blendmont_output = os.path.join(processing_directory, tiltDir, basename + '_' + str(tilt) + '_blend.st')
         f.write(blendmont_output + '\n')
         f.write('0\n')
     f.close()
@@ -221,15 +224,15 @@ def main():
     stitching(args.starting_angle, args.ending_angle, args.tilt_increment, args.input, args.output, args.basename, pattern)
 
     # Create the rawtlt and tiltlist.txt
-    rawTiltTxt = os.path.join(args.output, 'tilt.rawtlt')
-    createRawTilt(args.starting_angle, args.ending_angle, args.tilt_increment, rawTiltTxt)
-    tiltListTxt = os.path.join(args.output, 'tiltList.txt')
+    rawTiltTxt = 'tilt.rawtlt'
+    createRawTilt(args.starting_angle, args.ending_angle, args.tilt_increment, os.path.join(args.output, rawTiltTxt))
+    tiltListTxt = 'tiltList.txt'
 
-    # TODO: use 'cwd' in the newstack call below to remove absolute paths from `tiltList.txt`
-    createTiltList(args.output, args.basename, args.starting_angle, args.ending_angle, args.tilt_increment, tiltListTxt)
+    # `tiltList.txt` paths are relative to inside the output directory.
+    createTiltList(args.output, args.basename, args.starting_angle, args.ending_angle, args.tilt_increment, os.path.join(args.output, tiltListTxt))
 
     # Output different binned stacks.
-    finalStackPrefix = os.path.join(args.output, args.basename + 'AliSB')
+    finalStackPrefix = args.basename + 'AliSB'
     finalStackFile = finalStackPrefix + '.st'
     finalStackFileBin2 = finalStackPrefix + '_bin2.st'
     finalStackFileBin4 = finalStackPrefix + '_bin4.st'
@@ -238,15 +241,15 @@ def main():
     if os.path.exists(finalStackFile):
         print(finalStackFile + ' exists, skipping')
     else:
-        subprocess.run(['newstack', '-tilt', rawTiltTxt, '-fileinlist', tiltListTxt, '-ou', finalStackFile])
+        subprocess.run(['newstack', '-tilt', rawTiltTxt, '-fileinlist', tiltListTxt, '-ou', finalStackFile], cwd=args.output)
     if os.path.exists(finalStackFileBin2):
         print(finalStackFileBin2 + ' exists, skipping')
     else:
-        subprocess.run(['newstack', '-shrink', '2.0', finalStackFile, finalStackFileBin2])
+        subprocess.run(['newstack', '-shrink', '2.0', finalStackFile, finalStackFileBin2], cwd=args.output)
     if os.path.exists(finalStackFileBin4):
         print(finalStackFileBin4 + ' exists, skipping')
     else:
-        subprocess.run(['newstack', '-shrink', '4.0', finalStackFile, finalStackFileBin4])
+        subprocess.run(['newstack', '-shrink', '4.0', finalStackFile, finalStackFileBin4], cwd=args.output)
 
 if __name__ == "__main__":
     main()
