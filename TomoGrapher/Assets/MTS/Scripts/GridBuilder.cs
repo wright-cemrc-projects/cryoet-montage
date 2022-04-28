@@ -37,9 +37,9 @@ public class GridBuilder : MonoBehaviour
                     b.AngstromX = AngstromX;
                     b.AngstromY = AngstromY;
                     b.AngstromZ = AngstromZ;
-                    b.X = i;
-                    b.Y = j;
-                    b.Z = k;
+                    b.X = k; // Make the Y-axis the tilt axis
+                    b.Y = i; // Make the X-axis the perpendicular axis
+                    b.Z = j;
                     z++;
                     GridHolder.GetComponent<VoxelHolder>().Voxels.Add(b);
                 }
