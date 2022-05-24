@@ -23,14 +23,21 @@
         <ui:Toggle label="Weight Dose by Tilt Angle" name="DoseWeight" value="false" style="margin-top: 10px;" />
         <ui:TextField picking-mode="Ignore" label="Power" value="1" text="1" name="Power" />
         <ui:Toggle label="Adjust Shifts by Tilt Angle" name="CorrectCos" value="true" style="margin-top: 10px;" />
-        <ui:Label text="Simulation Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
-        <ui:Button text="Top View" display-tooltip-when-elided="true" name="TopCamera" style="margin-top: 10px; height: auto; width: auto; flex-shrink: 0; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
-        <ui:Button text="Ortho View" display-tooltip-when-elided="true" name="OrthoCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
-        <ui:Button text="World View" display-tooltip-when-elided="true" name="WorldCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;);" />
-        <ui:Button text="Run Simulation" display-tooltip-when-elided="true" name="RunSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
-        <ui:Button text="Pause Simulation" display-tooltip-when-elided="true" name="PauseSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
-        <ui:Button text="Reset Simulation" display-tooltip-when-elided="true" name="ResetSimulation" style="position: relative; top: auto; left: auto; height: auto; width: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
-        <ui:Button text="Export Voxel Values" display-tooltip-when-elided="true" name="Export" />
+        <ui:Label text="Simulation Panel" display-tooltip-when-elided="true" name="SimulationPanel" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
+        <ui:VisualElement name="Row_1" style="flex-direction: row; width: auto; height: auto; max-height: 60px; max-width: none; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+            <ui:Button text="Ortho View" display-tooltip-when-elided="true" name="OrthoCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;); min-height: 18px; font-size: 28px;" />
+            <ui:Button text="Top View" display-tooltip-when-elided="true" name="TopCamera" style="margin-top: 10px; height: auto; width: auto; flex-shrink: 0; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;); margin-bottom: 3px; min-height: 18px; font-size: 28px;" />
+            <ui:Button text="World View" display-tooltip-when-elided="true" name="WorldCamera" style="margin-top: 10px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;); margin-bottom: 3px; min-height: 18px; font-size: 24px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Row_2" style="flex-direction: row; width: auto; height: auto; max-height: 60px; max-width: none; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+            <ui:Button text="Run" display-tooltip-when-elided="true" name="RunSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 24px;" />
+            <ui:Button text="Pause" display-tooltip-when-elided="true" name="PauseSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 24px;" />
+            <ui:Button text="Reset" display-tooltip-when-elided="true" name="ResetSimulation" style="position: relative; top: auto; left: auto; height: auto; width: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 24px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Row_3" style="flex-direction: row; width: auto; height: auto; min-height: auto; max-height: 60px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+            <ui:Button text="Export Voxel Values" display-tooltip-when-elided="true" name="Export" style="margin-bottom: 3px; font-size: 24px;" />
+            <ui:Button text="Export Macro" display-tooltip-when-elided="true" name="ExportMacro" style="margin-bottom: 3px; font-size: 24px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="BottomPanel" style="max-width: 70%; max-height: 18%; width: 70%; height: 18%; min-width: 70%; min-height: 18%;">
         <ui:Toggle label="Show Target Object" name="ShowObjects" value="true" style="font-size: 36px; -unity-font: url(&apos;/Assets/TextMesh Pro/Fonts/LiberationSans.ttf&apos;); color: rgb(255, 255, 255); padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 0;" />

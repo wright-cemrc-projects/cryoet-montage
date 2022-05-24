@@ -214,7 +214,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85058951}
-  m_LocalRotation: {x: 0.15622987, y: -0.37717226, z: 0.064712524, w: 0.9105744}
+  m_LocalRotation: {x: 0.15622985, y: -0.37717226, z: 0.064712524, w: 0.9105744}
   m_LocalPosition: {x: 100, y: 50, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1616,6 +1616,7 @@ GameObject:
   - component: {fileID: 1450797097}
   - component: {fileID: 1450797099}
   - component: {fileID: 1450797098}
+  - component: {fileID: 1450797102}
   - component: {fileID: 1450797100}
   - component: {fileID: 1450797101}
   m_Layer: 0
@@ -1752,6 +1753,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveVoxel: {fileID: 0}
   CurrentTilt: 0
+--- !u!114 &1450797102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450797094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed000c83b2c0489189434e29deeff46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TemplateName: cryoMontage_template.txt
 --- !u!1 &1526040847
 GameObject:
   m_ObjectHideFlags: 0

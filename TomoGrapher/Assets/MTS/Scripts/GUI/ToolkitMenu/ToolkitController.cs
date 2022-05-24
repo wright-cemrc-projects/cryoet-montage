@@ -47,6 +47,9 @@ public class ToolkitController : MonoBehaviour
         Button ExportButton = document.rootVisualElement.Q<Button>("Export");
         ExportButton.clicked += ExportClicked;
 
+        Button ExportMacroButton = document.rootVisualElement.Q<Button>("ExportMacro");
+        ExportMacroButton.clicked += ExportMacroClicked;
+
         // Bindings between variables and the UI
         SetupBindings(document);
 
@@ -416,7 +419,28 @@ public class ToolkitController : MonoBehaviour
             DetailsPanelController details = GetComponent<DetailsPanelController>();
             if (details)
             {
-                details.SetMessage("Exported to : " + Path.GetFullPath(filename));
+                details.SetMessage("Exported Voxel Values to : " + Path.GetFullPath(filename));
+                details.UpdateDetails();
+            }
+        }
+    }
+
+    public void ExportMacroClicked() {
+        // Get the export, and provide Parameters to fill out a SerialEMMacro.
+        ExportMacro export = GetComponent<ExportMacro>();
+        if (export != null) {
+            string filename = "cryoMontage.txt";
+
+            if (Parameters) {
+                export.WriteMacro(filename, Parameters);
+            } else {
+                Debug.Log("Parameters is not set.");
+            }
+
+            DetailsPanelController details = GetComponent<DetailsPanelController>();
+            if (details)
+            {
+                details.SetMessage("Exported Macro to : " + Path.GetFullPath(filename));
                 details.UpdateDetails();
             }
         }
