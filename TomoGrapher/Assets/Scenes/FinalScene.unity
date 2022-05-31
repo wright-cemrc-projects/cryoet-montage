@@ -169,7 +169,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.463524, y: 1}
+    m_SensorSize: {x: 1.1264311, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.463524, y: 1}
+    m_SensorSize: {x: 1.1264311, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -791,7 +791,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.463524, y: 1}
+    m_SensorSize: {x: 1.1264311, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 6871b258839090e42a7228a40ef77701, type: 2}
+  m_PanelSettings: {fileID: 11400000, guid: c36127619deda3c4284f96aaa2d75935, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 30b21ab61223f4a6b99d1d0727daff0f, type: 3}
   m_SortingOrder: 0
