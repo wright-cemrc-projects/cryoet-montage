@@ -6,6 +6,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using SimpleFileBrowser;
+
 public class ToolkitController : MonoBehaviour
 {
     public SpiralStrategyBuilder builder;
@@ -413,15 +415,7 @@ public class ToolkitController : MonoBehaviour
     public void ExportClicked() {
         ExportCSV export = GetComponent<ExportCSV>();
         if (export != null) {
-            string filename = "simulation.csv";
-            export.WriteIntensities(filename);
-
-            DetailsPanelController details = GetComponent<DetailsPanelController>();
-            if (details)
-            {
-                details.SetMessage("Exported Voxel Values to : " + Path.GetFullPath(filename));
-                details.UpdateDetails();
-            }
+            StartCoroutine(ShowSaveCSVDialogCoroutine(export));
         }
     }
 
@@ -429,20 +423,7 @@ public class ToolkitController : MonoBehaviour
         // Get the export, and provide Parameters to fill out a SerialEMMacro.
         ExportMacro export = GetComponent<ExportMacro>();
         if (export != null) {
-            string filename = "cryoMontage.txt";
-
-            if (Parameters) {
-                export.WriteMacro(filename, Parameters);
-            } else {
-                Debug.Log("Parameters is not set.");
-            }
-
-            DetailsPanelController details = GetComponent<DetailsPanelController>();
-            if (details)
-            {
-                details.SetMessage("Exported Macro to : " + Path.GetFullPath(filename));
-                details.UpdateDetails();
-            }
+            StartCoroutine(ShowSaveMacroDialogCoroutine(export));
         }
     }
 
@@ -483,5 +464,69 @@ public class ToolkitController : MonoBehaviour
 
         // For debugging
         // Parameters.DebugImageShifts();
+    }
+
+    IEnumerator ShowSaveMacroDialogCoroutine(ExportMacro export)
+    {
+        yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, true, null, "cryoMontage.txt", "Save file", "Save");
+
+        Debug.Log(FileBrowser.Success);
+
+        if (FileBrowser.Success)
+        {
+            // Print paths of the selected files (FileBrowser.Result) (null, if FileBrowser.Success is false)
+            if (FileBrowser.Result.Length > 0)
+            {
+                for (int i = 0; i < FileBrowser.Result.Length; i++)
+                    Debug.Log(FileBrowser.Result[i]);
+
+                // Save the macro to this path.
+                string filename = FileBrowser.Result[0];
+
+                if (Parameters)
+                {
+                    export.WriteMacro(filename, Parameters);
+                }
+                else
+                {
+                    Debug.Log("Parameters is not set.");
+                }
+
+                DetailsPanelController details = GetComponent<DetailsPanelController>();
+                if (details)
+                {
+                    details.SetMessage("Exported Macro to : " + Path.GetFullPath(filename));
+                    details.UpdateDetails();
+                }
+            }
+        }
+    }
+
+    IEnumerator ShowSaveCSVDialogCoroutine(ExportCSV export)
+    {
+        yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, true, null, "simulation.csv", "Save file", "Save");
+
+        Debug.Log(FileBrowser.Success);
+
+        if (FileBrowser.Success)
+        {
+            // Print paths of the selected files (FileBrowser.Result) (null, if FileBrowser.Success is false)
+            if (FileBrowser.Result.Length > 0)
+            {
+                for (int i = 0; i < FileBrowser.Result.Length; i++)
+                    Debug.Log(FileBrowser.Result[i]);
+
+                // Save the macro to this path.
+                string filename = FileBrowser.Result[0];
+                export.WriteIntensities(filename);
+
+                DetailsPanelController details = GetComponent<DetailsPanelController>();
+                if (details)
+                {
+                    details.SetMessage("Exported Voxel Values to : " + Path.GetFullPath(filename));
+                    details.UpdateDetails();
+                }
+            }
+        }
     }
 }
