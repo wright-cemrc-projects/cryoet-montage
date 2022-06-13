@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="RightPanel" style="position: relative; left: 70%; width: 30%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; background-color: rgba(209, 209, 209, 0.57); height: auto; font-size: 24px;">
+    <Style src="project://database/Assets/MTS/Scripts/GUI/ToolkitMenu/ToolkitPanel.uss?fileID=7433441132597879392&amp;guid=cd34c1c2e786347aab4d094be88b5ebd&amp;type=3#ToolkitPanel" />
+    <ui:VisualElement name="RightPanel" style="position: relative; left: 70%; width: 30%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; background-color: rgba(209, 209, 209, 0.57); height: 100%; font-size: 24px; min-height: 100%; min-width: 30%; max-height: 100%;">
         <ui:Label text="Image Shift Pattern Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
         <ui:TextField picking-mode="Ignore" label="Pixel Spacing (A)" value="filler text" text="1.0" name="PixelSpacing" style="margin-top: 10px;" />
         <ui:TextField picking-mode="Ignore" label="Illuminated Area (um)" value="filler text" text="1.0" name="BeamDiameter" style="margin-top: 10px;" />
@@ -41,7 +42,7 @@
             <ui:Button text="Export Macro" display-tooltip-when-elided="true" name="ExportMacro" style="margin-bottom: 3px; font-size: 28px;" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement name="BottomPanel" style="max-width: 70%; max-height: 18%; width: 70%; height: 18%; min-width: 70%; min-height: 18%;">
+    <ui:VisualElement name="BottomPanel" style="max-width: 70%; max-height: 18%; width: 70%; height: 18%; min-width: 70%; min-height: 18%; position: absolute; bottom: 0;">
         <ui:Toggle label="Show Target Object" name="ShowObjects" value="true" style="font-size: 36px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); color: rgb(255, 255, 255); padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 0;" />
         <ui:Slider picking-mode="Ignore" label="Max Intensity" value="256" high-value="512" name="AdjustIntensity" style="-unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); color: rgb(255, 255, 255); font-size: 36px; padding-left: 10px; padding-right: 10px; padding-top: 0; padding-bottom: 0;" />
         <ui:Label text="Details Panel" display-tooltip-when-elided="true" style="font-size: 36px; -unity-font-style: bold; color: rgb(255, 255, 255); background-color: rgb(94, 94, 94); padding-left: 50px; padding-right: 0; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
