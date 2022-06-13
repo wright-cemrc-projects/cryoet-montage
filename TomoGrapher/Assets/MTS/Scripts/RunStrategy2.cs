@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class RunStrategy2 : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class RunStrategy2 : MonoBehaviour
 
     void Start() {
         ResetSimulation();
+
+        // https://blog.unity.com/technology/how-on-demand-rendering-can-improve-mobile-performance
+        // Configure display FPS settings and take advantage of On-demand rendering
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 30;
+        // When the Menu starts, set the rendering to target 20fps
+        OnDemandRendering.renderFrameInterval = 3;
     }
 
     // Update is called once per frame
@@ -26,6 +34,7 @@ public class RunStrategy2 : MonoBehaviour
 
         if (Running && Timer < 0 && CurrentPoint < ShiftTiltStrategy.Count)
         {
+            OnDemandRendering.renderFrameInterval = 1;
             Timer = TimeInterval;
 
             Exposure exp = ShiftTiltStrategy[CurrentPoint];
@@ -34,6 +43,9 @@ public class RunStrategy2 : MonoBehaviour
             TakeImage(exp.dose);
 
             CurrentPoint++;
+        } else
+        {
+            OnDemandRendering.renderFrameInterval = 3;
         }
     }
 
