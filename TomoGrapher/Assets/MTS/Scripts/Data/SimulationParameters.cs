@@ -95,6 +95,9 @@ public class SimulationParameters : MonoBehaviour
     [SerializeField]
     public float MaxIntensity = 256f;
 
+    [SerializeField]
+    public string LogDirectory = "X:\\";
+
     public void Awake() {
         UpdateValues();
     }

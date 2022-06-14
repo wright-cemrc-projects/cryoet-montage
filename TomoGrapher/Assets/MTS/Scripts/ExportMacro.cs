@@ -19,6 +19,7 @@ public class ExportMacro : MonoBehaviour
         {
 
             string[] lines = System.IO.File.ReadAllLines(templatePath);
+            Debug.Log("Read template from: " + templatePath);
 
             StreamWriter writer = new StreamWriter(filename);
             Debug.Log("Exporting a macro to: " + Path.GetFullPath(filename));
@@ -28,11 +29,46 @@ public class ExportMacro : MonoBehaviour
             string KEYWORD_TURNS = "%TURNS%";
             string KEYWORD_PERIOD = "%PERIOD%";
             string KEYWORD_REVOLUTIONS = "%REVOLUTIONS%";
+            string KEYWORD_START_ANGLE = "%START_ANGLE%";
+            string KEYWORD_END_AT = "%END_AT%";
+            string KEYWORD_TILT_TO = "%TILT_TO%";
+            string KEYWORD_TILT_STEP = "%TILT_STEP%";
+            string KEYWORD_LOG_DIR = "%LOG_DIR%";
 
             foreach (string line in lines)
             {
                 // Replace %VALUE% with actual values.
                 string out_line = line;
+
+                if (line.Contains(KEYWORD_START_ANGLE))
+                {
+                    Debug.Log(KEYWORD_START_ANGLE);
+                    out_line = line.Replace(KEYWORD_START_ANGLE, Parameters.TiltStart.ToString("0.0"));
+                }
+
+                if (line.Contains(KEYWORD_END_AT))
+                {
+                    Debug.Log(KEYWORD_END_AT);
+                    out_line = line.Replace(KEYWORD_END_AT, Parameters.TiltEnd.ToString("0.0"));
+                }
+
+                if (line.Contains(KEYWORD_TILT_TO))
+                {
+                    Debug.Log(KEYWORD_TILT_TO);
+                    out_line = line.Replace(KEYWORD_TILT_TO, Parameters.TiltTo.ToString("0.0"));
+                }
+
+                if (line.Contains(KEYWORD_TILT_STEP))
+                {
+                    Debug.Log(KEYWORD_TILT_STEP);
+                    out_line = line.Replace(KEYWORD_TILT_STEP, Parameters.TiltIncrement.ToString("0.0"));
+                }
+
+                if (line.Contains(KEYWORD_LOG_DIR))
+                {
+                    Debug.Log(KEYWORD_LOG_DIR);
+                    out_line = line.Replace(KEYWORD_LOG_DIR, Parameters.LogDirectory);
+                }
 
                 if (line.Contains(KEYWORD_A_INITIAL))
                 {
