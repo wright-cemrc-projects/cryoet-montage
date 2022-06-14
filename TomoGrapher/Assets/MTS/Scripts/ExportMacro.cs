@@ -8,13 +8,16 @@ public class ExportMacro : MonoBehaviour
 {
     public string TemplateName = "cryoMontage_template.txt";
 
+    /// Expected template location
+    public string GetTemplatePath() {
+        return Application.dataPath + "/" + TemplateName;
+    }
+
     // Export of the voxel intensities to a file
     public void WriteMacro(string filename, SimulationParameters Parameters) {
-        // Read a template which will have %VALUE% replaced with known values.
-        string templatePath = Application.persistentDataPath + "/" + TemplateName;
-        // StreamReader reader = new StreamReader(templatePath);
-        // reader.Close();
 
+        // Read a template which will have %VALUE% replaced with known values.
+        string templatePath = GetTemplatePath();
         if (File.Exists(templatePath))
         {
 

@@ -483,20 +483,31 @@ public class ToolkitController : MonoBehaviour
                 // Save the macro to this path.
                 string filename = FileBrowser.Result[0];
 
-                if (Parameters)
-                {
-                    export.WriteMacro(filename, Parameters);
-                }
-                else
-                {
-                    Debug.Log("Parameters is not set.");
-                }
+                if (File.Exists(export.GetTemplatePath())) {
+                   
+                    if (Parameters)
+                    {
+                        export.WriteMacro(filename, Parameters);
+                    }
+                    else
+                    {
+                        Debug.Log("Parameters is not set.");
+                    }
 
-                DetailsPanelController details = GetComponent<DetailsPanelController>();
-                if (details)
-                {
-                    details.SetMessage("Exported Macro to : " + Path.GetFullPath(filename));
-                    details.UpdateDetails();
+                    DetailsPanelController details = GetComponent<DetailsPanelController>();
+                    if (details)
+                    {
+                        details.SetMessage("Exported Macro to : " + Path.GetFullPath(filename));
+                        details.UpdateDetails();
+                    }
+
+                } else {
+                    DetailsPanelController details = GetComponent<DetailsPanelController>();
+                    if (details)
+                    {
+                        details.SetMessage("Unable to find template at  : " + export.GetTemplatePath());
+                        details.UpdateDetails();
+                    }
                 }
             }
         }
