@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -169,7 +169,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.8565912, y: 1}
+    m_SensorSize: {x: 0.9774446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.8565912, y: 1}
+    m_SensorSize: {x: 0.9774446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -791,7 +791,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.8565912, y: 1}
+    m_SensorSize: {x: 0.9774446, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1737,7 +1737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PixelSpacing: 4.6
-  IlluminatedArea: 3.1
+  IlluminatedArea: 3.15
   CameraPixelsX: 5760
   CameraPixelsY: 4092
   ImageShiftsX: 3
@@ -1753,13 +1753,14 @@ MonoBehaviour:
   TiltStart: 0
   TiltIncrement: 3
   TiltsPerRevolution: 16
-  AmpFinal: 0.8
+  AmpFinal: 1.5
   AmpInitial: 0
   ProjectOnPerpendicularAxis: 1
   DoseWeighting: 0
   DoseWeightingPower: 1
   ShowTarget: 1
   MaxIntensity: 256
+  LogDirectory: X:\
 --- !u!114 &1450797101
 MonoBehaviour:
   m_ObjectHideFlags: 0
