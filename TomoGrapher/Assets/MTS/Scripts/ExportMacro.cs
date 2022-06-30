@@ -37,6 +37,7 @@ public class ExportMacro : MonoBehaviour
             string KEYWORD_TILT_TO = "%TILT_TO%";
             string KEYWORD_TILT_STEP = "%TILT_STEP%";
             string KEYWORD_LOG_DIR = "%LOG_DIR%";
+            string KEYWORD_TILT_SCHEME = "%TILT_SCHEME%";
 
             foreach (string line in lines)
             {
@@ -101,6 +102,12 @@ public class ExportMacro : MonoBehaviour
                 {
                     Debug.Log(KEYWORD_REVOLUTIONS);
                     out_line = line.Replace(KEYWORD_REVOLUTIONS, Parameters.Revolutions.ToString("0.0"));
+                }
+
+                if (line.Contains(KEYWORD_TILT_SCHEME))
+                {
+                    Debug.Log(KEYWORD_TILT_SCHEME);
+                    out_line = line.Replace(KEYWORD_TILT_SCHEME, Parameters.DoseSymmetric.ToString());
                 }
 
                 writer.WriteLine(out_line);

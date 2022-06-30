@@ -16,6 +16,10 @@
         <ui:TextField picking-mode="Ignore" label="Run Series in two directions from (Degrees)" value="filler text" text="0" name="TiltStart" style="flex-direction: column;" />
         <ui:TextField picking-mode="Ignore" label="Tilt Step (Degrees)" value="filler text" text="3.0" name="TiltIncrement" />
         <ui:TextField picking-mode="Ignore" label="e-/A2 per tilt" value="1.0" text="1.0" name="DosePerTilt" />
+        <ui:RadioButtonGroup value="-1" name="DoseSymmetricGroup" style="flex-direction: column; font-size: 24px; margin-left: 0;">
+            <ui:RadioButton label="Dose Symmetric" name="DoseSymmetric" value="true" style="margin-left: 3px; flex-direction: row;" />
+            <ui:RadioButton label="Bidirectional" name="Bidrectional" />
+        </ui:RadioButtonGroup>
         <ui:TextField picking-mode="Ignore" label="Amplitude Initial" value="0" name="AmpInitial" binding-path="AmpInitial" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
         <ui:TextField picking-mode="Ignore" label="Amplitude Final" value="0" name="AmpFinal" binding-path="AmpFinal" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
         <ui:TextField picking-mode="Ignore" label="Turns" value="50" name="Turns" tooltip="Tilts per Revolution defines over how many tilt steps to have a rotation of the spiral translation." usage-hints="DynamicTransform" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />

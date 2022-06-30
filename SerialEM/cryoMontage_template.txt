@@ -25,7 +25,7 @@ correction = 1        		# 1 = x-axial stretching correction is on; 0 = x-axial s
 LogDir = %LOG_DIR%
 
 ### basic settings ###
-tilt_scheme = 0                 # 0 = dose-symmetric, 1 = bidirectional
+tilt_scheme = %TILT_SCHEME%     # 0 = dose-symmetric, 1 = bidirectional
 Debug = 1                       # set to 1 for verbose output for debugging
 eucentricity_option = 2         # 1 = rough, 2 = fine, 3 = rough and fine
 file_setting = 1                # recommend to set to 1 to define a local path below

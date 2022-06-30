@@ -155,6 +155,11 @@ public class ToolkitController : MonoBehaviour
         TextField Power = document.rootVisualElement.Q<TextField>("Power");
         Power.SetValueWithoutNotify(string.Format("{0:N2}", Parameters.DoseWeightingPower));
         Power.RegisterValueChangedCallback(e => OnPowerChanged(e));
+
+        // Add handlers for the DoseSymmetric + Bidirectional buttons.
+        // TODO: need to get the handler working!
+        RadioButton DoseSymmetric = document.rootVisualElement.Q<RadioButton>("DoseSymmetric");
+        DoseSymmetric.RegisterValueChangedCallback( e => OnDoseSymmetricChanged(e) );
     }
 
     private void OnPixelSpacingChanged(ChangeEvent<string> evt) 
@@ -353,6 +358,20 @@ public class ToolkitController : MonoBehaviour
             {
                 UpdateSpiral();
             }
+        }
+    }
+
+    private void OnDoseSymmetricChanged(ChangeEvent<bool> evt)
+    {
+        
+        if (Parameters) 
+        {
+            if (evt.newValue) {
+                Parameters.DoseSymmetric = 0;
+            } else {
+                Parameters.DoseSymmetric = 1;
+            }
+            Debug.Log("OnDoseSymmetric has value " + Parameters.DoseSymmetric.ToString());
         }
     }
 
