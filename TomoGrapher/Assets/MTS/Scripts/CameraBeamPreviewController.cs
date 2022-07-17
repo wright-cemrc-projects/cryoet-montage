@@ -11,6 +11,7 @@ using UnityEngine;
 public class CameraBeamPreviewController : MonoBehaviour
 {
     // Visual Representation of Beam GameObject
+    public LineRenderer BeamPreview;
 
     // Visual Representation of Camera FOV Rectangle
     public LineRenderer CameraBox;
@@ -25,8 +26,26 @@ public class CameraBeamPreviewController : MonoBehaviour
 
     public void SetBeamDiameter(float microns)
     {
-        // TODO: take the illuminated area diameter
+        // Take the illuminated area diameter
         // change the visual representation of a dotted circle.
+
+        int points = 21;
+
+        Vector3[] positions = new Vector3[points];
+
+        for (int i = 0; i < points; i++)
+        {
+            float angle = 2.0f * Mathf.PI * ((float)i) / ((float)points - 1);
+            float x = Mathf.Cos(angle) * microns / 2.0f;
+            float y = Mathf.Sin(angle) * microns / 2.0f;
+
+            positions[i] = new Vector3(x, 0, y);
+        }
+        
+        if (BeamPreview)
+        {
+            BeamPreview.SetPositions(positions);
+        }
     }
 
     public void SetCameraSize(float micronX, float micronY)

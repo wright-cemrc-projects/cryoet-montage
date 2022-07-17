@@ -169,6 +169,7 @@ public class ToolkitController : MonoBehaviour
         {
             // Update the Box for the camera.
             Preview.SetCameraSize(Parameters.GetCameraMicronsX(), Parameters.GetCameraMicronsY());
+            Preview.SetBeamDiameter(Parameters.IlluminatedArea);
         }
     }
     private void OnPixelSpacingChanged(ChangeEvent<string> evt) 
