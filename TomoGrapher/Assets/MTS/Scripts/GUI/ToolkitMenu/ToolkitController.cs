@@ -17,6 +17,7 @@ public class ToolkitController : MonoBehaviour
     public VoxelHolder VoxelMap;
     public SimulationParameters Parameters;
     public GameObject Target;
+    public CameraBeamPreviewController Preview;
 
     // Start is called before the first frame update
     void Start()
@@ -157,11 +158,19 @@ public class ToolkitController : MonoBehaviour
         Power.RegisterValueChangedCallback(e => OnPowerChanged(e));
 
         // Add handlers for the DoseSymmetric + Bidirectional buttons.
-        // TODO: need to get the handler working!
         RadioButton DoseSymmetric = document.rootVisualElement.Q<RadioButton>("DoseSymmetric");
         DoseSymmetric.RegisterValueChangedCallback( e => OnDoseSymmetricChanged(e) );
+
     }
 
+    private void UpdatePreview()
+    {
+        if (Preview)
+        {
+            // Update the Box for the camera.
+            Preview.SetCameraSize(Parameters.GetCameraMicronsX(), Parameters.GetCameraMicronsY());
+        }
+    }
     private void OnPixelSpacingChanged(ChangeEvent<string> evt) 
     {
         if (Parameters) {
@@ -483,6 +492,9 @@ public class ToolkitController : MonoBehaviour
 
         // For debugging
         // Parameters.DebugImageShifts();
+
+        // Update a preview view
+        UpdatePreview();
     }
 
     IEnumerator ShowSaveMacroDialogCoroutine(ExportMacro export)
