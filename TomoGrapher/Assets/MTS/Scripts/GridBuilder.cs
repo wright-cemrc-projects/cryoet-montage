@@ -37,8 +37,8 @@ public class GridBuilder : MonoBehaviour
                     b.AngstromX = AngstromX;
                     b.AngstromY = AngstromY;
                     b.AngstromZ = AngstromZ;
-                    b.X = k; // Make the Y-axis the tilt axis
-                    b.Y = i; // Make the X-axis the perpendicular axis
+                    b.X = k; // Align the X-axis as the tilt axis
+                    b.Y = X_Dimension - i - 1; // Align the Y-axis as perpendicular axis, top-right voxel as max value.
                     b.Z = j;
                     z++;
                     GridHolder.GetComponent<VoxelHolder>().Voxels.Add(b);

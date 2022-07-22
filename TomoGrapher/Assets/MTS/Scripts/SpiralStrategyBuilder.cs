@@ -177,7 +177,9 @@ public class SpiralStrategyBuilder : MonoBehaviour
 
         for (int i = 0; i < parameters.ImageShiftsX; i++) {
             for (int j = 0; j < parameters.ImageShiftsY; j++) {
-                Vector3 pos = new Vector3(i * spacing_x + offset.x, j * spacing_y + offset.y, 0.0f);
+                // Vector3 pos = new Vector3(i * spacing_x + offset.x, j * spacing_y + offset.y, 0.0f);
+                // X and Y are rotated in the coordinate system here. [ TODO - can this be simplified/consistent globally ? ]
+                Vector3 pos = new Vector3(j * spacing_y + offset.y, i * spacing_x + offset.x, 0.0f);
                 rv.Add(pos);
             }
         }
