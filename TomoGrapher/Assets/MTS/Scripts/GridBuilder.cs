@@ -37,9 +37,13 @@ public class GridBuilder : MonoBehaviour
                     b.AngstromX = AngstromX;
                     b.AngstromY = AngstromY;
                     b.AngstromZ = AngstromZ;
-                    b.X = k; // Align the X-axis as the tilt axis
-                    b.Y = X_Dimension - i - 1; // Align the Y-axis as perpendicular axis, top-right voxel as max value.
-                    b.Z = j;
+                    b.X = i;
+                    b.Y = j;
+                    b.Z = k;
+
+                    // b.X = k; // Align the X-axis as the tilt axis
+                    // b.Y = X_Dimension - i - 1; // Align the Y-axis as perpendicular axis, top-right voxel as max value.
+                    // b.Z = j;
                     z++;
                     GridHolder.GetComponent<VoxelHolder>().Voxels.Add(b);
                 }
@@ -58,7 +62,9 @@ public class GridBuilder : MonoBehaviour
         if (GridHolder)
         {
             GridHolder.transform.localScale = new Vector3(X_Size* 1.0f / X_Dimension, Y_Size* 1.0f / Y_Dimension, Z_Size* 1.0f / Z_Dimension);
-            GridHolder.transform.position = new Vector3(-X_Size / 2.0f, -Y_Size / 2.0f, -Z_Size / 2.0f);
+            // The grids local coordinate system treats X and Y on same flat plane of surface, and Z as up.
+            // Unity treats Y as Up, so we are rewriting here to adjust.
+            GridHolder.transform.position = new Vector3(X_Size / 2.0f, -Z_Size / 2.0f, -Y_Size / 2.0f);
         }
     }
 
