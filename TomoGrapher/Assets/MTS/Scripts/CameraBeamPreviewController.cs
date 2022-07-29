@@ -29,7 +29,7 @@ public class CameraBeamPreviewController : MonoBehaviour
         // Take the illuminated area diameter
         // change the visual representation of a dotted circle.
 
-        int points = 21;
+        int points = 101;
 
         Vector3[] positions = new Vector3[points];
 
