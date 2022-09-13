@@ -15,7 +15,7 @@ This repository provides resources for the montage tomography with SerialEM.
 2. TomoGrapher, a tomography simulation program for pre-planning the data collections.
 
 	- [TomoGrapher documentation](TomoGrapher/README.md)
-	- [TomoGrapher tutorial](TomoGrapher/Tutorial/README.md)
+	- [TomoGrapher tutorial](TomoGrapher/TomoGrapher_Tutorial.md)
 
 3. Python scripts for stitching images and building stacks for tomograms.
 
