@@ -3,6 +3,8 @@ TomoGrapher is a standalone application that can simulate a tilt series collecti
 
 See the GitHub releases section for a prebuilt executables for Windows and Mac.
 
+New! See the ![Tomographer Tutorial](Tutorial/README.md)
+
 The main window (shown below) provides a 3D view of the beam and stage.
 
 ![main window](docs/main.png)
