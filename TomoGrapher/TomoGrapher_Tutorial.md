@@ -5,7 +5,7 @@ Updated 2022/9/13
 
 Start TomoGrapher by launching the executable on either Windows or Mac.  
 
-Your window shows 3 different panes including a view of a Cryo-ET stage, an options column on the right side, and an information panel at the bottom.
+Your window shows 3 different panes including a view of a sample on a virtual stage, an options column on the right side, and an information panel at the bottom.
 
 ![image](docs/tutorial/main_window.png)
 
@@ -69,7 +69,9 @@ Next, if you change the `Amplitude Final` to be a smaller you will be reducing t
 
 ![run_two](docs/tutorial/run_50_without_shifts.png)
 
-Notice that without the translation shifts of the pattern the overlapping dose is becoming higher intensity.  This is one of the major benefits of the SerialEM macro that can be produced to run a montage session.
+Now, without the translation shifts of the pattern between tilt steps, the overlapping dose is a higher intensity.  
+
+Parameters for the SerialEM can be optimized for best translational shifts to reduce and distribute the dose occuring at the overlapping edges.
 
 ## Export dose information
 After the tilt-series simulation completes, you can export the total dose values for each of the voxel positions of the stage.  These values can be used for graphing in MatLab and other analysis software.
