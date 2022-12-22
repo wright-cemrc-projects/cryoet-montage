@@ -40,6 +40,17 @@ import math
 def round_up_to_even(f):
     return math.ceil(f / 2.) * 2
 
+def format_tilt(tilt):
+    return format(tilt, '.1f')
+
+def build_tilt_list(minAngle, maxAngle, stepAngle):
+    rv = []
+    x = minAngle
+    while x <= maxAngle:
+        rv.append(x)
+        x += stepAngle
+    return rv
+
 class StitchPattern():
     ''' defines a stiching pattern from image shifts '''
     camera_x = 5760
@@ -49,13 +60,13 @@ class StitchPattern():
     tile_x = 3
     tile_y = 3
 
-    def writePieceFile(self, filename, tiltangle = 0):
+    def writePieceFile(self, filename, tiltangle = 0.0, tiltoffset = 0.0):
         ''' write out a formatted .pl pattern for IMOD '''
         offset_x = self.camera_x - self.overlap_x
         offset_y = self.camera_y - self.overlap_y
         f = open(filename, 'w')
         piece_y = 0
-        tiltangle_rad = abs ( math.radians(tiltangle) )
+        tiltangle_rad = abs ( math.radians(tiltangle + tiltoffset) )
         for c_tile_y in range(0, self.tile_y) :
             ''' zig zag, when y is odd run in opposite direction on x '''
             x_items = range(1, self.tile_x+1)
@@ -69,21 +80,27 @@ class StitchPattern():
             piece_y = piece_y + round( offset_y * math.cos(tiltangle_rad))
         f.close()
 
-def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, basename, stitchPattern):
+def stitching(minAngle, maxAngle, tiltoffset, stepAngle, input_directory, output_directory, basename, stitchPattern):
     ''' Process each individual tilt with newstack and blendmont and store in Output/Tilt_${i}/${Basename}_${i}'''
-    for tilt in range(minAngle, maxAngle+1, stepAngle):
+
+    tiltList = build_tilt_list(minAngle, maxAngle, stepAngle)
+    for tilt in tiltList:
+
+        # get a correctly formatted xx.x number for the tilt.
+        tilt_str = format_tilt(tilt)
+
         # make individual folders for each tilt to store original frames and stitched tiles per tilt
         processing_directory = os.path.join(output_directory, basename + '_Processing/')
-        stitching_directory = os.path.join(processing_directory, 'Tilt_'+str(tilt))
+        stitching_directory = os.path.join(processing_directory, 'Tilt_'+ tilt_str)
         if (not os.path.isdir(stitching_directory)):
             os.makedirs(stitching_directory)
 
-        expected_name = basename + '_*_' + str(tilt) + '.0.*.mrc'
+        expected_name = basename + '_*_' + str(tilt_str) + '.*mc.mrc'
         # copy any of the matching tilts where filenames include the basename and tilt angle.
         patterns = [ expected_name ]
         if tilt == 0:
             #  Provide an alternative name for the 0 tilt can be -0.0 or 0.0
-            patterns.append( basename + '_*_-' + str(tilt) + '.0.*.mrc' )
+            patterns.append( basename + '_*_-' + str(tilt_str) + '.*mc.mrc' )
             
         for filename in os.listdir(input_directory):
             for pattern in patterns:
@@ -100,23 +117,23 @@ def stitching(minAngle, maxAngle, stepAngle, input_directory, output_directory, 
         # create a -fileinlist to provide the list of all the tiles in the tilt directory.
         tileFileList = os.path.join(stitching_directory, 'tileList.txt')
         createTileList(stitching_directory, tileFileList)
-        newstack_output = os.path.join(stitching_directory, basename + '_' + str(tilt) + '.st')
+        newstack_output = os.path.join(stitching_directory, basename + '_' + tilt_str + '.st')
         if os.path.exists(newstack_output):
             print(newstack_output + ' exists, skipping')
         else:
             subprocess.run(['newstack', '-fileinlist', tileFileList, newstack_output])
 
         # pl file describes pixel distances to stitch tiles together
-        blendmont_pl_input = os.path.join(stitching_directory, basename + '_' + str(tilt) + '.pl')
-        stitchPattern.writePieceFile(blendmont_pl_input, tilt)
+        blendmont_pl_input = os.path.join(stitching_directory, basename + '_' + tilt_str + '.pl')
+        stitchPattern.writePieceFile(blendmont_pl_input, tilt, tiltoffset)
 
         # call blendmont with options for ...
         # -plin is a file with piece coordinates
         # -roo is root name for edge function and .ecd files
         # -very is to support large displacements (very sloppy!)
-        blendmont_root_name = os.path.join(stitching_directory, basename + '_' + str(tilt))
-        blendfile = basename + '_' + str(tilt) + '_blend.st'
-        preblendfile = basename + '_' + str(tilt) + '_preblend.st'
+        blendmont_root_name = os.path.join(stitching_directory, basename + '_' + tilt_str)
+        blendfile = basename + '_' + tilt_str + '_blend.st'
+        preblendfile = basename + '_' + tilt_str + '_preblend.st'
         blendmont_output = os.path.join(stitching_directory, blendfile)
         preblend_output = os.path.join(stitching_directory, preblendfile)
         
@@ -148,13 +165,18 @@ def createTileList(tile_directory, tileFile):
 
 def createTiltList(output_directory, basename, startTilt, endTilt, stepTilt, tiltFile):
     ''' Create a userlist.txt file defining the files/tilts in the stack '''
+
+    tilt_list = build_tilt_list(startTilt, endTilt, stepTilt)
+    tiltCount = len(tilt_list)
     processing_directory = os.path.join(basename + '_Processing/')
-    tiltCount = (endTilt - startTilt) / stepTilt + 1
     f = open(tiltFile, 'w')
     f.write(str(tiltCount) + '\n')
-    for tilt in range(startTilt, endTilt+1, stepTilt):
-        tiltDir = 'Tilt_' + str(tilt)
-        blendmont_output = os.path.join(processing_directory, tiltDir, basename + '_' + str(tilt) + '_blend.st')
+    for tilt in tilt_list:
+        # get a correctly formatted xx.x number for the tilt.
+        tilt_str = format_tilt(tilt)
+        tiltDir = 'Tilt_' + tilt_str
+
+        blendmont_output = os.path.join(processing_directory, tiltDir, basename + '_' + tilt_str + '_blend.st')
         f.write(blendmont_output + '\n')
         f.write('0\n')
     f.close()
@@ -162,8 +184,12 @@ def createTiltList(output_directory, basename, startTilt, endTilt, stepTilt, til
 def createRawTilt(startTilt, endTilt, stepTilt, rawTiltFile):
     ''' Create user.rawtlt '''
     f = open(rawTiltFile, 'w')
-    for tilt in range(startTilt, endTilt+1, stepTilt):
-        f.write(str(tilt) + '\n')
+
+    tiltList = build_tilt_list(startTilt, endTilt, stepTilt)
+    for tilt in tiltList:
+        # get a correctly formatted xx.x number for the tilt.
+        tilt_str = format_tilt(tilt)
+        f.write(tilt_str + '\n')
     f.close()
 
 def checkDependencies():
@@ -190,8 +216,9 @@ def main():
     parser.add_argument('--input', help='path to the data collection directory', required=True, default=None)
     parser.add_argument('--output', help='path to a location to write results', required=True, default=None)
     parser.add_argument('--basename', help='define a common basename for the images', required=True, default=None)
-    parser.add_argument('--starting_angle', help='define the minimal bounds of the tilt range, ex. -60', type=int, required=True, default=None)
-    parser.add_argument('--ending_angle', help='define the maximal bounds of the tilt range, ex. 60', type=int, required=True, default=None)
+    parser.add_argument('--offset_angle', help='define an offset angle for the tilt affecting piececoordinate offsets', type=float, required=False, default=0)
+    parser.add_argument('--starting_angle', help='define the minimal bounds of the tilt range, ex. -60', type=float, required=True, default=None)
+    parser.add_argument('--ending_angle', help='define the maximal bounds of the tilt range, ex. 60', type=float, required=True, default=None)
     parser.add_argument('--tilt_increment', help='define the increment of the tilt, ex 3', type=int, required=True, default=None)
     ## Parameters describing blend parameters
     parser.add_argument('--camera_x', help='define camera width in pixel dimensions (default 5760)', type=int, required=False, default=5760)
@@ -221,7 +248,7 @@ def main():
     pattern.tile_y = args.tile_y
 
     # Run the main 'Stitching' function to create individual sticked images called *_blend.st and stack.
-    stitching(args.starting_angle, args.ending_angle, args.tilt_increment, args.input, args.output, args.basename, pattern)
+    stitching(args.starting_angle, args.ending_angle, args.offset_angle, args.tilt_increment, args.input, args.output, args.basename, pattern)
 
     # Create the rawtlt and tiltlist.txt
     rawTiltTxt = 'tilt.rawtlt'
