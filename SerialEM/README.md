@@ -142,7 +142,7 @@ Close column/gun valves at end
 
 ### SerialEM cryoMontage macro
 
-You could adjust the parameters below to implement specific montage tilt series collections.
+You could adjust the parameters below to implement specific montage tilt series collections. We recommmend to run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. 
 
 #### *Basic settings*
 
@@ -174,12 +174,11 @@ parameters applicable to all tilt series
 
 this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION* for a report log file per MPACT tilt series collection. This could be very useful when *Debug* is set to 1 to identify potential issues
 
-- BaseDir - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports
+- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This is the only parameter that currently needs to be modified by the user in the cryoMontage.txt macro exported from ***TomoGrapher***.
 
 #### *Spiral translation settings*
 
 parameters that define the translational offsets for dose distribution, match up with ***Tomographer***.
-We highly recommmend tp run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. 
 
 - Ainitial - if set to nonzero, move the centerpoint point of the spiral to a nonzero origin to start
 - Afinal - spiral final radius, the bigger Afinal, the bigger translatonal offsets are
