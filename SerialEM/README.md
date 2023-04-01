@@ -1,38 +1,41 @@
 ## SerialEM Setup for Montage Parrallel Array Cryo-Tomography (MPACT)
 
-This workflow uses Open-source microscope control software SerialEM to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information.
+This workflow uses open-source microscope control software [SerialEM](https://bio3d.colorado.edu/SerialEM/download.html) to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information. The MPACT performance in the preservation of high resolution structures has been benchmarked at the pixel size of ~4.6 Å by subtomogram averaging of in-situ flexible glycoprotein fusion F of the respiratory syncytial virus (RSV). 
+
 
 ### Features
 
-- Flexibility. The current tools support rectangle or square montage tiling pattern. Users can specify the tile piece numbers based on their applications
+- Flexibility. The current tools support rectangle or square montage tiling pattern. Users can specify the tile piece numbers based on their applications. 
 
-- Outputs. The acquired montage tilt series can be stitched together to be used as as one whole unit or sorted into individual tiles to be used as regular tomograms. One 3x3 montage tilt series could yield 10 usable tilt series (9 individual tiles and 1 fully stitched tilt series) 
+- Outputs. For raw movie frame stacks collected in both SerialEM 3.8 and above (stable releases) and 4.1, the acquired montage tilt series frames can be stitched together to be used as as one whole unit or sorted into individual tiles to be used as regular tomograms. One 3x3 montage tilt series could yield 10 usable tilt series (9 individual tiles and 1 fully stitched tilt series, ± 60 degree with an increment of 3 degree) typically in 1~1.5 hr. In SerialEM 4.1, the MPACT tilt series output is properly restacked with the corresponding metadata autodoc (.mdoc) written, if the metadata autodoc file is being exported (we strongly recommend to write out the .mdoc file). 
 
 - Acquisition. This workflow uses the built-in SerialEM function, *Multiple Record* with image shift, to achieve accurate image-shift based montage pattern collection. Thus, all settings and functions related to *Multiple Record* are applicable here to design user-specified patterns, correct coma introduced by beam tilt, etc.
 
+- Adaptation. The MPACT set-up fits into the common workflow of *Navigator-Acquire at Item* and *Primary Action - Run script* in SerialEM automated data acquisition routine. 
+
 ### Requirements
 
-MPACT has been tested on a Thermo Fisher Scientific Krios G3i and G4 transmission electron microscope eqquipped with K3 or Falcon 4i direct electron dector. In principal, MPACT should be applicable to all autoloader-equipped microscopes with stable beam-image shift lens system.
+MPACT has been tested on a Thermo Fisher Scientific Krios G3i and G4 transmission electron microscope eqquipped with K3 (TEM and EFTEM) rectangular or Falcon 4i (TEM and EFTEM) square direct electron dector. In principal, MPACT should be applicable to all autoloader-equipped microscopes with a stable beam-image shift lens system.
 
-MPACT is applicable to both SerialEM 3.8 above and 4.0 stable release, and 4.1. The Python scripting capacity is not required. 
+MPACT is applicable to both SerialEM 3.8 and above stable release (including 4.0), and 4.1. The Python scripting capacity is not required. 
 
-To use MPACT, copy the content of *SerialEM cryoMontage macro 3.8 above* (if SerialEM 3.8 and above, 4.0 stable release is installed) or *SerialEM cryoMontage macro 4.1* (if SerialEM 4.1 is installed) in an empty SerialEM script slot/window.
+To use MPACT, copy the content of *cryoMontage.txt* in an empty SerialEM script slot/window.
 
-We recommend the installation of SerialEM 4.1 for MPACT because the image shift set-up for the montage overlap via Multiple Records can be easily done with the *Montage Setup Dialog* and the stitched overview per tilt is displayed in SerialEM live (below). In addition, several functions (only available in SerialEM 4.1) such as [AccumulateRecordDose and PriorRecordDose and ReorderMontageByTilt](https://bio3d.colorado.edu/SerialEM/hlp/html/script_commands.htm).
+We recommend the installation of SerialEM 4.1 for MPACT because the image shift set-up (step 1 to 3) for the montage tile overlap via Multiple Records can be easily done via the *Montage Setup Dialog* and the stitched montage overview per tilt is displayed in SerialEM live. In addition, several functions (only available in SerialEM 4.1) such as [AccumulateRecordDose and PriorRecordDose and ReorderMontageByTilt](https://bio3d.colorado.edu/SerialEM/hlp/html/script_commands.htm) could help facilitate pre-processing steps. 
 
 ![SerialEM4.1_displayfeatures.png](images/SerialEM4.1_displayfeatures.jpg)
 
 ### Microscope imaging set up
 
-In general, there are two ways to define MPACT parameters (rectangular or square size of the field of view, image shift, tile overlay), depending on which SerialEM (stable release or 4.1) is currently installed. 
+In general, there are two ways to define important MPACT parameters (pieces in X and Y to define the rectangular or square montaged size of the field of view, image shift in X and Y to control the proper tile overlay, spiral translational shift to spread the dose), depending on which SerialEM (stable release or 4.1) is currently installed. We combined them into one **Step 1 to 8** procedure with differences marked mainly in **Step 3**. 
 
-**1.** The image shift and pixel size at the recording magnification should be well calibrated and up to date in SerialEM, follow the instructions [Calibrate Image Shift and Pixel Size](https://bio3d.colorado.edu/SerialEM/hlp/html/setting_up_serialem.htm#setup_pixelsize).
+**Step 1.** The image shift and pixel size at the recording magnification should be well calibrated and up to date in SerialEM, follow the instructions [Calibrate Image Shift and Pixel Size](https://bio3d.colorado.edu/SerialEM/hlp/html/setting_up_serialem.htm#setup_pixelsize).
 
-**2.** Set up the View or Search, Record, View, Focus, Trial imaging parameters in **Low Dose Mode**
+**Step 2.** Set up the View or Search, Record, View, Focus, Trial imaging parameters in **Low Dose Mode**
 
-**3.** Generate rectangle or square tile patterns with specified montage overlaps using image shift.
+**Step 3.** Generate rectangle or square tile patterns with specified montage overlaps using image shift.
 
-#### MPACT set up in SerialEM 3.8 and above, and 4.0 (stable release)
+#### MPACT set up in SerialEM 3.8 and above (stable release) including 4.0
 
 - 3.1. Go to an area with contents e.g. samples or region of interest, reset image shift using *Reset Image Shift* to collect an image-shift 2x2 montage at the recording magnification and camera binning that will be later used for tilt series acquisitions. 
 
@@ -111,17 +114,17 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
    
    This step is to help optimize the size of MPACT size to make sure the stitching and ROI is covered in the x and y piece numbers.
    
-**4.** Set up a series of ROI by saving the *View* (typical magnification range in *View* imaging state is SA 2000 ~ 5000) as a map in the *Navigator* window, under the file name of your choice, e.g. *TargetMap.mrc*
+**Step 4.** Set up a series of ROI by saving the *View* (typical magnification range in *View* imaging state is SA 2000 ~ 5000) as a map in the *Navigator* window, under the file name of your choice, e.g. *TargetMap.mrc*
 
-**5.** Select *New file at item* and select *Single frame images* in the *Properties of File to Open* window
+**Step 5.** Select *New file at item* and select *Single frame images* in the *Properties of File to Open* window
 
    ![Properties_dialog_setup_4.1.png](images/Properties_dialog_setup_4.1.png)
     
-**6.** Set up a series of ROI by saving the *View* or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
+**Step 6.** Set up a series of ROI by saving the *View* or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 
-**7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
+**Step 7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
 
-**8.** Set cryoMontage script as *Primary Action*
+**Step 8.** Set cryoMontage script as *Primary Action*
 
 Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
 
