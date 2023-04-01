@@ -115,9 +115,9 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
     
 **6.** Set up a series of ROI by saving the *View* or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 
-**6.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
+**7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
 
-**7.** Set cryoMontage or cryoMontage_updated_Multishot script as *Primary Action*
+**8.** Set cryoMontage or cryoMontage_updated_Multishot script as *Primary Action*
 
 Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
 
