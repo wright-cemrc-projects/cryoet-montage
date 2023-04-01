@@ -18,6 +18,10 @@ MPACT is applicable to both SerialEM 3.8 above and 4.0 stable release, and 4.1. 
 
 To use MPACT, copy the content of *SerialEM cryoMontage macro 3.8 above* (if SerialEM 3.8 and above, 4.0 stable release is installed) or *SerialEM cryoMontage macro 4.1* (if SerialEM 4.1 is installed) in an empty SerialEM script slot/window.
 
+We recommend the installation of SerialEM 4.1 for MPACT because the image shift set-up for the montage overlap via Multiple Records can be easily done with the *Montage Setup Dialog* and the stitched overview per tilt is displayed in SerialEM live (below). In addition, several functions (only available in SerialEM 4.1) such as [AccumulateRecordDose and PriorRecordDose and ReorderMontageByTilt](https://bio3d.colorado.edu/SerialEM/hlp/html/script_commands.htm).
+
+![SerialEM4.1_displayfeatures.png](images/SerialEM4.1_displayfeatures.jpg)
+
 ### Microscope imaging set up
 
 In general, there are two ways to define MPACT parameters (rectangular or square size of the field of view, image shift, tile overlay), depending on which SerialEM (stable release or 4.1) is currently installed. 
@@ -160,6 +164,8 @@ parameters applicable to all tilt series
 - savescreenshot - save image display of the stitched overivew, only applicable in SerialEM 4.1
   - 0 = save screen display off
   - 1 = save screen display on
+
+![Montage_dialog_setup_4.1.png](images/Montage_dialog_setup_4.1.png)
 
 #### *File settings*
 
