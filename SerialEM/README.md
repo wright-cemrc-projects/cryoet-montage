@@ -137,7 +137,7 @@ Close column/gun valves at end
 
 You could adjust the parameters below to implement specific montage tilt series collections.
 
-#### *basic settings*
+#### *Basic settings*
 
 parameters applicable to all tilt series
 
@@ -148,7 +148,6 @@ parameters applicable to all tilt series
 - eucentricity_option - eucentricity identification for each tilt, make sure [Center Image Shift on Tilt Axis](https://bio3d.colorado.edu/SerialEM/hlp/html/menu_tasks.htm#hid_tasks_settiltaxisoffset) is checked
 - file_setting 
   - 1 - if set to 1 , set up a local path to save a log file and report for each tilt series
-  - BaseDir - if file_setting = 1, define a local path to save log files and reports in #### *file settings* section below
 - tolerance - redo tracking and or extra tracking shot if the current frame is off ROI by a fraction of the image frame
   - 0.5 means tracking step will reiterate when the current frame is off at least 50% of the shorter image frame dimension. Lower tolerance implements more rigorous tracking and centering of ROI during the tilt series collection
 - defocus - target defocus value during *AutoFocus* at the begining of each tilt, negative number being defocus
@@ -161,6 +160,12 @@ parameters applicable to all tilt series
 - savescreenshot - save image display of the stitched overivew, only applicable in SerialEM 4.1
   - 0 = save screen display off
   - 1 = save screen display on
+
+#### *File settings*
+
+this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION* for a report log file per MPACT tilt series collection. This could be very useful when *Debug* is set to 1 to identify potential issues
+
+- BaseDir - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports
 
 #### *Spiral translation settings*
 
