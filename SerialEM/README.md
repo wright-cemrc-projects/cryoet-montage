@@ -1,6 +1,6 @@
 ## SerialEM Setup for Montage Parrallel Array Cryo-Tomography (MPACT)
 
-This workflow uses open-source microscope control software [SerialEM](https://bio3d.colorado.edu/SerialEM/download.html) to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information. The MPACT performance in the preservation of high resolution structures has been benchmarked at the pixel size of ~4.6 Å by subtomogram averaging of in-situ flexible glycoprotein fusion F of the respiratory syncytial virus (RSV). 
+This workflow uses open-source microscope control software [SerialEM](https://bio3d.colorado.edu/SerialEM/download.html) to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information. The MPACT performance in preservation of high resolution structures has been benchmarked at the pixel size of ~4.6 Å by subtomogram averaging of in-situ flexible glycoprotein fusion F of the respiratory syncytial virus (RSV). 
 
 
 ### Features
