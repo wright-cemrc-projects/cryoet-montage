@@ -121,7 +121,7 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
 
 **7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
 
-**8.** Set cryoMontage or cryoMontage_updated_Multishot script as *Primary Action*
+**8.** Set cryoMontage script as *Primary Action*
 
 Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
 
@@ -137,7 +137,7 @@ Close column/gun valves at end
 
 ```
 
-### SerialEM cryoMontage or cryoMontage_updated_Multishot macro
+### SerialEM cryoMontage macro
 
 You could adjust the parameters below to implement specific montage tilt series collections.
 
@@ -176,7 +176,7 @@ this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION
 #### *Spiral translation settings*
 
 parameters that define the translational offsets for dose distribution, match up with ***Tomographer***.
-We highly recommmend tp run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***export*** function in ***Tomographer*** to get the proper cryoMontage or cryoMontage_updated_Multishot scripts
+We highly recommmend tp run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. 
 
 - Ainitial - if set to nonzero, move the centerpoint point of the spiral to a nonzero origin to start
 - Afinal - spiral final radius, the bigger Afinal, the bigger translatonal offsets are
