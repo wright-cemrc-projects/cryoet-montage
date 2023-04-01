@@ -1,4 +1,4 @@
-MacroName cryoMontage_Updated
+MacroName cryoMontage
 
 Echo ============ cryoMontage ===============
 
@@ -6,9 +6,11 @@ Echo ============ cryoMontage ===============
 
 # Developed in Elizabeth Wright Group at University of Wisconsin-Madison, WI, US
 
-# Last modified: May. 1st 2022
+# Last modified: March. 2023
 
 # Supports dose-symmetric and bidirectional montage tilt series collection on lamellae (non-zero starting angle)
+
+# This macro is suitable for SerialEM 3.8 and above (stable release including 4.0).
 
 ### Adjust the parameters below together with Tomographer to specify your montage tilt series schemes
 
