@@ -128,7 +128,7 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
    
 #### MPACT set up in SerialEM 4.1
 
-- 5.1. Select *Montage frame images* in the *Properties of File to Open* window.
+- 5.1. Select *Montage images* in the *Properties of File to Open* window.
 
 ![Setup_SerialEM4.1_V2.PNG](images/Setup_SerialEM4.1_V2.PNG)
 
@@ -196,7 +196,7 @@ parameters applicable to all tilt series
 
 this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION* for a report log file per MPACT tilt series collection. This could be very useful when *Debug* is set to 1 to identify potential issues
 
-- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This is the only parameter that currently needs to be modified by the user in the cryoMontage.txt macro exported from ***TomoGrapher***.
+- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This is the ***ONLY parameter*** that currently needs to be modified by the user in the cryoMontage.txt macro exported from ***TomoGrapher***.
 
 #### *Spiral translation settings*
 
