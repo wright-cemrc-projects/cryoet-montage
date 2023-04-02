@@ -116,9 +116,26 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
    
 **Step 4.** Set up a series of ROI by saving the *View* (typical magnification range in *View* imaging state is SA 2000 ~ 5000) as a map in the *Navigator* window, under the file name of your choice, e.g. *TargetMap.mrc*
 
-**Step 5.** Select *New file at item* and select *Single frame images* in the *Properties of File to Open* window
+**Step 5.** Select *New file at item* in *Navigator*
+
+#### MPACT set up in SerialEM 3.8 and above (stable release) including 4.0
+
+- 5.1. Select *Single frame images* in the *Properties of File to Open* window.
 
    ![Properties_dialog_setup_4.1.png](images/Properties_dialog_setup_4.1.png)
+
+- 5.2. Define the image saving properties as usual.
+   
+#### MPACT set up in SerialEM 4.1
+
+- 5.1. Select *Montage frame images* in the *Properties of File to Open* window.
+
+![Setup_SerialEM4.1_V2.PNG](images/Setup_SerialEM4.1_V2.PNG)
+
+- 5.2. Once the *Montage Setup Dialog* is open, specify the x and y piece numbers, and tile overlaps in pixels, select *Acquire with Multiple Record routine*, similar to **Step 3.2.**
+
+
+
     
 **Step 6.** Set up a series of ROI by saving the *View* or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 
