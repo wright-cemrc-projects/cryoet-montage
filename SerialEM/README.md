@@ -122,7 +122,7 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
 
 - 5.1. Select *Single frame images* in the *Properties of File to Open* window.
 
-   ![Properties_dialog_setup_4.1.png](images/Properties_dialog_setup_4.1.png)
+![Properties_dialog_setup_4.1.png](images/Properties_dialog_setup_4.1.png)
 
 - 5.2. Define the image saving properties as usual.
    
@@ -134,10 +134,11 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
 
 - 5.2. Once the *Montage Setup Dialog* is open, specify the x and y piece numbers, and tile overlaps in pixels, select *Acquire with Multiple Record routine*, similar to **Step 3.2.**
 
+![Setup_SerialEM_MontageDialog_V2.PNG](images/Setup_SerialEM_MontageDialog_V2.PNG)
 
-
+- 5.3. Define the image saving properties as usual.
     
-**Step 6.** Set up a series of ROI by saving the *View* or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
+**Step 6.** Set up a series of ROI by saving the *View* (we recommend *View* shot as ROI map) or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 
 **Step 7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
 
@@ -147,7 +148,9 @@ Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixe
 
 Note: We scripted in several basic functions that are now accessible as *Related options in Primay Action* in the *Navigator Acquire Dialog* in SerialEM 4.0. To have a smooth first run, we recommend to use the functions in the macro and skip *Related options in Primay Action*. Only *Primary Action* and *General options* are needed. Once you have a successful run and are comfortable with macro editing, feel free to adjust and integrate it with your current collection routines. 
 
-A typical *Navigator Acquire Dialog* looks like below
+#### MPACT set up in SerialEM 3.8 and above (stable release) including 4.0
+
+A typical *Navigator Acquire Dialog* looks like below in 
 
 ```
 Primary Action
@@ -156,6 +159,10 @@ Skip Z moves in initial move and Realign
 Close column/gun valves at end
 
 ```
+#### MPACT set up in SerialEM 4.1
+
+![Setup_SerialEM_MontageDialog_V2.PNG](images/Setup_SerialEM_MontageDialog_V2.PNG)
+
 
 ### SerialEM cryoMontage macro
 
@@ -184,8 +191,6 @@ parameters applicable to all tilt series
 - savescreenshot - save image display of the stitched overivew, only applicable in SerialEM 4.1
   - 0 = save screen display off
   - 1 = save screen display on
-
-![Montage_dialog_setup_4.1.png](images/Montage_dialog_setup_4.1.png)
 
 #### *File settings*
 
