@@ -161,7 +161,7 @@ Close column/gun valves at end
 ```
 #### MPACT set up in SerialEM 4.1
 
-![Setup_SerialEM_MontageDialog_V2.PNG](images/Setup_SerialEM_MontageDialog_V2.PNG)
+![Setup_NavigatorDialog_4.1.PNG](images/Setup_NavigatorDialog_4.1.PNG)
 
 
 ### SerialEM cryoMontage macro
