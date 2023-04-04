@@ -4,12 +4,27 @@ using UnityEngine;
 using System.IO;
 using System;
 
+
+public enum SerialEM_Version { SerialEM3_8 , SerialEM4_1 };
+
 public class ExportMacro : MonoBehaviour
 {
-    public string TemplateName = "cryoMontage_template.txt";
+    public string TemplateNameSerialEM3 = "cryoMontage_template_3.txt";
+    public string TemplateNameSerialEM4 = "cryoMontage_template_4.txt";
 
     /// Expected template location
-    public string GetTemplatePath() {
+    public string GetTemplatePath(SerialEM_Version version) {
+
+        string TemplateName = "cryoMontage_template.txt";
+        if (version == SerialEM_Version.SerialEM3_8) {
+            TemplateName = "cryoMontage_template_3.txt";
+        }
+        if (version == SerialEM_Version.SerialEM4_1) {
+            TemplateName = "cryoMontage_template_4.txt";
+        }
+
+        Debug.Log("TemplateName " + TemplateName);
+
         return Application.dataPath + "/" + TemplateName;
     }
 
@@ -17,7 +32,8 @@ public class ExportMacro : MonoBehaviour
     public void WriteMacro(string filename, SimulationParameters Parameters) {
 
         // Read a template which will have %VALUE% replaced with known values.
-        string templatePath = GetTemplatePath();
+        string templatePath = GetTemplatePath(Parameters.SerialEM_ver);
+
         if (File.Exists(templatePath))
         {
 

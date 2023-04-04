@@ -101,6 +101,9 @@ public class SimulationParameters : MonoBehaviour
     [SerializeField]
     public string LogDirectory = "X:\\";
 
+    [SerializeField]
+    public SerialEM_Version SerialEM_ver = SerialEM_Version.SerialEM4_1;
+
     public void Awake() {
         UpdateValues();
     }

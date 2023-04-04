@@ -1,50 +1,59 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/MTS/Scripts/GUI/ToolkitMenu/ToolkitPanel.uss?fileID=7433441132597879392&amp;guid=cd34c1c2e786347aab4d094be88b5ebd&amp;type=3#ToolkitPanel" />
-    <ui:VisualElement name="RightPanel" style="position: relative; left: 70%; width: 30%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; background-color: rgba(209, 209, 209, 0.57); height: 100%; font-size: 24px; min-height: 100%; min-width: 30%; max-height: 100%;">
+    <ui:VisualElement name="RightPanel" style="position: relative; left: 70%; width: 30%; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 5px; padding-right: 5px; padding-top: 2px; padding-bottom: 2px; background-color: rgba(209, 209, 209, 0.57); height: 100%; font-size: 24px; min-height: 100%; min-width: 30%; max-height: 100%;">
         <ui:Label text="Image Shift Pattern Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
-        <ui:TextField picking-mode="Ignore" label="Pixel Spacing (A)" value="filler text" text="1.0" name="PixelSpacing" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Illuminated Area (um)" value="filler text" text="1.0" name="BeamDiameter" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Pixel Spacing (A)" value="filler text" text="1.0" name="PixelSpacing" style="margin-top: 10px; max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Illuminated Area (um)" value="filler text" text="1.0" name="BeamDiameter" style="margin-top: 10px; max-height: none;" />
         <ui:TextField picking-mode="Ignore" label="Camera Pixels X" value="filler text" text="5760" name="CameraPixelsX" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Camera Pixels Y" value="filler text" text="4092" name="CameraPixelsY" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Tile X" value="filler text" text="3" name="ImageShiftsX" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Tile Y" value="filler text" text="3" name="ImageShiftsY" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Percent Overlap X" value="15" text="15" name="OverlapX" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Percent Overlap Y" value="10" text="10" name="OverlapY" style="margin-top: 10px;" />
+        <ui:TextField picking-mode="Ignore" label="Camera Pixels Y" value="filler text" text="4092" name="CameraPixelsY" style="margin-top: 10px; max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Tile X" value="filler text" text="3" name="ImageShiftsX" style="margin-top: 10px; max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Tile Y" value="filler text" text="3" name="ImageShiftsY" style="margin-top: 10px; max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Percent Overlap X" value="15" text="15" name="OverlapX" style="margin-top: 10px; max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Percent Overlap Y" value="10" text="10" name="OverlapY" style="margin-top: 10px; max-height: none;" />
         <ui:Label text="Tilt Strategy Panel" display-tooltip-when-elided="true" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
-        <ui:TextField picking-mode="Ignore" label="Tilt To (Degrees)" value="filler text" text="60" name="TiltTo" />
-        <ui:TextField picking-mode="Ignore" label="End at (Degrees)" value="filler text" text="-60" name="TiltEnd" />
-        <ui:TextField picking-mode="Ignore" label="Run Series in two directions from (Degrees)" value="filler text" text="0" name="TiltStart" style="flex-direction: column;" />
-        <ui:TextField picking-mode="Ignore" label="Tilt Step (Degrees)" value="filler text" text="3.0" name="TiltIncrement" />
-        <ui:TextField picking-mode="Ignore" label="e-/A2 per tilt" value="1.0" text="1.0" name="DosePerTilt" />
-        <ui:RadioButtonGroup value="-1" name="DoseSymmetricGroup" style="flex-direction: column; font-size: 24px; margin-left: 0;">
-            <ui:RadioButton label="Dose Symmetric" name="DoseSymmetric" value="true" style="margin-left: 3px; flex-direction: row;" />
-            <ui:RadioButton label="Bidirectional" name="Bidrectional" />
+        <ui:TextField picking-mode="Ignore" label="Tilt To (Degrees)" value="filler text" text="60" name="TiltTo" style="max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="End at (Degrees)" value="filler text" text="-60" name="TiltEnd" style="max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Start from (Degrees)" value="filler text" text="0" name="TiltStart" style="flex-direction: row; max-height: none; max-width: 100%;" />
+        <ui:TextField picking-mode="Ignore" label="Tilt Step (Degrees)" value="filler text" text="3.0" name="TiltIncrement" style="max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="e-/A2 per tilt" value="1.0" text="1.0" name="DosePerTilt" style="max-height: none;" />
+        <ui:RadioButtonGroup value="-1" name="DoseSymmetricGroup" style="flex-direction: row-reverse; font-size: 24px; margin-left: 0; margin-top: 3px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; align-items: flex-start; justify-content: flex-start; height: auto; width: auto; flex-basis: auto; max-height: none; padding-left: 10px; padding-right: 10px;">
+            <ui:RadioButton label="Bidirectional" name="Bidrectional" value="true" style="padding-bottom: 0; padding-top: 0; justify-content: flex-start; flex-direction: row-reverse; height: auto; max-height: none; min-width: auto; max-width: none;" />
+            <ui:RadioButton label="Dose-Symmetric" name="DoseSymmetric" value="false" style="padding-bottom: 0; padding-top: 0; justify-content: flex-start; flex-direction: row-reverse; height: auto; max-height: none; max-width: none; min-width: auto;" />
         </ui:RadioButtonGroup>
-        <ui:TextField picking-mode="Ignore" label="Amplitude Initial" value="0" name="AmpInitial" binding-path="AmpInitial" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
-        <ui:TextField picking-mode="Ignore" label="Amplitude Final" value="0" name="AmpFinal" binding-path="AmpFinal" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
-        <ui:TextField picking-mode="Ignore" label="Turns" value="50" name="Turns" tooltip="Tilts per Revolution defines over how many tilt steps to have a rotation of the spiral translation." usage-hints="DynamicTransform" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
-        <ui:TextField picking-mode="Ignore" label="Period" value="0" name="Period" binding-path="Period" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
-        <ui:TextField picking-mode="Ignore" label="Revolutions" value="15" name="Revolutions" binding-path="Revolutions" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;);" />
+        <ui:TextField picking-mode="Ignore" label="Amplitude Initial" value="0" name="AmpInitial" binding-path="AmpInitial" style="margin-top: 3px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Amplitude Final" value="0" name="AmpFinal" binding-path="AmpFinal" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Turns" value="50" name="Turns" tooltip="Tilts per Revolution defines over how many tilt steps to have a rotation of the spiral translation." usage-hints="DynamicTransform" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Period" value="0" name="Period" binding-path="Period" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); max-height: none;" />
+        <ui:TextField picking-mode="Ignore" label="Revolutions" value="15" name="Revolutions" binding-path="Revolutions" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); max-height: none;" />
         <ui:Toggle label="Weight Dose by Tilt Angle" name="DoseWeight" value="false" style="margin-top: 10px;" />
-        <ui:TextField picking-mode="Ignore" label="Power" value="1" text="1" name="Power" />
+        <ui:TextField picking-mode="Ignore" label="Power" value="1" text="1" name="Power" style="max-height: none;" />
         <ui:Toggle label="Adjust Shifts by Tilt Angle" name="CorrectCos" value="true" style="margin-top: 10px;" />
-        <ui:Label text="Simulation Panel" display-tooltip-when-elided="true" name="SimulationPanel" style="background-color: rgb(212, 212, 212); -unity-font-style: bold;" />
-        <ui:VisualElement name="Row_1" style="flex-direction: row; width: auto; height: auto; max-height: 60px; max-width: none; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
-            <ui:Button text="Ortho View" display-tooltip-when-elided="true" name="OrthoCamera" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); min-height: 18px; font-size: 28px;" />
-            <ui:Button text="Top View" display-tooltip-when-elided="true" name="TopCamera" style="margin-top: 10px; height: auto; width: auto; flex-shrink: 0; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); margin-bottom: 3px; min-height: 18px; font-size: 28px;" />
-            <ui:Button text="World View" display-tooltip-when-elided="true" name="WorldCamera" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); margin-bottom: 3px; min-height: 18px; font-size: 24px;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Row_2" style="flex-direction: row; width: auto; height: auto; max-height: 60px; max-width: none; margin-left: 0; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
-            <ui:Button text="Run" display-tooltip-when-elided="true" name="RunSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 28px;" />
-            <ui:Button text="Pause" display-tooltip-when-elided="true" name="PauseSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 28px;" />
-            <ui:Button text="Reset" display-tooltip-when-elided="true" name="ResetSimulation" style="position: relative; top: auto; left: auto; height: auto; width: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 28px;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Row_3" style="flex-direction: row; width: auto; height: auto; min-height: auto; max-height: 60px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
-            <ui:Button text="Export Voxel Values" display-tooltip-when-elided="true" name="Export" style="margin-bottom: 3px; font-size: 28px;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Row_4" style="flex-direction: row; width: auto; height: auto; min-height: auto; max-height: 60px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
-            <ui:Button text="Export Macro" display-tooltip-when-elided="true" name="ExportMacro" style="margin-bottom: 3px; font-size: 28px;" />
-        </ui:VisualElement>
+        <ui:Label text="Simulation Panel" display-tooltip-when-elided="true" name="SimulationPanel" style="background-color: rgb(212, 212, 212); -unity-font-style: bold; padding-right: 2px; padding-left: 1px;" />
+        <ui:GroupBox style="min-width: auto; min-height: auto; max-height: 300px;">
+            <ui:VisualElement name="Row_1" style="flex-direction: row; width: auto; height: auto; max-height: 45px; max-width: none; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Button text="Ortho View" display-tooltip-when-elided="true" name="OrthoCamera" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); min-height: 18px; font-size: 28px; max-height: 30px;" />
+                <ui:Button text="Top View" display-tooltip-when-elided="true" name="TopCamera" style="margin-top: 10px; height: auto; width: auto; flex-shrink: 0; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); margin-bottom: 3px; min-height: 18px; font-size: 28px; max-height: 30px;" />
+                <ui:Button text="World View" display-tooltip-when-elided="true" name="WorldCamera" style="margin-top: 10px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); margin-bottom: 3px; min-height: 18px; font-size: 24px; max-height: 30px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Row_2" style="flex-direction: row; width: auto; height: auto; max-height: 60px; max-width: none; margin-left: 0; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Button text="Run" display-tooltip-when-elided="true" name="RunSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 28px; max-height: 30px;" />
+                <ui:Button text="Pause" display-tooltip-when-elided="true" name="PauseSimulation" style="height: auto; width: auto; white-space: nowrap; position: relative; top: auto; left: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 28px; max-height: 30px;" />
+                <ui:Button text="Reset" display-tooltip-when-elided="true" name="ResetSimulation" style="position: relative; top: auto; left: auto; height: auto; width: auto; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 3px; font-size: 28px; max-height: 30px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Row_3" style="flex-direction: row; width: auto; height: auto; min-height: auto; max-height: 60px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Button text="Export Values" display-tooltip-when-elided="true" name="Export" style="margin-bottom: 3px; font-size: 28px; max-height: 30px;" />
+                <ui:Button text="Export Macro" display-tooltip-when-elided="true" name="ExportMacro" style="margin-bottom: 3px; font-size: 28px; max-height: 30px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Row_5" style="flex-direction: column-reverse; width: auto; height: auto; min-height: auto; max-height: 80px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:RadioButtonGroup value="-1" name="SerialEMVer" style="flex-direction: row-reverse; font-size: 24px; margin-left: 0; margin-top: 3px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; align-items: stretch; justify-content: flex-start; max-height: 60px; padding-left: 10px; padding-right: 10px;">
+                    <ui:RadioButton label="SerialEM 3.8" name="SerialEM3" style="padding-bottom: 0; padding-top: 0; justify-content: flex-start; flex-direction: row-reverse;" />
+                    <ui:RadioButton label="SerialEM 4.x" name="SerialEM4" value="true" style="margin-left: 3px; flex-direction: row-reverse; padding-top: 0; padding-bottom: 0;" />
+                </ui:RadioButtonGroup>
+            </ui:VisualElement>
+            <ui:VisualElement name="Row_4" style="flex-direction: column-reverse; width: auto; height: auto; min-height: auto; max-height: 80px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:TextField picking-mode="Ignore" label="Log Directory" value="X:\" text="X:\" name="Logdir" style="padding-bottom: 3px; padding-top: 3px; align-items: stretch; justify-content: flex-start; padding-left: 3px; padding-right: 3px; max-height: none;" />
+            </ui:VisualElement>
+        </ui:GroupBox>
     </ui:VisualElement>
     <ui:VisualElement name="BottomPanel" style="max-width: 70%; max-height: 18%; width: 70%; height: 18%; min-width: 70%; min-height: 18%; position: absolute; bottom: 0;">
         <ui:Toggle label="Show Target Object" name="ShowObjects" value="true" style="font-size: 36px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&apos;); color: rgb(255, 255, 255); padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 0;" />

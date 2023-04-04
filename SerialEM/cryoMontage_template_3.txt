@@ -1,0 +1,803 @@
+MacroName cryoMontage_Updated
+
+Echo ============ cryoMontage ===============
+
+# Author: Jae Yang <jyang525@wisc.edu>
+# Developed in Elizabeth Wright Group at University of Wisconsin-Madison, WI, US
+# Last modified: June 13, 2022
+# Supports dose-symmetric and bidirectional montage tilt series collection on lamellae (non-zero starting angle)
+
+### Tilt-Range ###
+tiltTo = %TILT_TO%		# Positive tilt range end.
+endAt = %END_AT%		# Negative tilt range end.
+startAngle = %START_ANGLE%	# Starting angle, central tilt angle.
+tiltStep = %TILT_STEP%		# Angle increment between subsequent tilts.
+
+### Spiral translations ###
+Ainitial = %A_INITIAL%		# Initial value for A.
+Afinal = %A_FINAL%        	# Final value for A as 1.5 with a maximum offset of 0.8 micron 
+turns = %TURNS%          	# larger number, bigger shift offsets
+period = %PERIOD%           	# change the spiral turning sharpness
+revolution = %REVOLUTIONS%      # generally no need to change
+correction = 1        		# 1 = x-axial stretching correction is on; 0 = x-axial stretching correction is off
+
+### Log preferences ###
+LogDir = %LOG_DIR%
+
+### basic settings ###
+tilt_scheme = %TILT_SCHEME%     # 0 = dose-symmetric, 1 = bidirectional
+Debug = 1                       # set to 1 for verbose output for debugging
+eucentricity_option = 2         # 1 = rough, 2 = fine, 3 = rough and fine
+file_setting = 1                # recommend to set to 1 to define a local path below
+tolerance = 0.5                 # redo tracking if larger than a fraction (tolerance) of an image 
+defocus = -6                    # fixed defocus
+cycledefocus = 0                # cycle defocus on, 0 as not on
+lowdefocus = -3                 # cycle defocus on, negative
+highdefocus = -5                # cycle defocus on, negative
+intervaldefocus = 1             # cycle defocus on, positive 
+
+### Dose-symmetric settings ###
+startAngleDS = $startAngle      # starting angle, set to nonzero for lamella
+firstEndAngleDS = $tiltTo       # positive end angle
+secondEndAngleDS = $endAt       # negative end angle
+stepSizeDS = $tiltStep          # tilt increment
+groupSizeDS = 3                 # number of tilts per group                           
+trackingShot = T                # use Trial for tracking, can also be set to V to use View shot
+doExtraTrackingShot = 0         # 1 to do extra tracking with Trial in focus area
+
+### Bi-directional settings ###
+startAngleBi = $startAngle                  # starting angle of the first half, set to nonzero for asymmetric collection
+firstSideEnd = $tiltTo                      # end angle of the first half
+secondSideStart = $startAngle - $tiltStep   # starting angle of the second half
+secondSideEnd = $endAt                      # end angle of the second half
+stepSizeBi = 3                              # tilt increment
+
+### We recommend not to change the Main Script section below for regular applications
+
+## Set the logging and debug state
+
+If $Debug == 0
+ SuppressReports
+Endif
+
+# Define the log save location #
+If $file_setting == 1
+ ReportCurrentFileName 4   
+ SetDirectory $LogDir
+ baselogname = $reportedValue4
+ SaveLogOpenNew $baselogname
+ Echo New log file open $baselogname
+Endif
+
+Echo Spiral parameters: Ainitial = $Ainitial  Afinal = $Afinal  turns = $turns  period = $period  revolution = $revolution correction on
+
+### Main script starts ###
+
+TiltTo 0
+                 
+# Align to TOI and restore TOI image shift
+Eucentricity $eucentricity_option 
+UpdateItemZ
+RealignToNavItem 1 0 0.1 4 0
+Copy A S
+ResetImageShift
+View
+AlignTo S  
+ReportImageShift
+isux = $repVal1
+isuy = $repVal2
+
+# generate extra tracking shot
+If $doExtraTrackingShot == 1 
+Trial
+Copy A W
+Endif
+
+If $Debug == 1
+Echo image shift after realignTo item: $repVal1 $repVal2
+Endif
+
+ResetClock
+SuppressReports
+
+### Start the tilt series collection ###
+
+If $tilt_scheme == 0
+  Echo startAngleDS = $startAngleDS  firstEndAngleDS = $firstEndAngleDS   secondEndAngleDS = $secondEndAngleDS stepSizeDS = $stepSizeDS
+ CallFunction TS_dose_symmetric $startAngleDS $firstEndAngleDS $secondEndAngleDS $stepSizeDS $groupSizeDS
+ElseIf $tilt_scheme == 1
+ Echo  startAngleBi = $startAngleBi    firstSideEnd = $firstSideEnd  secondSideStart = $secondSideStart   secondSideEnd = $secondSideEnd   stepSizeBi = $stepSizeBi
+ CallFunction TS_bidirectional $startAngleBi $firstSideEnd $secondSideStart $secondSideEnd $stepSizeBi
+Endif
+
+TiltTo 0
+ReportClock ts_time
+Echo TS time: $ts_time
+
+### main script end ###
+
+
+### We recommend DO NOT Change the Function section below for regular applications
+
+
+##############################
+
+Function TS_dose_symmetric 5 0
+
+Echo ====== starting dose symmetric TS =======
+startAngle = $argVal1
+firstEndAngle = $argVal2   
+secondEndAngle = $argVal3
+stepSize = $argVal4
+groupSize = $argVal5
+direction = -1 
+
+# buffers to store tracking images
+
+rightTrackingBuf = P 
+leftTrackingBuf = Q 
+rightTrackingTrial = U 
+leftTrackingTrial = V  
+
+# check tilt group switch and prevent over tilting
+
+multiStepTilt_StepSize = 25 
+
+# focus adjustment for each tilt
+ If $cycledefocus == 1
+    CallFunction CycleTargetDefocus  $lowdefocus $highdefocus $intervaldefocus
+ Else
+    SetTargetDefocus $defocus
+ Endif
+
+# generate list of angles and translation
+  
+transX = { 0 }
+transY = { 0 }
+angles = { $startAngle }
+
+If $startAngle == 0 
+ numberTilts = ( $firstEndAngle - $startAngle ) / $stepSize
+Else
+ numberTilts_One = ( $firstEndAngle - $startAngle ) / $stepSize
+ numberTilts_One = NEARINT ($numberTilts_One)
+ numberTilts_Two = -1 * ( $secondEndAngle - $startAngle )
+ numberTilts_Two = $numberTilts_Two / $stepSize
+ numberTilts_Two = NEARINT ($numberTilts_Two)
+ numberTilts = $numberTilts_One + $numberTilts_Two
+ Echo numberTilts_One   $numberTilts_One     numberTilts_Two   $numberTilts_Two
+Endif
+Echo numberTilts $numberTilts
+numberTilts = $numberTilts + 1
+Echo numberTilts $numberTilts
+revolution_2 = $revolution * 3.14
+cycles = $revolution_2 * $turns
+bgrowth = ( $Ainitial - $Afinal ) / $cycles 
+bgrowth = $bgrowth * $direction
+
+If $Debug == 1     
+ Echo translation revolution = $bgrowth  cycles = $cycles
+Endif
+
+If $doExtraTrackingShot == 1 
+ Echo extra tracking with Trial is on
+Endif
+
+Loop $numberTilts i
+Echo Start looping  $i ......
+      i_minus_one = $i - 1
+      gsMinusOne = $groupSize - 1
+      d_alpha = $i_minus_one * $gsMinusOne
+      Echo d_alpha   $d_alpha
+      IS_Angle = ( $i + $d_alpha ) * 360 * $period / $numberTilts
+      IS_Rad = ( $bgrowth * $IS_Angle ) + $Ainitial
+      IS_sin = SIN ( $IS_Angle) 
+      IS_cos = COS ( $IS_Angle)
+      Echo IS_Angle   $IS_Angle    IS_Rad   $IS_Rad    IS_sin    $IS_sin      IS_cos    $IS_cos
+      PosiX = $IS_cos * $IS_Rad 
+      Echo PosiX  $PosiX
+      NegX = $IS_cos * $IS_Rad * $direction
+      Echo NegX   $NegX
+      PosiY = $IS_sin * $IS_Rad
+      Echo PosiY  $PosiY
+      NegY = $IS_sin * $IS_Rad * $direction
+      Echo NegY   $NegY
+
+      #If $i > $numberTilts
+      #    break
+      # Endif
+      PosiXs = { $PosiX }
+      NegXs = { $NegX }
+      PosiYs = { $PosiY }
+      NegYs = { $NegY }
+      Echo PosiXs  $PosiXs   NegXs  $NegXs  PosiYx  $PosiYs  NegYs  $NegYs
+      
+      Loop $gsMinusOne j
+            nextIS_Angle = ( $i + $d_alpha + $j ) * 360 * $period / $numberTilts
+            nextIS_Rad = $bgrowth * $nextIS_Angle + $Ainitial
+            nextIS_sin = SIN ( $nextIS_Angle) 
+            nextIS_cos = COS ( $nextIS_Angle)
+            nextPosiX = $nextIS_cos * $nextIS_Rad
+            nextNegX = $nextIS_cos * $nextIS_Rad * $direction
+            nextPosiY = $nextIS_sin * $nextIS_Rad
+            nextNegY = $nextIS_sin * $nextIS_Rad * $direction
+            PosiXs = { $PosiXs $nextPosiX }
+            NegXs = { $NegXs $nextNegX }
+            PosiYs = { $PosiYs $nextPosiY }
+            NegYs = { $NegYs $nextNegY }
+       Echo nextIS_Angle   $nextIS_Angle   nextIS_Rad    $nextIS_Rad   nextIS_sin  $nextIS_sin   nextIS_cos    $nextIS_cos
+       Echo PosiXs  $PosiXs  NegXs  $NegXs  PosiYs  $PosiYs  NegYs  $NegYs
+      EndLoop
+      i_is_odd = MODULO $i 2
+      If $i_is_odd == 1
+          transX = { $transX $PosiXs }
+          transX = { $transX $NegXs }
+          transY = { $transY $PosiYs }
+          transY = { $transY $NegYs }
+      Else
+          transX = { $transX $NegXs }
+          transX = { $transX $PosiXs }
+          transY = { $transY $NegYs }
+          transY = { $transY $PosiYs }
+      Endif
+Echo transX  $transX  
+Echo transY $transY
+      
+
+d_theta = $stepSize + $i_minus_one * $stepSize * $groupSize
+      Echo d_theta: $d_theta
+      angleR = $startAngle + $d_theta
+      Echo angleR: $angleR
+
+      angleL = $startAngle - $d_theta
+      Echo angleL: $angleL
+
+      If $angleR > $firstEndAngle AND $angleL < $secondEndAngle
+             break
+      Endif
+
+      rightSide = { $angleR }
+      Echo rightSide $rightSide
+      leftSide = { $angleL }
+      Echo leftSide $leftSide
+
+      gsMinusOne = $groupSize - 1
+
+      Loop $gsMinusOne j
+         nextAngleR = $angleR + $j * $stepSize
+         nextAngleL = $angleL - $j * $stepSize
+         Echo nextAngleR  $nextAngleR    nextAngleL  $nextAngleL
+         If $nextAngleR < $firstEndAngle AND $nextAngleL > $secondEndAngle
+             rightSide = { $rightSide $nextAngleR }
+             leftSide = { $leftSide $nextAngleL }
+         Elseif $nextAngleR < $firstEndAngle AND $nextAngleL < $secondEndAngle
+             rightSide = { $rightSide $nextAngleR }
+         Elseif $nextAngleR == $firstEndAngle AND $nextAngleL < $secondEndAngle
+             rightSide = { $rightSide $nextAngleR }
+         Elseif $nextAngleL > $secondEndAngle AND $nextAngleR > $firstEndAngle
+             leftSide = { $leftSide $nextAngleL }
+         Elseif $nextAngleL == $secondEndAngle AND $nextAngleR > $firstEndAngle
+             leftSide = { $leftSide $nextAngleL }
+         Else
+             break 
+         Endif         
+       Endloop
+
+       Echo rightSide   $rightSide  leftSide   $leftSide
+
+         If $startAngle > 0 AND $angleR > $firstEndAngle AND $angleL > $secondEndAngle
+             angles = { $angles $leftSide }
+             Echo leftSideOnly $leftSide
+             Echo  Left Side angles  $angles
+         Endif
+         
+        If $startAngle < 0 AND $angleR < $firstEndAngle AND $angleL < $secondEndAngle
+             angles = { $angles $rightSide }
+             Echo rightSideOnly $rightSide
+             Echo Right side angles  $angles
+        Endif
+       
+       If $angleR < $firstEndAngle AND $angleL > $secondEndAngle
+           i_is_odd = MODULO $i 2
+           If $i_is_odd == 1
+           angles = { $angles $rightSide }
+           angles = { $angles $leftSide }
+           Echo Birectional angles  $angles
+           Else
+           angles = { $angles $leftSide }
+           angles = { $angles $rightSide }
+           Echo Bidirectional angles  $angles
+           Endif
+       Endif
+
+EndLoop
+
+Echo Angles $angles
+
+
+If $Debug == 1
+ Loop $#angles i
+      angle = $angles[$i]
+      transXcorr = $transX[$i] * COS ( $angle)
+      Echo angle,$angle  transX,$transX[$i]  transY,$transY[$i]  transXcorr,$transXcorr
+ EndLoop
+ Echo Angles $angles
+Endif
+
+Loop $#angles i
+   a = $angles[$#angles-$i+1] - $startAngle
+   b = $angles[$#angles-$i] - $startAngle
+   If $a * $b < 0
+      angleLastTrackingShot = $angles[$#angles-$i]
+      Echo angleLastTrackingShot = $angleLastTrackingShot
+      break
+   Endif
+EndLoop
+
+firstRightGroupDone = 0
+firstLeftGroupDone = 0
+
+###   tilt collection starts  
+Loop $#angles i
+  angle = $angles[$i]
+  Echo angle = $angle  
+
+  If $Debug == 0
+    Echo transX = $transX[$i]  transY = $transY[$i]
+  Endif
+
+  TiltTo $angle
+  Echo Tilt angle = $angle
+  Delay 5
+
+  If $i == 1 AND $startAngle == 0
+     GoToLowDoseArea V
+     ResetShiftIfAbove 2
+     AlignTo S
+     View
+     Copy A $rightTrackingBuf
+     Copy A $leftTrackingBuf
+     ReportImageShift
+     isux = $repVal1
+     isuy = $repVal2
+
+     If $doExtraTrackingShot == 1 
+        Trial
+        AlignTo W
+        Copy A $rightTrackingTrial
+        Copy A $leftTrackingTrial
+     Endif
+
+     If $Debug == 1
+      Echo isux = $isux  isuy = $isuy
+     Endif                  
+  Endif
+
+  # if coming from opposite side, align to tracking shot
+  If $i > 1     
+    If $angles[$i] > $startAngle AND $angles[$i-1] < $startAngle AND $firstRightGroupDone == 1
+       Echo Aligning to positive side tracking shot
+       $trackingShot
+
+       ImageProperties
+       imgWidth = $repVal1
+       imgHeight = $repVal2
+       minSide = MIN $imgWidth $imgHeight
+       imgBinning = $repVal3
+
+       AlignTo $rightTrackingBuf
+       ReportAlignShift
+       errX = $repVal1 / $imgBinning
+       errY = $repVal2 / $imgBinning
+       errorAlignV = $errX * $errX + $errY * $errY
+       errorAlignV = SQRT $errorAlignV
+       errorTol = $minSide * $tolerance
+       Echo error in align in pixel = $errorAlignV   racking error tolerance in pixel = $errorTol 
+       
+      # reiterate tracking 
+       If $errorAlignV > $errorTol
+         Echo tracking error above tolerance errorTol = $errorTol    tracking error = $errorAlignV
+         Echo redo tracking
+         Loop 5
+             $trackingShot
+             AlignTo $rightTrackingBuf
+             ReportAlignShift
+             errX = $repVal1 / $imgBinning
+             errY = $repVal2 / $imgBinning
+             errorAlignV = $errX * $errX + $errY * $errY
+             errorAlignV = SQRT $errorAlignV
+
+             If $Debug == 1
+                Echo error in align = $errorAlignV
+             Endif
+
+             If $errorAlignV < $errorTol
+                 Echo error in tracking is $errorAlignV within tolerance $errorTol
+                 break
+             Endif
+          EndLoop
+          If $errorAlignV > $errorTol
+              Echo error in tracking is $errorAlignV out of tolerance $errorTol after 5 iterations
+              StopContinuous
+          Endif
+        Endif
+          
+       ReportImageShift
+       isux = $repVal1
+       isuy = $repVal2
+       If $Debug == 1
+           Echo isux = $isux  isuy = $isuy
+       Endif
+     ElseIf $angles[$i] < $startAngle AND $angles[$i-1] > $startAngle AND $firstLeftGroupDone == 1
+       Echo Aligning to negative side tracking shot
+       $trackingShot
+
+       ImageProperties
+       imgWidth = $repVal1
+       imgHeight = $repVal2
+       minSide = MIN $imgWidth $imgHeight
+       imgBinning = $repVal3
+
+       AlignTo $leftTrackingBuf
+       ReportAlignShift
+       errX = $repVal1 / $imgBinning
+       errY = $repVal2 / $imgBinning
+       errorAlignV = $errX * $errX + $errY * $errY
+       errorAlignV = SQRT $errorAlignV
+       errorTol = $minSide * $tolerance
+       Echo error in align in pixel = $errorAlignV   racking error tolerance in pixel = $errorTol 
+ 
+    # reiterate tracking 
+       If $errorAlignV > $errorTol
+         Echo tracking error above tolerance errorTol = $errorTol   tracking error = $errorAlignV
+         Echo redo tracking
+         Loop 5
+             $trackingShot
+             AlignTo $leftTrackingBuf
+             ReportAlignShift
+             errX = $repVal1 / $imgBinning
+             errY = $repVal2 / $imgBinning
+             errorAlignV = $errX * $errX + $errY * $errY
+             errorAlignV = SQRT $errorAlignV
+
+             If $Debug == 1
+                Echo error in align = $errorAlignV
+             Endif
+
+             If $errorAlignV < $errorTol
+                   Echo error in tracking is $errorAlignV within tolerance $errorTol
+                   break
+              Endif
+          EndLoop
+          
+          If $errorAlignV > $errorTol
+              Echo error in tracking is $errorAlignV out of tolerance $errorTol after 5 iterations
+              StopContinuous
+          Endif
+        Endif
+       
+       ReportImageShift
+       isux = $repVal1
+       isuy = $repVal2
+       If $Debug == 1
+           Echo isux = $isux  isuy = $isuy
+       Endif
+     Endif
+
+ # extra tracking when on 
+  If $startAngle == 0 AND $doExtraTrackingShot == 1
+    $trackingShot
+     If $angles[$i] < $startAngle
+       AlignTo $leftTrackingTrial
+       ReportImageShift
+       isux = $repVal1
+       isuy = $repVal2
+       If $Debug == 1
+        Echo isux = $isux  isuy = $isuy
+       Endif
+     ElseIf $angles[$i] > $startAngle
+       AlignTo $rightTrackingTrial
+       ReportImageShift
+       isux = $repVal1
+       isuy = $repVal2
+       If $Debug == 1
+        Echo isux = $isux  isuy = $isuy
+       Endif
+     Endif
+  Endif
+ Endif
+
+ GoToLowDoseArea R
+ # set spiral image shift 
+  If $correction == 1
+     shiftXuncor = $transX[$i] + $isux
+     shiftX = $transX[$i] * COS ( $angle) + $isux
+     shiftY = $transY[$i] + $isuy
+     Echo Image uncorrected x-xial shift = $shiftXuncor    x-axial corrected = $shiftX
+  ElseIf $correction == 0
+     shiftX = $transX[$i] + $isux
+     shiftY = $transY[$i] + $isuy
+  Endif
+ ImageShiftByMicrons $shiftX $shiftY
+ Echo Image shift by microns: shiftX = $shiftX  shiftY = $shiftY 
+ 
+ If $Debug == 1
+  Echo transX = $transX[$i]  transY = $transY[$i]
+ Endif
+
+ CallFunction WaitingToFill
+ Autofocus
+ MultipleRecords
+ Save
+ ReportImageShift
+ Echo current image shift: $repVal1 $repVal2
+ SetImageShift $isux $isuy
+ Echo reset image shift to: $isux $isuy
+ ReportImageShift
+ Echo current image shift after reset: $repVal1 $repVal2
+
+If $i > 1 AND $i < $#angles AND $angles[$i] != $angleLastTrackingShot      
+    If $angles[$i] > $startAngle AND $angles[$i+1] < $startAngle
+       Echo Next tilt will switch to negative left side, saving a tracking shot
+       $trackingShot
+       Copy A $rightTrackingBuf
+       firstRightGroupDone = 1
+    ElseIf $angles[$i] < $startAngle AND $angles[$i+1] > $startAngle
+       Echo Next tilt will switch to positive right side, saving a tracking shot
+       $trackingShot
+       Copy A $leftTrackingBuf
+       firstLeftGroupDone = 1
+    Endif
+Endif
+
+EndLoop
+
+TiltTo $startAngle
+Delay 5
+Echo   ============== end of dose symmetric TS =====================
+
+EndFunction
+
+#########################################################
+
+Function TiltToMultiStep 1 0
+     toAngle = $argVal1
+     ReportTiltAngle
+     Echo TiltAngle  $repVal1
+     fromAngle = $repVal1
+
+    If $toAngle > $fromAngle
+       Direction = 1
+    Else
+      Ddirection = -1
+    Endif
+
+    change = ABS $toAngle - $fromAngle
+    Echo change $change
+    Loop 99 
+         If $change > $multiStepTilt_StepSize
+            TiltBy $Direction * $multiStepTilt_StepSize
+             change = $change - $multiStepTilt_StepSize
+         Else
+             TiltTo $toAngle
+             break
+         Endif
+     EndLoop
+
+EndFunction
+
+#######################
+
+Function TS_bidirectional 5 0
+
+Echo ====== starting bidirectional TS =========
+   startAngle = $argVal1
+   endAngleFirstSide = $argVal2
+   secondSideStart = $argVal3
+   endAngleSecondSide = $argVal4
+   stepSize = $argVal5
+   
+   CallFunction WaitingToFill
+
+# first side
+Echo ======== starting the first half ============
+If $Debug == 1
+ Echo Anitial = $Ainitial       Afinal = $Afinal       turns = $turns
+Endif
+WalkUpTo $startAngle
+ResetShiftIfAbove 2
+
+# override S with tilted starting View
+View
+Copy A S
+ReportImageShift
+isux = $repVal1
+isuy = $repVal2
+
+If $cycledefocus == 1
+    CallFunction MyFuncs::CycleTargetDefocus  $lowdefocus $highdefocus $intervaldefocus
+  Else
+    SetTargetDefocus $defocus
+  Endif
+
+CallFunction TS_unidirectional $startAngle $endAngleFirstSide $stepSize 
+
+# second side
+# backlash removal
+If $endAngleSecondSide > $startAngle
+   direction = 1
+ElseIf $endAngleSecondSide < $startAngle
+   direction = -1
+Endif
+angleCorrectBacklash = $startAngle - 3 * $direction
+TiltTo $angleCorrectBacklash
+TiltTo $secondSideStart
+# get residual IS between current location and map image
+View
+AlignTo S
+ResetShiftIfAbove 2
+ReportImageShift
+isux = $repVal1
+isux = $repVal2
+
+Echo ====== starting the second half ========
+   CallFunction TS_unidirectional $secondSideStart $endAngleSecondSide $stepSize 
+Echo ====== end of bidirectional TS ========
+
+EndFunction
+
+#######################
+
+Function TS_unidirectional 3 0
+
+Echo ===== starting unidirectional TS ======
+startAngle = $argVal1
+endAngle = $argVal2
+stepSize = $argVal3
+
+# define a direction variable for convenience
+If $endAngle > $startAngle
+  direction = 1
+ElseIf $endAngle < $startAngle
+  direction = -1
+Else
+   Echo Cannot set start and end angles to same value
+   Exit
+Endif
+
+If $direction == 1
+  numberTilts = ( $direction * $endAngle - $direction * $startAngle ) / $stepSize
+  Echo numberTilts: $numberTilts   
+  numberTilts = $numberTilts + 1
+  Echo numberTilts: $numberTilts
+ElseIf $direction == -1
+  numberTilts = ( $direction * $endAngle - $direction * $startAngle ) / $stepSize
+  Echo numberTilts: $numberTilts   
+  numberTilts = $numberTilts + 2
+  Echo numberTilts: $numberTilts
+Endif
+
+# create array of tilt angles
+angles = { $startAngle }
+Loop 99 i
+  angle = $startAngle + $direction * $stepSize * $i
+    If ($endAngle > $startAngle AND $angle > $endAngle) OR ($endAngle < $startAngle AND $angle < $endAngle)
+     break
+    Endif
+   angles = { $angles $angle }
+EndLoop
+   
+  
+# start tilt series
+Loop $#angles i
+   angle = $angles[$i]
+   Echo tilt angle: $angle
+     
+   GoToLowDoseArea R
+
+   TiltTo $angle
+   Delay 5
+
+ ### set the spiral translation
+
+   If $direction == 1
+     IS_Angle = ( $i - 1 ) * 360 * $period / $numberTilts
+   ElseIf $direction == -1
+     IS_Angle = $i * 360 * $period / $numberTilts
+   Endif
+  revolution_2 = $revolution * 3.14
+  cycles = $revolution_2 * $turns
+  bgrowth = ($Afinal - $Ainitial ) / $cycles
+  IS_Rad = ( $bgrowth * $IS_Angle )
+  IS_Rad = $Ainitial + $IS_Rad
+  IS_sin = SIN ( $IS_Angle ) 
+  IS_cos = COS ( $IS_Angle )
+  IS_x = $IS_cos * $IS_Rad
+  IS_y = $IS_Rad * $IS_sin
+
+If $correction == 1
+     TransR_X = $direction * $IS_x
+     TransR_Y = $direction * $IS_y
+     shiftXuncor = $isux +$TransR_X
+     shiftX = $TransR_X * COS ( $angle) + $isux
+     shiftY = $isuy + $TransR_Y
+     Echo Image uncorrected x-xial shift = $shiftXuncor    x-axial corrected = $shiftX
+     ImageShiftByMicrons $shiftX $shiftY
+  ElseIf $correction == 0
+     TransR_X = $direction * $IS_x
+     TransR_Y = $direction * $IS_y
+     shiftX = $isux +$TransR_X
+     shiftY = $isuy + $TransR_Y
+  ImageShiftByMicrons $shiftX $shiftY
+  Echo Image shift by microns: shiftX = $shiftX  shiftY = $shiftY 
+Endif
+
+   If $Debug == 1
+    Echo revolution = $revolution   cycles = $cycles    
+    Echo IS_Angle = $IS_Angle  bgrowth = $bgrowth  
+    Echo IS_Rad = $IS_Rad
+    Echo IS_Rad = $IS_Rad        
+    Echo IS_sin = $IS_sin   IS_cos = $IS_cos   IS_x = $IS_x    IS_y = $IS_y    
+    Echo TransR_X = $TransR_X  TransR_Y = $TransR_Y  ImageShiftBy Microns $shiftX $shiftY
+   Endif
+
+   CallFunction WaitingToFill
+   Autofocus
+   MultipleRecords
+   ReportImageShift
+   Echo current image shift: $repVal1 $repVal2
+   SetImageShift $isux $isuy
+   Echo reset image shift to: $isux $isuy
+   ReportImageShift
+   Echo current image shift after reset: $repVal1 $repVal2
+EndLoop
+
+TiltTo 0
+EndFunction 
+
+#######################
+
+Function WaitingToFill
+Delay 2
+Loop 15
+           AreDewarsFilling
+          If $reportedValue1 == 0
+                              echo dewars are not filling
+                              break
+          ElseIf $reportedValue1 == 1
+                              echo dewars are filling
+                              delay 60 sec
+          Endif
+      EndLoop
+EndFunction
+
+#########################################
+
+Function CycleTargetDefocus 3 0
+## three variables, not string
+
+# define defocus up and down thresholds, and changing step
+# set here or by calling Parameters
+TD_low = $argVal1
+TD_high = $argVal2
+step = $argVal3
+
+#Call Parameters
+
+Echo ===> Running CycleTargetDefocus ...
+Echo >>>> defined Range and Step (um)  => [ $TD_low, $TD_high ], [ $step ].
+
+## no editing below ##
+delta = -1 * $step
+
+# if the current TargetDefocus is outside of range, make it as TD_low.
+# Otherwise, increase a step of $delta
+
+SuppressReports
+ReportTargetDefocus 
+If $reportedValue1 > $TD_low OR $reportedValue1 < $TD_high
+   SetTargetDefocus $TD_low
+Else 
+   IncTargetDefocus $delta
+Endif
+EndMacro

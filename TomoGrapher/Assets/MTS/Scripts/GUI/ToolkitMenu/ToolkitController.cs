@@ -19,6 +19,9 @@ public class ToolkitController : MonoBehaviour
     public GameObject Target;
     public CameraBeamPreviewController Preview;
 
+    private RadioButton SerialEM4;
+    private RadioButton SerialEM3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -160,6 +163,14 @@ public class ToolkitController : MonoBehaviour
         // Add handlers for the DoseSymmetric + Bidirectional buttons.
         RadioButton DoseSymmetric = document.rootVisualElement.Q<RadioButton>("DoseSymmetric");
         DoseSymmetric.RegisterValueChangedCallback( e => OnDoseSymmetricChanged(e) );
+
+        // Add handlers for the SerialEM version selection buttons.
+        SerialEM3 = document.rootVisualElement.Q<RadioButton>("SerialEM3");
+        SerialEM4 = document.rootVisualElement.Q<RadioButton>("SerialEM4");
+        SerialEM4.RegisterValueChangedCallback( e => OnSerialVersionChanged(e) );
+
+        TextField LogDirectory = document.rootVisualElement.Q<TextField>("Logdir");
+        LogDirectory.RegisterValueChangedCallback( e => OnLogDirectoryChanged(e) );
 
     }
 
@@ -385,6 +396,29 @@ public class ToolkitController : MonoBehaviour
         }
     }
 
+    private void OnSerialVersionChanged(ChangeEvent<bool> evt)
+    {
+        if (Parameters)
+        {
+            if (SerialEM3.value) {
+                Parameters.SerialEM_ver = SerialEM_Version.SerialEM3_8;
+            } else {
+                Parameters.SerialEM_ver = SerialEM_Version.SerialEM4_1;
+            }
+
+            Debug.Log("OnSerialVersion has value " + Parameters.SerialEM_ver.ToString());
+        }
+    }
+
+    private void OnLogDirectoryChanged(ChangeEvent<string> evt)
+    {
+        if (Parameters)
+        {
+            Parameters.LogDirectory = evt.newValue;
+            Debug.Log("OnLogDirectory has value " + Parameters.LogDirectory.ToString());
+        }
+    }
+
     void RunSimulationClicked()
     {
         // Reset on start
@@ -515,7 +549,7 @@ public class ToolkitController : MonoBehaviour
                 // Save the macro to this path.
                 string filename = FileBrowser.Result[0];
 
-                if (File.Exists(export.GetTemplatePath())) {
+                if (File.Exists(export.GetTemplatePath(Parameters.SerialEM_ver))) {
                    
                     if (Parameters)
                     {
@@ -537,7 +571,7 @@ public class ToolkitController : MonoBehaviour
                     DetailsPanelController details = GetComponent<DetailsPanelController>();
                     if (details)
                     {
-                        details.SetMessage("Unable to find template at  : " + export.GetTemplatePath());
+                        details.SetMessage("Unable to find template at  : " + export.GetTemplatePath(Parameters.SerialEM_ver));
                         details.UpdateDetails();
                     }
                 }
