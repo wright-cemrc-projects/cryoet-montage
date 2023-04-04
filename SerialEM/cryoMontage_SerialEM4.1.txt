@@ -1,4 +1,4 @@
-MacroName cryoMontage
+MacroName cryoMontage_Updated_Multishot
 
 Echo ============ cryoMontage ===============
 
@@ -10,32 +10,34 @@ Echo ============ cryoMontage ===============
 
 # Supports dose-symmetric and bidirectional montage tilt series collection on lamellae (non-zero starting angle)
 
-# This macro is suitable for SerialEM 3.8 and above (stable release including 4.0).
+# This macro is suitable for SerialEM 4.1
 
 ### Adjust the parameters below together with Tomographer to specify your montage tilt series schemes
 
 
-### basic settings ###
+### Basic settings ###
 tilt_scheme = 0               # 0 = dose-symmetric, 1 = bidirectional
 Debug = 1                     # set to 1 for verbose output for debugging
-eucentricity_option = 2       # 1 = rough, 2 = fine, 3 = rough and fine
+eucentricity_option = 3       # 1 = rough, 2 = fine, 3 = rough and fine
 file_setting = 1              # recommend to set to 1 to define a local path below
 tolerance = 0.5               # redo tracking if larger than a fraction (tolerance) of an image 
-defocus = -6                  # fixed defocus
+defocus = -8                  # fixed defocus
 cycledefocus = 0         # cycle defocus on, 0 as not on
-lowdefocus = -3            # cycle defocus on, negative
-highdefocus = -5          # cycle defocus on, negative
-intervaldefocus = 1     # cycle defocus on, positive 
+lowdefocus = -5            # cycle defocus on, negative
+highdefocus = -8          # cycle defocus on, negative
+intervaldefocus = 1     # cycle defocus on, positive
+savescreenshot = 1      # save image display of the stiched overview, 1 as on, 0 as not on 
 
 If $Debug == 0
  SuppressReports
 Endif
 
-### file setting ###
+ 
+### File setting ###
 If $file_setting == 1
- BaseDir = X:\RawData\wright\jyang525\2022_04_29\Lamellae\Atlas\W1389_G1\    # define a local path to save log files
+ BaseDir = Y:\TemScripting\EF-Falcon\2023_03_13\Box9_G2    # define a local path to save log files
 
- ##  DO NOT CHANGE BELOW
+ ##  DO NOT CHANGE BELOW IN THE FILE SETTING SESSION
  ReportCurrentFileName 4   
  SetDirectory $BaseDir
  baselogname = $reportedValue4
@@ -56,9 +58,9 @@ Echo Spiral parameters: Ainitial = $Ainitial  Afinal = $Afinal  turns = $turns  
 ###
 
 ### Dose-symmetric settings ###
-startAngleDS = 10    # starting angle, set to nonzero for lamella
+startAngleDS = 0    # starting angle, set to nonzero for lamella
 firstEndAngleDS = 60     # positive end angle
-secondEndAngleDS = -50   # negative end angle
+secondEndAngleDS = -60   # negative end angle
 stepSizeDS = 3      # tilt increment
 groupSizeDS = 3     # number of tilts per group                           
 trackingShot = T    # use Trial for tracking, can also be set to V to use View shot
@@ -66,10 +68,10 @@ doExtraTrackingShot = 0  # 1 to do extra tracking with Trial in focus area
 ###
 
 ### Bi-directional settings ###
-startAngleBi = 10     # starting angle of the first half, set to nonzero for asymmetric collection
+startAngleBi = 9     # starting angle of the first half, set to nonzero for asymmetric collection
 firstSideEnd = 60    # end angle of the first half
-secondSideStart = 7 # starting angle of the second half
-secondSideEnd = -50  # end angle of the second half
+secondSideStart = 6 # starting angle of the second half
+secondSideEnd = -51  # end angle of the second half
 stepSizeBi = 3       # tilt increment
 ###
 
@@ -82,7 +84,7 @@ TiltTo 0
 # Align to TOI and restore TOI image shift
 Eucentricity $eucentricity_option 
 UpdateItemZ
-RealignToNavItem 1 0 0.1 4 0
+RealignToNavItem 0 0 0.1 4 0
 Copy A S
 ResetImageShift
 View
@@ -103,6 +105,8 @@ Endif
 
 ResetClock
 SuppressReports
+
+
 
 ### Start the tilt series collection ###
 
@@ -256,16 +260,13 @@ d_theta = $stepSize + $i_minus_one * $stepSize * $groupSize
       angleL = $startAngle - $d_theta
       Echo angleL: $angleL
 
-      If $angleR > $firstEndAngle AND $angleL < $secondEndAngle
-             break
-      Endif
-
       rightSide = { $angleR }
       Echo rightSide $rightSide
       leftSide = { $angleL }
       Echo leftSide $leftSide
 
       gsMinusOne = $groupSize - 1
+
 
       Loop $gsMinusOne j
          nextAngleR = $angleR + $j * $stepSize
@@ -278,13 +279,23 @@ d_theta = $stepSize + $i_minus_one * $stepSize * $groupSize
              rightSide = { $rightSide $nextAngleR }
          Elseif $nextAngleR == $firstEndAngle AND $nextAngleL < $secondEndAngle
              rightSide = { $rightSide $nextAngleR }
+         Elseif $nextAngleR < $firstEndAngle AND $nextAngleL == $secondEndAngle
+             rightSide = { $rightSide $nextAngleR }
+         Elseif $nextAngleR == $firstEndAngle AND $nextAngleL == $secondEndAngle
+             rightSide = { $rightSide $nextAngleR }
+             leftSide = { $leftSide $nextAngleL }
          Elseif $nextAngleL > $secondEndAngle AND $nextAngleR > $firstEndAngle
              leftSide = { $leftSide $nextAngleL }
          Elseif $nextAngleL == $secondEndAngle AND $nextAngleR > $firstEndAngle
              leftSide = { $leftSide $nextAngleL }
+         Elseif $nextAngleL > $secondEndAngle AND $nextAngleR == $firstEndAngle
+             leftSide = { $leftSide $nextAngleL }
+         Elseif $nextAngleL == $secondEndAngle AND $nextAngleR == $firstEndAngle
+             leftSide = { $leftSide $nextAngleL }
+             rightSide = { $rightSide $nextAngleR }
          Else
              break 
-         Endif         
+         Endif              
        Endloop
 
        Echo rightSide   $rightSide  leftSide   $leftSide
@@ -313,6 +324,10 @@ d_theta = $stepSize + $i_minus_one * $stepSize * $groupSize
            Echo Bidirectional angles  $angles
            Endif
        Endif
+
+      If $angleR > $firstEndAngle AND $angleL < $secondEndAngle
+             break
+      Endif
 
 EndLoop
 
@@ -352,7 +367,14 @@ Loop $#angles i
 
   TiltTo $angle
   Echo Tilt angle = $angle
-  Delay 5
+  
+  If $savescreenshot == 1
+     ReportCurrentFileName 4
+     Delay 3
+     imagebasename = $reportedValue4
+     SnapshotToFile 0 0 3 TIF LZW $imagebasename_$angle.tif     
+     Delay 2
+  Endif
 
   If $i == 1 AND $startAngle == 0
      GoToLowDoseArea V
@@ -531,8 +553,9 @@ Loop $#angles i
 
  CallFunction WaitingToFill
  Autofocus
- MultipleRecords
- Save
+ Montage
+ ImageConditions C
+ AccumulateRecordDose $repVal1
  ReportImageShift
  Echo current image shift: $repVal1 $repVal2
  SetImageShift $isux $isuy
@@ -555,6 +578,8 @@ If $i > 1 AND $i < $#angles AND $angles[$i] != $angleLastTrackingShot
 Endif
 
 EndLoop
+
+ReOrderMontageByTilt
 
 TiltTo $startAngle
 Delay 5
@@ -747,7 +772,10 @@ Endif
 
    CallFunction WaitingToFill
    Autofocus
-   MultipleRecords
+   Autofocus
+   Montage
+   ImageConditions C
+   AccumulateRecordDose $repVal1
    ReportImageShift
    Echo current image shift: $repVal1 $repVal2
    SetImageShift $isux $isuy
@@ -759,7 +787,7 @@ EndLoop
 TiltTo 0
 EndFunction 
 
-#######################
+#########################################
 
 Function WaitingToFill
 Delay 2
@@ -777,6 +805,35 @@ EndFunction
 
 #########################################
 
+Function GunFlashingDewareFilling
+Delay 3
+Loop 15
+           AreDewarsFilling
+          If $reportedValue1 == 0
+                              break
+          ElseIf $reportedValue1 == 1
+                              echo dewars are filling
+                              delay 60 sec
+          Endif
+EndLoop
+
+Delay 3
+Loop 15
+    IsFEGFlashingAdvised 0
+    If $reportedValue1 == 0
+                  Echo FEG doesn't need to be flashed
+                  break
+    ElseIf $reportedValue1 == 1
+                  echo Gun flashing advised
+                  SetColumnOrGunValve 0
+                  LongOperation FF 0
+                  delay 30 sec
+    Endif
+EndLoop
+SetColumnOrGunValve 1
+EndFunction
+
+########################################
 Function CycleTargetDefocus 3 0
 ## three variables, not string
 
@@ -804,4 +861,4 @@ If $reportedValue1 > $TD_low OR $reportedValue1 < $TD_high
 Else 
    IncTargetDefocus $delta
 Endif
-EndMacro
+EndFunction
