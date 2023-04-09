@@ -140,7 +140,9 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
     
 **Step 6.** Set up a series of ROI by saving the *View* (we recommend *View* shot as ROI map) or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 
-**Step 7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
+**Step 7.** Edit the parameters in the cryoMontage macro. We recommend to ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. More details can be found below in **SerialEM cryoMontage macro**. You could also download the macro [cryoMontage.txt](https://github.com/wright-cemrc-projects/cryoet-montage/blob/main/SerialEM/cryoMontage.txt) for SerialEM 3.8 and above stable releases (including 4.0), or [cryoMontage_SerialEM4.1.txt](https://github.com/wright-cemrc-projects/cryoet-montage/blob/main/SerialEM/cryoMontage_SerialEM4.1.txt) for SerialEM 4.1. Copy and paste contents of the macro in an empty *Script* window in SerialEM. Edit the parameters listed below in **SerialEM cryoMontage macro**.
+
+![SerialEMsetup_macro.png](images/SerialEMsetup_macro.png)
 
 **Step 8.** Set cryoMontage script as *Primary Action*
 
@@ -166,7 +168,9 @@ Close column/gun valves at end
 
 ### SerialEM cryoMontage macro
 
-You could adjust the parameters below to implement specific montage tilt series collections. We recommmend to run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. 
+You could adjust the parameters below to implement specific montage tilt series collections. We recommmend to run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. Please select the right version of SerialEM installed prior to the export. 
+
+![Export_function.png](images/Export_function.png)
 
 #### *Basic settings*
 
@@ -196,7 +200,13 @@ parameters applicable to all tilt series
 
 this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION* for a report log file per MPACT tilt series collection. This could be very useful when *Debug* is set to 1 to identify potential issues
 
-- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This is the ***ONLY parameter*** that currently needs to be modified by the user in the cryoMontage.txt macro exported from ***TomoGrapher***.
+- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This path should be the actual file path on the computure where SerialEM is installed and writes file. For example, if SerialEM is installed on a K3 PC, and the data files such as movie stacks and montage images, maps are being saved under a data drive named Capture Data (X:) on the K3 PC, find the actual file path by navigating through ***File Explorer*** in ***Windows*** and copy and paste the file folder path in the macro. Alternatively, copy and paste this path directly in the ***Log Directory*** function in ***TomoGrapher*** when exporting the macro. 
+
+```
+X:\RawData\wright\jyang525\2022_11_11
+
+```
+![File_path_cropped.png](images/File_path_cropped.png)
 
 #### *Spiral translation settings*
 
