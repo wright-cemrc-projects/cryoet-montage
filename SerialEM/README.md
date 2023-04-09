@@ -202,11 +202,15 @@ this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION
 
 - ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This path should be the actual file path on the computure where SerialEM is installed and writes file. For example, if SerialEM is installed on a K3 PC, and the data files such as movie stacks and montage images, maps are being saved under a data drive named Capture Data (X:) on the K3 PC, find the actual file path by navigating through *File Explorer* in ***Windows*** and copy and paste the file folder path in the macro. Alternatively, copy and paste this path directly in the *Log Directory* function in ***TomoGrapher*** when exporting the macro. 
 
+
+![File_path_cropped.png](images/File_path_cropped.png)
+
 ```
 X:\RawData\wright\jyang525\2022_11_11
 
 ```
-![File_path_cropped.png](images/File_path_cropped.png)
+
+![Export_filepath_2.png](images/Export_filepath_2.png)
 
 #### *Spiral translation settings*
 
