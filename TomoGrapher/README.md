@@ -17,7 +17,7 @@ The **Simulation Panel** contains controls to change the camera views, run a sim
 
 Run the simulation to see an animated series:
 
-![3x3 montage](docs/TomoGrapher-Tilts_3x3_hd.gif)
+![3x3 montage](docs/TomoGrapher-Tilts_3x3_720p.gif)
 
 ### Plotting dose accumulation in 3D
 
