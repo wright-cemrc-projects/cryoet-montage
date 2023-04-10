@@ -7,7 +7,7 @@ Start TomoGrapher by launching the executable on either Windows or Mac.
 
 Your window shows 3 different panes including a view of a sample on a virtual stage, an options column on the right side, and an information panel at the bottom.
 
-![image](docs/tutorial/main_window.png)
+![image](docs/main.png)
 
 In this tutorial, you will setup a 3x3 montage and simulate the dose exposures on a virtual stage.
 
@@ -81,5 +81,11 @@ After the tilt-series simulation completes, you can export the total dose values
 ## Export a SerialEM macro
 
 Finally, to carry over the values tested in the simulation for conducting a tilt-series collection in SerialEM, you can export a Macro file.  The macro will be set with the parameters describing the tilt-strategy to run with the collection in SerialEM.
+
+TomoGrapher is able to export Macro files compatible with either the current stable SerialEM 3.8+ versions, or newer SerialEM 4.1+ developmental versions.  The GUI offers a selector to choose which is appropriate.  Additionally, it is recommended to fill in a path to where logging and descriptive files can be written by SerialEM during the macro execution.
+
+![export_select](docs/tutorial/export_serialem_choice.png)
+
+Press the `Export Macro` button and choose a filename to save the macro for SerialEM containing values from the simulation.
 
 ![export_two](docs/tutorial/export_2.png)
