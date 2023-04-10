@@ -1,13 +1,13 @@
 ## SerialEM Setup for Montage Parrallel Array Cryo-Tomography (MPACT)
 
-This workflow uses open-source microscope control software [SerialEM](https://bio3d.colorado.edu/SerialEM/download.html) to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information. The MPACT performance in preservation of high resolution structures has been benchmarked at the pixel size of ~4.6 Å by subtomogram averaging of in-situ flexible glycoprotein fusion F of the respiratory syncytial virus (RSV). 
+This workflow uses open-source microscope control software [SerialEM](https://bio3d.colorado.edu/SerialEM/download.html) to implement dose distribution and montage cryo-electron tomography for acquisition of large field of view without sacrificing high resolution information. The MPACT performance in preserving high resolution structures has been benchmarked at a pixel size of ~4.6 Å by subtomogram averaging of in-situ flexible glycoprotein fusion F on the surface of respiratory syncytial virus (RSV) at a resolution of ~20 Å. 
 
 
 ### Features
 
 - Flexibility. The current tools support rectangle or square montage tiling pattern. Users can specify the tile piece numbers based on their applications. 
 
-- Outputs. For raw movie frame stacks collected in both SerialEM 3.8 and above (stable releases) and 4.1, the acquired montage tilt series frames can be stitched together to be used as as one whole unit or sorted into individual tiles to be used as regular tomograms. One 3x3 montage tilt series could yield 10 usable tilt series (9 individual tiles and 1 fully stitched tilt series, ± 60 degree with an increment of 3 degree), typically in 1~1.5 hr. The exact time per collection depends on the exposure time and total dose. In SerialEM 4.1, the MPACT tilt series output is properly restacked with the corresponding metadata autodoc (.mdoc) written, if the metadata autodoc file is being exported (we strongly recommend to write out the .mdoc file). 
+- Outputs. For raw movie frame stacks collected in both SerialEM 3.8 and above (stable releases) and 4.1, the acquired montage tilt series frames can be stitched together to be used as one whole unit or sorted into individual tiles to be used as regular tomograms. One 3x3 montage tilt series could yield 10 usable tilt series (9 individual tiles and 1 fully stitched tilt series, ± 60 degree with an increment of 3 degree), typically in 1~1.5 hr. The exact time per collection depends on the exposure time and total dose. In SerialEM 4.1, the MPACT tilt series output is properly restacked with the corresponding metadata autodoc (.mdoc) written, if the metadata autodoc file is being exported (we strongly recommend to write out the .mdoc file). 
 
 - Acquisition. This workflow uses the built-in SerialEM function, *Multiple Record* with image shift, to achieve accurate image-shift based montage pattern collection. Thus, all settings and functions related to *Multiple Record* are applicable here to design user-specified patterns, correct coma introduced by beam tilt, etc.
 
@@ -19,7 +19,7 @@ MPACT has been tested on a Thermo Fisher Scientific Krios G3i and G4 transmissio
 
 MPACT is applicable to both SerialEM 3.8 and above stable release (including 4.0), and 4.1. The Python scripting capacity is not required. 
 
-To use MPACT, copy the content of *cryoMontage.txt* in an empty SerialEM script slot/window.
+To use MPACT, copy the content of *cryoMontage.txt* in an empty SerialEM *script* slot/window.
 
 We recommend the installation of SerialEM 4.1 for MPACT because the image shift set-up (step 1 to 3) for the montage tile overlap via Multiple Records can be easily done via the *Montage Setup Dialog* and the stitched montage overview per tilt is displayed in SerialEM live. In addition, several functions (only available in SerialEM 4.1) such as [AccumulateRecordDose and PriorRecordDose and ReorderMontageByTilt](https://bio3d.colorado.edu/SerialEM/hlp/html/script_commands.htm) could help facilitate pre-processing steps. 
 
@@ -27,11 +27,11 @@ We recommend the installation of SerialEM 4.1 for MPACT because the image shift 
 
 ### Microscope imaging set up
 
-In general, there are two ways to define important MPACT parameters (pieces in X and Y to define the rectangular or square montaged size of the field of view, image shift in X and Y to control the proper tile overlay, spiral translational shift to spread the dose), depending on which SerialEM (stable release or 4.1) is currently installed. We combined them into one **Step 1 to 8** procedure with differences marked mainly in **Step 3**. 
+In general, there are two ways to define important MPACT parameters (pieces in X and Y to define the rectangular or square montaged size of the field of view, image shift in X and Y to control the proper tile overlay, spiral translational shift to spread the dose), depending on which SerialEM (stable release or 4.1) is currently installed. We combined them into one **Step 1 to 8** procedure with differences marked mainly in **Step 3** and **Step 5**. 
 
 **Step 1.** The image shift and pixel size at the recording magnification should be well calibrated and up to date in SerialEM, follow the instructions [Calibrate Image Shift and Pixel Size](https://bio3d.colorado.edu/SerialEM/hlp/html/setting_up_serialem.htm#setup_pixelsize).
 
-**Step 2.** Set up the View or Search, Record, View, Focus, Trial imaging parameters in **Low Dose Mode**
+**Step 2.** Set up the *View* or *Search*, *Record*, *Focus*, *Trial* imaging parameters in **Low Dose Mode**
 
 **Step 3.** Generate rectangle or square tile patterns with specified montage overlaps using image shift.
 
@@ -116,7 +116,7 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
    
 **Step 4.** Set up a series of ROI by saving the *View* (typical magnification range in *View* imaging state is SA 2000 ~ 5000) as a map in the *Navigator* window, under the file name of your choice, e.g. *TargetMap.mrc*
 
-**Step 5.** Select *New file at item* in *Navigator*
+**Step 5.** Select *Acquire* and *New file at item* in **Navigator**
 
 #### MPACT set up in SerialEM 3.8 and above (stable release) including 4.0
 
@@ -140,13 +140,15 @@ Note: the serialEM setting file cannot be updated if the file is being open in S
     
 **Step 6.** Set up a series of ROI by saving the *View* (we recommend *View* shot as ROI map) or *Trial* shots as maps and turn on *Acquire at Item* in the Navigator.
 
-**Step 7.** Edit the parameters in the cryoMontage.txt or cryoMontage_updated_Multishot.txt script.
+**Step 7.** Edit the parameters in the cryoMontage macro. We recommend to **Tomographer** to visualize the translational offset and dose accumulation impact before starting the collection, and use the *Export Macro* function in **Tomographer** to get the proper cryoMontage.txt script. More details can be found below in **SerialEM cryoMontage macro**. You could also download the macro [cryoMontage.txt](https://github.com/wright-cemrc-projects/cryoet-montage/blob/main/SerialEM/cryoMontage.txt) for SerialEM 3.8 and above stable releases (including 4.0), or [cryoMontage_SerialEM4.1.txt](https://github.com/wright-cemrc-projects/cryoet-montage/blob/main/SerialEM/cryoMontage_SerialEM4.1.txt) for SerialEM 4.1. Copy and paste contents of the macro in an empty *Script* window in SerialEM. Edit the parameters listed below in **SerialEM cryoMontage macro**.
+
+![SerialEMsetup_macro.png](images/SerialEMsetup_macro.png)
 
 **Step 8.** Set cryoMontage script as *Primary Action*
 
 Note: We find the *View* shot at a magnification of 2000x to 6500x (EFTEM), pixel size between 33.9 to 13.6 Å on a Titan Krios has been robust enough to achieve good realignment of ROI during the automated tilt series collection. 
 
-Note: We scripted in several basic functions that are now accessible as *Related options in Primay Action* in the *Navigator Acquire Dialog* in SerialEM 4.0. To have a smooth first run, we recommend to use the functions in the macro and skip *Related options in Primay Action*. Only *Primary Action* and *General options* are needed. Once you have a successful run and are comfortable with macro editing, feel free to adjust and integrate it with your current collection routines. 
+Note: We scripted in several basic functions that are now accessible as *Related options in Primay Action* in the *Navigator Acquire Dialog* in SerialEM 4.0 and 4.1. To have a smooth first run, we recommend to use the functions in the macro and skip *Related options in Primay Action*. Only *Primary Action* and *General options* are needed. Once you have a successful run and are comfortable with macro editing, feel free to adjust and integrate it with your current collection routines. 
 
 #### MPACT set up in SerialEM 3.8 and above (stable release) including 4.0
 
@@ -166,7 +168,9 @@ Close column/gun valves at end
 
 ### SerialEM cryoMontage macro
 
-You could adjust the parameters below to implement specific montage tilt series collections. We recommmend to run ***Tomographer*** to visualize the translational offset and dose accumulation impact before starting the collection, and use the ***Export Macro*** function in ***Tomographer*** to get the proper cryoMontage.txt script. 
+You could adjust the parameters below to implement specific montage tilt series collections. We recommmend to run **Tomographer** to visualize the translational offset and dose accumulation impact before starting the collection, and use the *Export Macro* function in **Tomographer** to get the proper cryoMontage.txt script. Please select the right version of SerialEM installed prior to the export. 
+
+![Export_function.png](images/Export_function.png)
 
 #### *Basic settings*
 
@@ -196,7 +200,17 @@ parameters applicable to all tilt series
 
 this session contains a content *DO NOT CHANGE BELOW IN THE FILE SETTING SESSION* for a report log file per MPACT tilt series collection. This could be very useful when *Debug* is set to 1 to identify potential issues
 
-- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This is the ***ONLY parameter*** that currently needs to be modified by the user in the cryoMontage.txt macro exported from ***TomoGrapher***.
+- ***BaseDir*** - if file_setting = 1 from *basic settings* above, define a local path to save log files and reports. This path should be the actual file path on the computure where SerialEM is installed and writes file. For example, if SerialEM is installed on a K3 PC, and the data files such as movie stacks and montage images, maps are being saved under a data drive named Capture Data (X:) on the K3 PC, find the actual file path by navigating through *File Explorer* in ***Windows*** and copy and paste the file folder path in the macro. Alternatively, copy and paste this path directly in the *Log Directory* function in ***TomoGrapher*** when exporting the macro. 
+
+
+![File_path_cropped.png](images/File_path_cropped.png)
+
+```
+X:\RawData\wright\jyang525\2022_11_11
+
+```
+
+![Export_filepath_2.png](images/Export_filepath_2.png)
 
 #### *Spiral translation settings*
 
