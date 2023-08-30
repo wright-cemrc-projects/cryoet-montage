@@ -1,4 +1,4 @@
-# CryoET Montage
+# Parrallel Array Montage Cryo-Tomography/Montage cryo-ET
 ---
 
 This repository provides resources for the montage tomography with SerialEM.
