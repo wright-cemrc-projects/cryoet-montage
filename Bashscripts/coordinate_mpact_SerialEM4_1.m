@@ -42,7 +42,7 @@ angle = a - pretilt;
      coordinateTable(ii,:) = [pieceX pieceY 0];
      pieceY = pieceY + round(incrementY * cosd(angle));
    end
- origin = origin + inputx;
+ origin = origin + inputy;
  pieceX = pieceX + incrementX;
  pieceY = 0;
  end
