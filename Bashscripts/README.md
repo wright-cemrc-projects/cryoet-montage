@@ -1,6 +1,6 @@
 ## Bash Scripts for Montage Tomography Processing.
 
-We recommend the user apply [Python Scripts](https://github.com/wright-cemrc-projects/cryoet-montage/tree/main/Python) to perform the automated preprocessing steps including motion corrections, montaged and individual tile tilt series generation. The scripts here and steps listed below serve as an alternative way when Python 3 is not set up in the system. 
+If the MPACT dataset is collected in SerialEM 4.0, we recommend the user apply [Python Scripts](https://github.com/wright-cemrc-projects/cryoet-montage/tree/main/Python) to perform the automated preprocessing steps including motion corrections, montaged and individual tile tilt series generation. If the MPACT dataset is collected in SerialEM 4.1, we recommend using the scripts here and steps listed below that serve as an alternative way for most updated versions. 
 
 ### Getting the scripts
 
