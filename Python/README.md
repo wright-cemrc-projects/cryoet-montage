@@ -1,5 +1,5 @@
 ## Python Scripts for Montage Tomography Processing.
-### If the data is collected via SerialEM 4.1, PLEASE use the bash scripts in "Bashscripts" folder
+### If the data is collected via SerialEM 4.1, PLEASE use the bash scripts in [Bash Scripts](https://github.com/wright-cemrc-projects/cryoet-montage/tree/main/Bashscripts)
 ### Getting the scripts
 
 Navigate to the Releases to get the latest `scripts.tar.gz`, and uncompress this on your system with `tar -zxvf scripts.tar.gz`.
