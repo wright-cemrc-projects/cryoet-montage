@@ -100,8 +100,8 @@ You will see the *folderlist.txt* content listed in the terminal, for example:
 2	folderlist.txt
 3	3x3_mpact_ts_1
 4	3x3_mpact_ts_2
-5 3x3_mpact_ts_3
-6 3x3_mpact_ts_3
+5	3x3_mpact_ts_3
+6	3x3_mpact_ts_4
 ```
 Command *cat -n* numbers all output files. The first column is the order. In this example, there are 4 3x3 mpact tilt series folders, the bash script, and the *folderlist.txt* in the current directory. So, there are in total 6 outputs numbered 1 to 6. The second column is the output file, one file per row. 
 
