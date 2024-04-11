@@ -31,7 +31,7 @@ An example output:
 3x3_mpact_ts_1_57.pl
 3x3_mpact_ts_1_60.pl
 ```
-Currently, the [`coordinate_mpact_SerialEM4_1.m`](coordinate_mpact_SerialEM4_1.m) and [`coordinate_mpact_SerialEM4_1.m`](coordinate_mpact_SerialEM4_1.m) should directly generate the correct piece coordinate files (.pl). For older versions of the scripts, you may need to rename the coordinate files from .txt to .pl by running the following commands in the terminal:
+Currently, the [`coordinate_mpact_SerialEM.m`](coordinate_mpact_SerialEM.m) and [`coordinate_mpact_SerialEM4_1.m`](coordinate_mpact_SerialEM4_1.m) should directly generate the correct piece coordinate files (.pl). For older versions of the scripts, you may need to rename the coordinate files from .txt to .pl by running the following commands in the terminal:
 ```
 for f in 3x3_mpact_ts_1*.txt;do mv ${f} ${f/\.txt/\.pl};done
 ```
