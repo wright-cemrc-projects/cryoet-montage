@@ -132,7 +132,7 @@ $ 2
 tiff only, flip gain applied, 0 no flipping, 1 flip upside down, 2 flip left and right or NA
 $ 2
 unbinned pixel size
-# 4.603
+$ 4.603
 ```
 When the run finishes, you will see motion corrected frame per tilt *3x3_mpact_ts_1_000_-0.0.tif.mc.mrc*, three MRC format stack files including the unbinned stitched montage tilt series *3x3_mpact_ts_1_AliSB.st*, bin2 stack *3x3_mpact_ts_1_AliSB_bin2.st* and bin4 stack *3x3_mpact_ts_1_AliSB_bin2.st*. All three stitched tilt series stacks are ready for tomogram generations. There is also a folder *3x3_mpact_ts_1_Processing* where invidividual tile stitching per tilt are sorted and ready for any manual adjustment if needed by following [Midas](https://github.com/wright-cemrc-projects/cryoet-montage/tree/main/Midas).
 
@@ -144,34 +144,34 @@ bash split_tiltseries.sh
 Inputs will be prompted interactively. The prompts and inputs (starts with #):
 ```
 subtilt first (e.g.1)
-# 1
+$ 1
 subtilt last (3x3 be 9)
-# 9
+$ 9
 sequential starting number (000)
-# 000
+$ 000
 sequential ending number (000)
-# 368
+$ 368
 basename
-# 3x3_mpact_ts_1
+$ 3x3_mpact_ts_1
 how many subtilts (3x3 be 9)
-# 9
+$ 9
 starting angle negative e.g. -60
-# -60
+$ -60
 ending angle positive e.g. 60
-# 60
+$ 60
 tilt increments (e.g. 2 or 3)
-# 3
+$ 3
 location to transfer data full path or NA
-# NA
+$ NA
 Is motion correction needed and input files are tiff(y/n)
-# y
+$ y
 which pixel size in Angstroms
-# 4.603
+$ 4.603
 which gain
-# CountCDSRef_3x3_mpact_ts_1_000_-0.0.mrc
+$ CountCDSRef_3x3_mpact_ts_1_000_-0.0.mrc
 which rotation e.g.2 for 180 rotation
-# 2
+$ 2
 which flip e.g. 2 for flip around vertical axis
-# 2
+$ 2
 ```
 When the run finishes, you will see a series of folders cooresponding to each tile tilt series and sorted tile series stacks e.g. *3x3_mpact_ts_1_subtilt_1_AliSB.st* ready for tomogram reconstructions. 
