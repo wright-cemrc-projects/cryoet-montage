@@ -35,14 +35,6 @@ Currently, the [`coordinate_mpact_SerialEM.m`](coordinate_mpact_SerialEM.m) and 
 ```
 for f in 3x3_mpact_ts_1*.txt;do mv ${f} ${f/\.txt/\.pl};done
 ```
-You will get the final coordinate files that will be used for the montage stitching process:
-```
-3x3_mpact_ts_1_-60.pl
-3x3_mpact_ts_1_-57.pl
-...
-3x3_mpact_ts_1_57.pl
-3x3_mpact_ts_1_60.pl
-```
 Place all corresponding .pl files in individual directories containing frames for one montage tilt series (see example below).
 
 ## *Using blendstitching_tiltcompensated_batch.sh*
