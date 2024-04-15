@@ -8,7 +8,9 @@ Clone the GitHub repository with `git clone https://github.com/wright-cemrc-proj
 
 ### Requirements
 
-You will need to have MATLAB(MATLAB_R2020b), IMOD 4.11.6 or higher, Motioncor2 if motion correction of raw movie stacks is desired installed. To perform the motion correction function in the bash script [`blendstitching_tiltcompensated_batch.sh`](blendstitching_tiltcompensated_batch.sh) correctly, you will need to identify the camera orientation set up in SerialEM. This can be checked via the *SerialEMproperties.txt* file located in the back *ProjectData* folder on the K3 or microscope PC. The parameter is system-dependent. For example, on our K3 camera, we need to apply 180 rotation and flip Y for correct orientation and handness preservation in the motion correction process. On our Falcon 4 camera, the Raw EER frames from the camera are flipped vertically and rotated 180 degrees (No flip or rotation applied in SerialEM in this case). Motioncor2 applies a vertical flip during the frame alignment, thus a final 180-degree rotation is needed post-Motioncor2 (the orientation is taken care of in the current script). Some modifications might be needed for each system. Please feel free to reach out via email (jyang525@wisc.edu). 
+You will need to have MATLAB(MATLAB_R2020b), IMOD 4.11.6 or higher, MotionCor2 if motion correction of raw movie stacks is desired installed. To perform the motion correction function in the bash script [`blendstitching_tiltcompensated_batch.sh`](blendstitching_tiltcompensated_batch.sh) correctly, you will need to identify the camera orientation set up in SerialEM. This can be checked via the "SerialEMproperties.txt" file located in the "ProjectData" folder on the K3 or microscope PC where SerialEM is installed. The camera orientation parameters are generally system-dependent. For example, on our K3 camera, we need to apply 180 rotation and flip Y for correct orientation and handness preservation in the motion correction process. On our Falcon 4 camera, the Raw EER frames from the camera are flipped vertically and rotated 180 degrees (No flip or rotation applied in SerialEM in this case). Motioncor2 applies a vertical flip during the frame alignment, thus a final 180-degree rotation is needed post-Motioncor2 (the orientation is taken care of in the current script). Noted, MotionCor2 installation might be done via SBGrid, which is the case here. The environmental variable for MotionCor2 is motioncor2. 
+
+Some modifications might be needed for each system. Please feel free to reach out via email (jyang525@wisc.edu). 
 
 ## *Using coordinate_mpact_SerialEM.m or coordinate_mpact_SerialEM4_1.m*
 Download [`coordinate_mpact_SerialEM.m`](coordinate_mpact_SerialEM.m) if the montage tilt series are collected via SerialEM 3.8 and above stable release or [`coordinate_mpact_SerialEM4_1.m`](coordinate_mpact_SerialEM4_1.m) if the montage tilt series are collected via SerialEM 4.1. Place the function files in the same directory where MATLAB desktop or online is launched.
@@ -86,7 +88,7 @@ Run the command below:
 ```
 cat -n folderlist.txt
 ```
-You will see the *folderlist.txt* content listed in the terminal, for example:
+You will see the "folderlist.txt" content listed in the terminal, for example:
 ```
 1	blendstitching_tiltcompensated_batch.sh
 2	folderlist.txt
@@ -155,7 +157,7 @@ tilt increments (e.g. 2 or 3)
 $ 3
 location to transfer data full path or NA
 $ NA
-Is motion correction needed and input files are tiff(y/n)
+Is motion correction needed (type y for MotionCor2 /type SBgrid for motioncor2)
 $ y
 which pixel size in Angstroms
 $ 4.603
