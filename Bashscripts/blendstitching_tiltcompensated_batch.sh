@@ -99,7 +99,7 @@ motioncorr() {
        then
          for f in *.tif
           do
-          MotionCor2 -InTiff ${f} -OutMrc ${f/\.tif/\.mc.mrc} -Patch 5 5 -PixelSize $pixelsize -Gpu 0 1 2 3 -Gain $gain -RotGain $rotg$
+          MotionCor2 -InTiff ${f} -OutMrc ${f/\.tif/\.mc.mrc} -Patch 5 5 -PixelSize $pixelsize -Gpu 0 1 2 3 -Gain $gain -RotGain $rotgain -FlipGain $flipgain
          done
       else
          example=$(ls *.eer | tail -1)
@@ -111,7 +111,7 @@ motioncorr() {
          paste temp_1.txt temp_2.txt temp_3.txt >> Intfile.txt
          for f in *.eer
           do
-          MotionCor2 -InEER ${f} -OutMrc ${f/\.eer/\.oc.mrc} -EerSampling 2 -FmIntFile Intfile.txt -FtBin 2 -Patch 5 5 -Iter 10 -Tol 0$
+          MotionCor2 -InEER ${f} -OutMrc ${f/\.eer/\.oc.mrc} -EerSampling 2 -FmIntFile Intfile.txt -Iter 10 -Tol 0.5 -Gpu 0 1 2 3 -Gain gain.mrc
           newstack -rotate 180  ${f/\.eer/\.oc.mrc} ${f/\.eer/\.mc.mrc}
          done
       fi   
