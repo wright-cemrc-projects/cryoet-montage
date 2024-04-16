@@ -161,10 +161,10 @@ You will see an example below:
 4	3x3_mpact_ts_2
 5	3x3_mpact_ts_3
 6	3x3_mpact_ts_4
-7 4x3_mpact_ts_1
-8 4x3_mpact_ts_2
-9 3x4_mpact_ts_3
-10 2x2_mpact_ts_1
+7	4x3_mpact_ts_1
+8	4x3_mpact_ts_2
+9	3x4_mpact_ts_3
+10	2x2_mpact_ts_1
 ```
 Here, the "folderlist.txt" has been modified so the same dimension MPACT tilt series are grouped. The index numbers 3 to 6 refer to the 3x3 dimension group and index numbers 7 to 9 refer to the 4x3 or 3x4 dimension group. The dimension determines the starting and ending serial sequential numbers required for the sorting, as explained below.
 
