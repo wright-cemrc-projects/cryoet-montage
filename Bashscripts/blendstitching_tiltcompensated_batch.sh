@@ -157,12 +157,12 @@ do
   cd $location/${Basename}/
 # motion correction if needed 
 # remove old files
- for b in `ls *.oc.mrc`
+ for b in `ls *oc.mrc`
  do
  if [[ -f "$b" ]];
   then
     echo "old files need to be removed"
-    rm *.oc.mrc
+    rm *oc.mrc
     echo "Done"
   else
     echo "no files need to be removed"
@@ -184,12 +184,12 @@ do
  motioncorr
 
 # remove old files
- for b in `ls *.oc.mrc`
+ for b in `ls *oc.mrc`
  do
  if [[ -f "$b" ]];
   then 
     echo "old files need to be removed"
-    rm *.oc.mrc
+    rm *oc.mrc
     echo "Done"
   else
     echo "no files need to be removed"
