@@ -37,7 +37,7 @@ Currently, the [`coordinate_mpact_SerialEM.m`](coordinate_mpact_SerialEM.m) and 
 ```
 for f in 3x3_mpact_ts_1*.txt;do mv ${f} ${f/\.txt/\.pl};done
 ```
-Place all corresponding .pl files in individual directories containing raw frame stacks for one montage tilt series, such as the folder "3x3_mpact_ts_1" (see example below).
+Place all corresponding .pl files in individual directories containing raw frame stacks for one montage tilt series. For example, all .pl files with a root/base name of *3x3_mpact_ts_1* need to be placed in the folder "3x3_mpact_ts_1" (see example below).
 
 ## *Using blendstitching_tiltcompensated_batch.sh*
 Download [`blendstitching_tiltcompensated_batch.sh`](blendstitching_tiltcompensated_batch.sh) and place it in the directory that is above individual directories containing frames for one montage tilt series.
@@ -75,7 +75,7 @@ You will see each raw frame stack listed in the terminal, for example:
 ```
 Following the base name *3x3_mpact_ts_1*, the frame stack naming includes a serial sequential number starting at 000, which increases sequentially, and the tilt angle of this particular movie, e.g. -0.0, 3.0., followed by the .tif extension. Tiff format files are generally raw movie stacks that require motion correction. If motion correction is needed for MPACT, you will need to check the camera orientation set up as mentioned above, before running [`blendstitching_tiltcompensated_batch.sh`](blendstitching_tiltcompensated_batch.sh). 
 
-Next, we will generate a simple text file that lists all montage tilt series folders per row and this is the last step of preparation.
+Next, we will generate a simple text file that lists all montage tilt series folders per row. This is the last step of preparation.
 
 Run the command below:
 ```
