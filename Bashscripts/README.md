@@ -166,7 +166,7 @@ You will see an example below:
 9	3x4_mpact_ts_3
 10	2x2_mpact_ts_1
 ```
-Here, the "folderlist.txt" has been modified so the same dimension MPACT tilt series are grouped. The index numbers 3 to 6 refer to the 3x3 dimension group and index numbers 7 to 9 refer to the 4x3 or 3x4 dimension group. The dimension determines the starting and ending serial sequential numbers required for the sorting, as explained below.
+Here, the "folderlist.txt" has been modified so the same dimension MPACT tilt series are grouped. The index numbers 3 to 6 refer to the 3x3 dimension group and index numbers 7 to 9 refer to the 4x3 or 3x4 dimension group. The dimension determines the starting and ending serial sequential numbers required for the sorting.
 
 Before you start the interactive run, one more thing to check is the starting and ending serial sequential numbers of frame stacks. For example, to check the numbers in the dimension of 3x3 MPACT group via using the first "3x3_mpact_ts_1" folder, run the following command
 
@@ -230,4 +230,4 @@ $ 4.603
 location to transfer data full path or NA
 $ NA
 ```
-When the run finishes, you will see a series of folders corresponding to each tile tilt series and sorted tile series stacks e.g. *3x3_mpact_ts_1_subtilt_1_AliSB.st* ready for tomogram reconstructions. 
+When the run finishes, inside the main MPACT tilt series folder "3x3_mpact_ts_1", you will see a series of newly creacted folders starting with "subTilt" in their names. These folders correspond to individual tile tilt series and contain the sorted and assembled tile series stacks e.g. "3x3_mpact_ts_1_subtilt_1_AliSB.st" ready in the folder "subTilt_1" for tomogram reconstructions. 
