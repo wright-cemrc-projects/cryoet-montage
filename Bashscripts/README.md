@@ -195,7 +195,7 @@ Now we can start the run interactively to sort and split "3x3_mpact_ts_1".
 ```
 bash split_tiltseries_batch.sh
 ```
-Inputs will be prompted interactively. The prompts and inputs (starts with #):
+Inputs will be prompted interactively. The prompts and inputs (starts with $):
 ```
 starting tilt series index
 $ 3
