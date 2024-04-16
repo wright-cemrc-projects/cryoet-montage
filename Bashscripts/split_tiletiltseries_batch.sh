@@ -141,8 +141,10 @@ do
   Basename=$(awk '{if(NR=='$folder_i') print $1}' folderlist.txt);
   cd ${location2}/${Basename}/
  # calculate tilt numbers of a tilt 
- tilts=$(($end/$c))
- tilts=$(($tilts*2+1))
+ i=$origin
+ tilts=$(($end-$i))
+ tilts=$(($tilts/$c))
+ tilts=$(($tilts+1))
  echo tilts = $tilts
 
 
@@ -229,7 +231,7 @@ do
     # generate unbinned subtilt serires
     newstack -tilt user.rawtlt -fileinlist userlist.txt ${Basename}_subtilt_${tiltOne}_AliSB.st
 
-    # additional data transfer if desired
+    # Additional data transfer if desired
     if [ ${fullpath} == "NA" ]
      then echo no data transfer ${Basename}_subtilt_${tiltOne}_AliSB.st is generated
     else
