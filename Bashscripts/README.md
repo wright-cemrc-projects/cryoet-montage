@@ -37,7 +37,7 @@ Currently, the [`coordinate_mpact_SerialEM.m`](coordinate_mpact_SerialEM.m) and 
 ```
 for f in 3x3_mpact_ts_1*.txt;do mv ${f} ${f/\.txt/\.pl};done
 ```
-Place all corresponding .pl files in individual directories containing raw frame stacks for one montage tilt series (see example below).
+Place all corresponding .pl files in individual directories containing raw frame stacks for one montage tilt series, such as the folder "3x3_mpact_ts_1" (see example below).
 
 ## *Using blendstitching_tiltcompensated_batch.sh*
 Download [`blendstitching_tiltcompensated_batch.sh`](blendstitching_tiltcompensated_batch.sh) and place it in the directory that is above individual directories containing frames for one montage tilt series.
