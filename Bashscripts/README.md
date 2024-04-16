@@ -97,9 +97,9 @@ You will see the "folderlist.txt" content listed in the terminal, for example:
 5	3x3_mpact_ts_3
 6	3x3_mpact_ts_4
 ```
-Command *cat -n* numbers all output files. The first column is the number index. In this example, there are four 3x3 MPACT tilt series folders *3x3_mpact_ts_1*, *3x3_mpact_ts_2*, *3x3_mpact_ts_3*, and *3x3_mpact_ts_4*, the bash script, and the *folderlist.txt* in the current directory. So, there are in total 6 outputs numbered 1 to 6. The second column is the output file, one file per row. 
+Command *cat -n* numbers all output files. The first column is the number index. In this example, there are four 3x3 MPACT tilt series folders *3x3_mpact_ts_1*, *3x3_mpact_ts_2*, *3x3_mpact_ts_3*, and *3x3_mpact_ts_4*, the bash script, and the "folderlist.txt" in the current directory. So, there are in total 6 outputs numbered 1 to 6. The second column is the output file, one file per row. 
 
-Run the bash script interactively. An example run is listed below. Here, we will only process *3x3_mpact_ts_1* and *3x3_mpact_ts_2*. Based on the content listed in *folderlist.txt*, *3x3_mpact_ts_1* has a number index of 3 and *3x3_mpact_ts_2* has a number index of 4, as listed above. The raw movie stacks are collected on a Gatan K3 camera with a configuration of 180-degree rotation and flipped around Y. Each MPACT tilt series is from -60 degrees to 60 degrees with a 3-degree increment.
+Run the bash script interactively. An example run is listed below. Here, we will only process *3x3_mpact_ts_1* and *3x3_mpact_ts_2*. Based on the content in "folderlist.txt", *3x3_mpact_ts_1* has a number index of 3, and *3x3_mpact_ts_2* has a number index of 4. The raw movie stacks are collected on a Gatan K3 camera with a configuration of 180-degree rotation and flipped around Y. Each MPACT tilt series is from -60 degrees to 60 degrees with a 3-degree increment.
 
 Let's start the run:
 ```
@@ -131,7 +131,7 @@ $ 4.603
 When the run finishes, you will see motion corrected frame per tilt *3x3_mpact_ts_1_000_-0.0.tif.mc.mrc*, three MRC format stack files including the unbinned stitched montage tilt series *3x3_mpact_ts_1_AliSB.st*, bin2 stack *3x3_mpact_ts_1_AliSB_bin2.st* and bin4 stack *3x3_mpact_ts_1_AliSB_bin2.st*. All three stitched tilt series stacks are ready for tomogram generations. There is also a folder *3x3_mpact_ts_1_Processing* where individual tile stitching per tilt is sorted and ready for any manual adjustment if needed by following [Midas](https://github.com/wright-cemrc-projects/cryoet-montage/tree/main/Midas).
 
 ## *Using split_tiltseries.sh*
-Similarly, download [`split_tiltseries_batch.sh`](split_tiltseries_batch.sh) and place it in the directory one level above individual directories containing frames for one montage tilt series. Noted, if all MPACT tilt series share the same dimension of m x n (could be 3x4 or 4x3), this batch script run can process them in one interactive run. If they have different dimensions (e.g. some are 12 (3x4 or 4x3) and others are 4 (2x2) or 3x3 (3x3)), modify the "folderlist.txt" via common text editors such as Nano, Vim, Gedit or others, to group them by dimension and run the processing in multiple interactive runs. 
+Similarly, download [`split_tiltseries_batch.sh`](split_tiltseries_batch.sh) and place it in the directory one level above individual directories containing frames for one montage tilt series. Noted, if all MPACT tilt series share the same dimension of m x n (could be 3x4 or 4x3), this batch script run can process them in one interactive run. If they have different dimensions (e.g. some are 12 (3x4 or 4x3) and others are 4 (2x2) or 3x3 (3x3)), modify the "folderlist.txt" via common text editors such as Nano, Vim, Gedit, or others, to group them by dimension and run the processing in multiple interactive runs. 
 
 When listing the directory where the [`split_tiltseries_batch.sh`](split_tiltseries_batch.sh) is located:
 run the command in the terminal below:
