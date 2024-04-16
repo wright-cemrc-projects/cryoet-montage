@@ -73,7 +73,7 @@ You will see each raw frame stack listed in the terminal, for example:
 3x3_mpact_ts_1_010_3.0.tif
 ...
 ```
-Following the base name *3x3_mpact_ts_1*, the frame stack naming includes a serial sequential number starting at 000, which increases sequentially, and the tilt angle of this particular movie, e.g. -0.0, 3.0., followed by the .tif extension. Tiff format files are generally raw movie stacks that require motion correction. Follow the instructions for the motion correction option above.
+Following the base name *3x3_mpact_ts_1*, the frame stack naming includes a serial sequential number starting at 000, which increases sequentially, and the tilt angle of this particular movie, e.g. -0.0, 3.0., followed by the .tif extension. Tiff format files are generally raw movie stacks that require motion correction. If motion correction is needed for MPACT, you will need to check the camera orientation set up as mentioned above, before running [`blendstitching_tiltcompensated_batch.sh`](blendstitching_tiltcompensated_batch.sh). 
 
 Next, we will generate a simple text file that lists all montage tilt series folders per row and this is the last step of preparation.
 
