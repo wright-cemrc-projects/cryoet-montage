@@ -141,7 +141,7 @@ echo "put the bash script blendstitching_updated.sh and all piece coordinate fil
  read answer
  echo "camera, type K3 for tif format collected using K3 or type F4 for eer format collected using Falcon4"
  read input
- echo "tiff only, rotation of the gain applied, 0 no rotation, 1 to 3 referes to 90, 180, 270 or NA for Falcon4"
+ echo "tiff only, rotation of the gain applied, 0 no rotation, 1 to 3 refer to 90, 180, 270 or NA for Falcon4"
  read rotgain
  echo "tiff only, flip gain applied, 0 no flipping, 1 flip upside down, 2 flip left and right or NA for Falcon4"
  read flipgain
