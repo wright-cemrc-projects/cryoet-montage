@@ -82,7 +82,7 @@ motioncorr() {
          frames=$(cat temp_1.txt)
          fractions=$(($frames/9))
          echo $fractions >> temp_2.txt
-         cat ${example}.mdoc | grep 'FrameDosesAndNumber*' | awk '{print $4}' >> temp_3.txt
+         cat ${example}.mdoc | grep 'FrameDosesAndNumber*' | awk '{print $3}' >> temp_3.txt
          paste temp_1.txt temp_2.txt temp_3.txt >> Intfile.txt
          for f in *.eer
           do 
