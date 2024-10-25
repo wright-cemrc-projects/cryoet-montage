@@ -19,10 +19,10 @@ In the MATLAB command window, you could type `help coordinate_mpact_SerialEM.m` 
 An example command to generate the coordinate files for a 3x3 MPACT tilt series acquired on a standard Gatan K3 camera with a root/base name of *3x3_mpact_ts_1*:
 
 ```
-coordinate_mpact_SerialEM4_1(3,3,576,408,5760,4092,-60,60,3,'3x3_mpact_ts_1')
+coordinate_mpact_SerialEM4_1(3,3,576,408,5760,4092,-60,60,3,'3x3_mpact_ts_1',0)
 ```
 ```
-coordinate_mpact_SerialEM(3,3,576,408,5760,4092,-60,60,3,'3x3_mpact_ts_1')
+coordinate_mpact_SerialEM(3,3,576,408,5760,4092,-60,60,3,'3x3_mpact_ts_1',0)
 ```
 
 An example output:
